@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-webstart-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>org.jbundle.util.webapp.webstart.code</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <name>jbundle-util-webapp-webstart-code</name>
+  <packaging>bundle</packaging>	<!-- It is a good practice to add the osgi packaging to the jar manifest -->
+
+  <build>
+    <plugins>
+      <plugin>	<!-- Lets you run your app standalone by typing exec:java -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>${exec-maven-pluginVersion}</version>
+        <executions>
+          <execution>
+          	<phase>run</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+            <mainClass>${package}.App</mainClass>	<!-- These properties are declared in my parent pom (jbundle-util-webapp-webstart) -->
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-pluginVersion}</version>
+        <configuration>
+          <archive>
+            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${maven-bundle-pluginVersion}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+            <Export-Package>${package};version=${project.version}</Export-Package>
+            <Import-Package>
+                *;resolution:=optional,
+            </Import-Package>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <Main-Class>${package}.App</Main-Class>	<!-- Standalone support -->
+          </instructions>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

@@ -1,0 +1,52 @@
+<archetype-catalog>
+  <archetypes>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-website-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>website archetype</description>
+    </archetype>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-files-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>files archetype</description>
+    </archetype>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-webdav-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>webdav archetype</description>
+    </archetype>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-upload-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>upload archetype</description>
+    </archetype>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-redirect-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>redirect archetype</description>
+    </archetype>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-proxy-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>proxy archetype</description>
+    </archetype>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-cgi-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>cgi archetype</description>
+    </archetype>
+    <archetype>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>jbundle-util-webapp-webstart-archetype</artifactId>
+      <version>${project.version}</version>
+      <description>webstart archetype</description>
+    </archetype>
+  </archetypes>
+</archetype-catalog>

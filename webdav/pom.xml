@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>org.jbundle.util.webapp.webdav</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <packaging>war</packaging>
+  <name>jbundle-util-webapp-webdav - webdav directory</name>
+
+  <description>This project provides a template for a webdav site.
+        You can read and write files to this site using most applications (such as MS Word, OpenOffice, etc).
+        You can also add some security to this site.</description>
+  <scm>
+    <url>http://scm.jbundle.org/gitweb/scm/git/workspace/jbundle/util/webapp</url>
+    <connection>scm:git:http://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</connection>
+    <developerConnection>scm:git:ssh://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</developerConnection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>catalina</artifactId>
+      <version>${catalinaVersion}</version>
+      <scope>provided</scope>	<!-- This is usually included in distributions. If you do include this, the servlet is tiny, the jar is huge -->
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>org.jbundle.util.webapp.redirect</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <packaging>war</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
+  <name>jbundle-util-webapp-redirect - redirect servlet</name>
+
+  <description>This project provides a template for a redirect servlet.
+        This servlet will automatically redirect matching urls to another site.</description>
+  <build>
+    <plugins>
+
+      <plugin> <!-- Need to use this plugin to build war files -->
+          <artifactId>maven-war-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+          <version>${maven-war-pluginVersion}</version>
+          <configuration>
+              <archive>
+                  <!-- add bundle plugin generated manifest to the war -->
+                  <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                  <!-- For some reason, adding Bundle-ClassPath in maven-bundle-plugin
+                  confuses that plugin and it generates wrong Import-Package, etc.
+                  So, we generate it here.
+                  -->
+                  <manifestEntries>
+                      <Bundle-ClassPath>WEB-INF/classes/</Bundle-ClassPath>
+                  </manifestEntries>
+              </archive>
+	          <attachClasses>true</attachClasses>
+          </configuration>
+      </plugin>
+      
+      <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${maven-bundle-pluginVersion}</version>
+          <configuration>
+              <supportedProjectTypes>
+                  <supportedProjectType>jar</supportedProjectType>
+                  <supportedProjectType>bundle</supportedProjectType>
+                  <supportedProjectType>war</supportedProjectType>
+              </supportedProjectTypes>
+              <instructions>
+                  <Export-Package>org.jbundle.util.webapp.redirect</Export-Package>
+                  <!-- This is the context root of this application -->
+                  <Web-ContextPath>/${project.artifactId}</Web-ContextPath>
+                  <!-- Bundle-ClassPath without "." confuses bundle plugin.
+                       So, leave it unspecified (i.e., default to ".") and
+                       we shall generate it using war-plugin's manifest customization
+                  <Bundle-ClassPath>WEB-INF/classes/</Bundle-ClassPath>
+                  -->
+              </instructions>
+          </configuration>
+          <executions>
+              <execution>
+                  <id>bundle-manifest</id>
+                  <phase>process-classes</phase>
+                  <goals>
+                      <goal>manifest</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>	<!-- I don't use project.groupId and .version, because this will be a template -->
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>org.jbundle.util.webapp.base</artifactId>
+      <version>0.9.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+</project>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jbundle-parent</artifactId>
+    <groupId>org.jbundle.config</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../../jbundle-parent</relativePath>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>jbundle-util-webapp-reactor</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <packaging>pom</packaging>
+  <name>jbundle-util-webapp-root - simple webapp wars</name>
+
+  <modules>
+    <!-- module>archetype</module Note: This doesn't assemble correctly without preparation - see bin/release.sh -->
+
+    <module>site</module>
+
+    <module>website</module>
+    <module>base</module>
+    <module>files</module>
+    <module>webdav</module>
+    <module>redirect</module>
+    <module>proxy</module>
+    <module>cgi</module>
+    <module>upload</module>
+    <module>upload-unjar</module>
+    <module>webstart</module>
+    <module>xsl</module>
+    <module>filter</module>
+  </modules>
+
+  <scm>
+    <url>http://scm.jbundle.org/gitweb/scm/git/workspace/jbundle/util/webapp</url>
+    <connection>scm:git:http://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</connection>
+    <developerConnection>scm:git:ssh://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</developerConnection>
+  </scm>
+ 
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+       <plugin>
+           <groupId>org.mortbay.jetty</groupId>
+           <artifactId>jetty-maven-plugin</artifactId>
+           <version>${jetty-maven-pluginVersion}</version>
+           <configuration>
+               <scanIntervalSeconds>10</scanIntervalSeconds>
+               <webAppConfig>
+                   <contextPath>/</contextPath>
+		            <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
+		                <resourcesAsCSV>target/${project.artifactId}-${project.version},src/main/webapp</resourcesAsCSV>
+		            </baseResource>
+               </webAppConfig>
+           </configuration>
+       </plugin>
+    </plugins>
+  </build>
+
+</project>

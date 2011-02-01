@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Maven" xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+    <bannerLeft>
+        <name>Simple Servlets</name>
+        <href>http://www.jbundle.org</href>
+    </bannerLeft>
+    <bannerRight>
+        <src>http://sourceforge.net/sflogo.php?group_id=325977&amp;type=5</src>
+        <href>http://www.sourceforge.net/projects/simpleservlets</href>
+    </bannerRight>
+
+  <body>
+    <links>
+      <item name="JBundle" href="http://www.jbundle.org/" />
+    </links>
+
+    <menu name="Simple Servlets">
+      <item name="Home" href="index.html">
+          <item name="WebStart" href="#WebStart_Applet_or_Application"/>
+          <item name="Basic Web Site" href="#Basic_Web_Site_Servlet"/>
+          <item name="File Download" href="#File_Download_Servlet"/>
+          <item name="WebDav" href="#WebDav_Servlet"/>
+          <item name="File Upload" href="#File_Upload_Servlet"/>
+          <item name="Redirect" href="#Redirect_Servlet"/>
+          <item name="Proxy" href="#Proxy_Servlet"/>
+          <item name="CGI" href="#CGI_Servlet"/>
+      </item>
+    </menu>
+
+    <menu name="JBundle Projects">
+      <item name="Simple Servlets" href="http://www.jbundle.org/simpleservlets"/>
+      <item name="JCalendarButton" href="http://www.jbundle.org/jcalendarbutton"/>
+      <item name="Calendar Panel" href="http://www.jbundle.org/calendarpanel"/>      
+    </menu>
+    
+    ${reports}
+    
+  </body>
+</project>

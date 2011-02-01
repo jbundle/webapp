@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.util.webapp.base</artifactId>
+
+  <packaging>bundle</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
+  <name>jbundle-util-webapp-base - base servlet</name>
+
+  <description>This project provides a template for a base servlet.
+        This servlet has simple functionality that is shared with several servlets.</description>
+
+  <build>
+    <plugins>      
+      <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${maven-bundle-pluginVersion}</version>
+          <configuration>
+              <instructions>
+                  <Export-Package>org.jbundle.util.webapp.base</Export-Package>
+              </instructions>
+          </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

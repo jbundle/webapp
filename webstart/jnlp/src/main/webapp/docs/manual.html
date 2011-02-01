@@ -1,0 +1,22 @@
+<html>
+<head>
+
+<title>Biorhythm</title>
+
+</head>
+
+<body>
+<script src="http://java.com/js/deployJava.js"></script>
+
+<center><h2>Test Applet (Launched using manual jnlp file)</h2></center><br />
+
+<script> 
+var attributes = { code:'${package}.App.class', width:'400', height:'400', archive:'${project.artifactId}-${project.version}.jar', name:'${project.artifactId}'} ; 
+var parameters = {jnlp_href: '../docs/manual.jnlp', draggable:'true'} ; 
+deployJava.runApplet(attributes, parameters, '1.6'); 
+</script>
+
+<hr>
+
+</body>
+</html>

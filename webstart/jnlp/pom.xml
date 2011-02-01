@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-webstart-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>org.jbundle.util.webapp.webstart.jnlp</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <packaging>war</packaging>
+  <name>jbundle-util-webapp-webstart-jnlp - jnlp servlet</name>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven-war-pluginVersion}</version>
+        <configuration>
+          <webResources>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>src/main/webapp</directory>
+              <filtering>true</filtering>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo.webstart</groupId>
+        <artifactId>webstart-maven-plugin</artifactId>
+        <version>${webstart-maven-pluginVersion}</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>jnlp-download-servlet</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <jnlpFiles>
+
+            <jnlpFile>
+              <templateFilename>launch.vm</templateFilename>
+              <outputFilename>launch.jnlp</outputFilename>
+              <jarResources>
+                <jarResource>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>org.jbundle.util.webapp.webstart.code</artifactId>
+                  <version>${project.version}</version>
+                  <mainClass>${package}.App</mainClass>	<!-- These properties are declared in my parent pom (jbundle-util-webapp-webstart) -->
+                </jarResource>
+              </jarResources>
+            </jnlpFile>
+
+            <jnlpFile>
+              <templateFilename>applet.vm</templateFilename>
+              <outputFilename>applet.jnlp</outputFilename>
+              <jarResources>
+                <jarResource>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>org.jbundle.util.webapp.webstart.code</artifactId>
+                  <version>${project.version}</version>
+                  <mainClass>${package}.App</mainClass>
+                </jarResource>
+              </jarResources>
+            </jnlpFile>
+
+          </jnlpFiles>
+          <pack200>true</pack200>
+          <gzip>true</gzip>
+          <outputDirectoryName>docs</outputDirectoryName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+      
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.mojo.webstart</groupId>
+      <artifactId>webstart-jnlp-servlet</artifactId>
+      <version>${webstart-jnlp-servletVersion}</version>
+    </dependency>
+  </dependencies>
+
+</project>

@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+  <properties>
+    <title>JBundle Simple Servlets Collection</title>
+    <author email="don@tourgeek.com">Don Corley</author>
+  </properties>
+
+  <body>
+    <section name="Welcome to the Simple Servlet Collection!">
+      <p>
+        ${project.description}
+      </p>
+      <p>
+        Your can quickly create a skeleton maven servlet project. For example, you
+        want to quickly deploy your java application as a web start application on your
+        server... just build the web start skeleton, drop in your code, make a few changes
+        to the maven configuration and you're ready to go!
+      </p>
+      <p>          
+        You can use these servlets as-is
+        or use the code generator to create a custom servlet that you can modify to your needs.
+      </p>
+      <p>
+        With this project, you can quickly build a skeleton servlet to do a variety of tasks:
+      </p>
+      <p>
+  <ul>
+    <li><a href="#WebStart_Applet_or_Application">WebStart Applet or Application</a></li>
+    <li><a href="#Basic_Web_Site_Servlet">Basic Web Site</a></li>
+    <li><a href="#File_Download_Servlet">File Download Servlet</a></li>
+    <li><a href="#WebDav_Servlet">WebDav Servlet</a></li>
+    <li><a href="#File_Upload_Servlet">File Upload Servlet</a></li>
+    <li><a href="#Redirect_Servlet">Redirect Servlet</a></li>
+    <li><a href="#Proxy_Servlet">Proxy Servlet</a></li>
+    <li><a href="#CGI_Servlet">CGI Servlet</a></li>
+  </ul>
+      </p>
+      <p>
+        To create a new servlet, just type:<br/>
+        <code>
+        mvn  archetype:generate -DarchetypeCatalog=http://www.jbundle.org/simpleservlets
+        </code>
+        <br/>and follow the prompts.
+      </p>
+      <p>
+        If you would rather use the command line tool, just type this long command line:<br/>
+        <code>
+        mvn archetype:generate -DarchetypeGroupId=org.jbundle.util.webapp -DarchetypeArtifactId=jbundle-util-webapp-webstart-archetype -DarchetypeVersion=${project.version} -DgroupId=org.jbundle.thin.base.screen -DartifactId=jbundle-calendarpanel-site -Dversion=1.0.0-SNAPSHOT  -Dpackage=org.jbundle.thin.base.screen.calendar.site
+        </code>
+        <br/>of course you will supply your own group, artifact, version, and package.
+      </p>
+      
+      <subsection name="WebStart Applet or Application">
+      <p>
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-webstart-jnlp">Applet or Application servlet</a>.
+        This project packages and runs a WebStart application. This example shows both Web Start applets and an application.
+      </p>
+      </subsection>
+      
+      <subsection name="Basic Web Site Servlet">
+      <p>
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-website">simple web site</a>.
+        Just drop your html files into the root directory and <i>voilà</i>, you have a web site.
+      </p>
+      </subsection>
+      
+      <subsection name="File Download Servlet">
+      <p>
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-files">simple file download site</a>.
+        Just drop your files into the root directory and your users will be able to view and download your files.
+      </p>
+      </subsection>
+      
+      <subsection name="WebDav Servlet">
+      <p>
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-webdav">webdav site</a>.
+        You can read and write files to this site using most applications (such as MS Word, OpenOffice, etc).
+        Of course you would want to add some security to your site.
+      </p>
+      </subsection>
+      
+      <subsection name="File Upload Servlet">
+      <p>
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-upload">file upload site</a>.
+        Select a file in your web browser, and it will be uploaded to your web server. Try uploading a
+        small file to this sample site.
+      </p>
+      </subsection>
+      
+      <subsection name="Redirect Servlet">
+      <p>
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-redirect">redirect servlet</a>.
+        This servlet will automatically redirect matching urls to another site.
+        This example redirects you to the root page for this site. It could redirect you anywhere.
+      </p>
+      </subsection>
+      
+      <subsection name="Proxy Servlet">
+      <p>
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-proxy">proxy servlet</a>.
+        This servlet will forward requests to another site and return the result as if it existed on your server.
+        This example delivers the information from the root page for this site. It could forward data from anywhere.
+      </p>
+      </subsection>
+      
+      <subsection name="CGI Servlet">
+      <p>
+        This project provides a template for a <a href="http://www.tourgeek.com/awstats/awstats.pl?config=tourgeek.com">cgi servlet</a>.
+        This servlet will run a non-java web application as a servlet. This example shows one of my favorite
+        non-java apps, <a href="http://doncorley.blogspot.com/2008/09/using-awstats-with-glassfish.html">awstats</a>.
+        This <a href="http://doncorley.blogspot.com/2011/01/installing-git-web-on-java-web-server.html">blog post</a> shows you how to install git-web in a java web server.
+      </p>
+      </subsection>
+      
+    </section>
+    
+    <section name="Project Information">
+      <p>
+        This bundle provides is hosted on sourceforge at <a href="http://www.sourceforge.net/projects/simpleservlets">http://www.sourceforge.net/projects/simpleservlets</a>
+        <a href="http://www.sourceforge.net/projects/simpleservlets"><img src="http://sourceforge.net/sflogo.php?group_id=239200&amp;type=3" width="88" height="31" alt="SourceForge" align="bottom" /></a>
+      </p>
+    </section>
+  </body>
+</document>
+

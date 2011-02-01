@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>org.jbundle.util.webapp.proxy</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <packaging>war</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
+  <name>jbundle-util-webapp-proxy - proxy servlet</name>
+
+  <description>This project provides a template for a proxy servlet.
+   This servlet will forward requests to another site and return
+   the result as if it existed on your server.</description>
+   
+  <scm>
+    <url>http://scm.jbundle.org/gitweb/scm/git/workspace/jbundle/util/webapp</url>
+    <connection>scm:git:http://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</connection>
+    <developerConnection>scm:git:ssh://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</developerConnection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+  	  <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>org.jbundle.util.webapp.redirect</artifactId>
+  	  <version>0.9.1-SNAPSHOT</version>
+  	  <classifier>classes</classifier>
+    </dependency>
+    <dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <version>${httpclientVersion}</version>
+    </dependency>
+  </dependencies>
+
+</project>

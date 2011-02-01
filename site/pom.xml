@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>org-jbundle-util-webapp-site</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <name>Simple Servlet Collection</name>
+  <description>This project contains some frequently used java servlets.</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>${maven-site-pluginVersion}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${maven-resources-pluginVersion}</version>
+   <executions>
+     <execution>
+     <phase>site</phase>
+       <goals>
+         <goal>resources</goal>
+       </goals>
+     </execution>
+   </executions>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>src/site/resources</directory>
+        <filtering>true</filtering>
+        <targetPath>${basedir}/target/site</targetPath>
+      </resource>
+    </resources>
+  </build>
+
+  <distributionManagement>
+    <site>
+      <id>jbundle.org</id>
+      <url>scp://www.donandann.com://space/web/jbundle/simpleservlets</url>
+    </site>
+  </distributionManagement>
+
+  <scm>
+    <url>http://scm.jbundle.org/gitweb/scm/git/workspace/jbundle/util/webapp</url>
+    <connection>scm:git:http://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</connection>
+    <developerConnection>scm:git:ssh://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</developerConnection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.util.webapp</groupId>
+    <artifactId>jbundle-util-webapp-reactor</artifactId>
+    <version>0.9.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
+  <groupId>org.jbundle.util.webapp</groupId>
+  <artifactId>org.jbundle.util.webapp.files</artifactId>
+  <version>0.9.1-SNAPSHOT</version>
+  
+  <packaging>war</packaging>
+  <name>jbundle-util-webapp-files - webapp files</name>
+
+  <description>This project provides a template for a simple file download site.
+   Just drop your files into the root directory and your users will be able to
+   view and download your files.</description>
+  <scm>
+    <url>http://scm.jbundle.org/gitweb/scm/git/workspace/jbundle/util/webapp</url>
+    <connection>scm:git:http://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</connection>
+    <developerConnection>scm:git:ssh://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</developerConnection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-apiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>
