@@ -10,5 +10,5 @@ cd target/archetype
 mvn install
 
 Make sure you are pointing to the correct archetype catalog:
-mvn archetype:generate -DarchetypeGroupId=org.jbundle.util.webapp -DarchetypeArtifactId=jbundle-util-webapp-webstart-archetype -DarchetypeVersion=0.7.6-SNAPSHOT -DgroupId=org.jbundle.thin.base.screen -DartifactId=jbundle-calendarpanel-site -Dversion=0.7.6-SNAPSHOT -Dpackage=org.jbundle.thin.base.screen.calendar.site -DarchetypeRepository=file://home/don/workspace/jbundle-workspace/jbundle-util/jbundle-util-webapp-root/jbundle-util-webapp-site/src/site/resources/archetype-catalog.xml
+mvn archetype:generate -DarchetypeGroupId=org.jbundle.util.webapp -DarchetypeArtifactId=jbundle-util-webapp-webstart-archetype -DarchetypeVersion=0.7.7-SNAPSHOT -DgroupId=org.jbundle.thin.base.screen -DartifactId=jbundle-calendarpanel-site -Dversion=0.7.7-SNAPSHOT -Dpackage=org.jbundle.thin.base.screen.calendar.site -DarchetypeRepository=file://home/don/workspace/jbundle-workspace/jbundle-util/jbundle-util-webapp-root/jbundle-util-webapp-site/src/site/resources/archetype-catalog.xml
   Done!

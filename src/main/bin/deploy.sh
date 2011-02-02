@@ -2,7 +2,7 @@
 BINDIR=`dirname $0`
 ASADMIN=/usr/local/java/web/glassfish/bin/asadmin
 WEB=/space/web
-VERSION=0.7.6-SNAPSHOT
+VERSION=0.7.7-SNAPSHOT
 DEPLOY_COMMAND=redeploy
 HOST=www.tourgeek.com
 USER=admin

@@ -18,17 +18,12 @@
 
   <properties>
     <package>org.jbundle.util.webapp.webstart.code</package>
+    <jbundleScmPath>util/webapp</jbundleScmPath>
   </properties>
 
   <description>This project provides a template for a Applet or Application servlet.
  This project packages and runs a WebStart application.
  This example shows both Web Start applets and an application.</description>
- 
-  <scm>
-    <url>http://scm.jbundle.org/gitweb/scm/git/workspace/jbundle/util/webapp</url>
-    <connection>scm:git:http://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</connection>
-    <developerConnection>scm:git:ssh://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</developerConnection>
-  </scm>
 
   <dependencies>
     <dependency>

@@ -16,11 +16,9 @@
   <packaging>war</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
   <name>jbundle-util-webapp-upload-unjar - unjar servlet</name>
 
-  <scm>
-    <url>http://scm.jbundle.org/gitweb/scm/git/workspace/jbundle/util/webapp</url>
-    <connection>scm:git:http://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</connection>
-    <developerConnection>scm:git:ssh://scm.jbundle.org/scm/git/workspace/jbundle/util/webapp</developerConnection>
-  </scm>
+  <properties>
+    <jbundleScmPath>util/webapp</jbundleScmPath>
+  </properties>
 
   <dependencies>
     <dependency>
