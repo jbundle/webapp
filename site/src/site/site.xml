@@ -35,7 +35,7 @@
       <item name="Calendar Panel" href="http://www.jbundle.org/calendarpanel"/>      
     </menu>
     
-    ${reports}
+    <menu ref="reports"/>
     
   </body>
 </project>
