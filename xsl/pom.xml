@@ -25,7 +25,6 @@
       <plugin> <!-- Need to use this plugin to build war files -->
           <artifactId>maven-war-plugin</artifactId>
           <groupId>org.apache.maven.plugins</groupId>
-          <version>${maven-war-pluginVersion}</version>
           <configuration>
               <archive>
                   <!-- add bundle plugin generated manifest to the war -->
@@ -45,7 +44,6 @@
       <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>${maven-bundle-pluginVersion}</version>
           <configuration>
               <supportedProjectTypes>
                   <supportedProjectType>jar</supportedProjectType>

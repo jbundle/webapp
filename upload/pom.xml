@@ -26,14 +26,12 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${servlet-apiVersion}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>servlets.com</groupId>
       <artifactId>cos</artifactId>
-      <version>${cosVersion}</version>
     </dependency>
   </dependencies>
   
@@ -41,7 +39,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>${maven-war-pluginVersion}</version>
         <configuration>
           <attachClasses>true</attachClasses>
         </configuration>

@@ -21,7 +21,6 @@
 
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>${maven-resources-pluginVersion}</version>
         <executions>
           <execution>
             <id>copy-resources</id>

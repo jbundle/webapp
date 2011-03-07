@@ -21,7 +21,6 @@
       <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>${maven-bundle-pluginVersion}</version>
           <configuration>
               <instructions>
                   <Export-Package>org.jbundle.util.webapp.base</Export-Package>
@@ -35,7 +34,6 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${servlet-apiVersion}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
