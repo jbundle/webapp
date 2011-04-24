@@ -26,6 +26,7 @@
           <item name="Redirect" href="#Redirect_Servlet"/>
           <item name="Proxy" href="#Proxy_Servlet"/>
           <item name="CGI" href="#CGI_Servlet"/>
+          <item name="XSL" href="#XSL_Servlet"/>
       </item>
     </menu>
 

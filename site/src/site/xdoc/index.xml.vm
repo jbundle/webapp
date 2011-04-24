@@ -34,6 +34,7 @@
     <li><a href="#Redirect_Servlet">Redirect Servlet</a></li>
     <li><a href="#Proxy_Servlet">Proxy Servlet</a></li>
     <li><a href="#CGI_Servlet">CGI Servlet</a></li>
+    <li><a href="#XSL_Servlet">XSL Servlet</a></li>
   </ul>
       </p>
       <p>
@@ -110,6 +111,14 @@
         This servlet will run a non-java web application as a servlet. This example shows one of my favorite
         non-java apps, <a href="http://doncorley.blogspot.com/2008/09/using-awstats-with-glassfish.html">awstats</a>.
         This <a href="http://doncorley.blogspot.com/2011/01/installing-git-web-on-java-web-server.html">blog post</a> shows you how to install git-web in a java web server.
+      </p>
+      </subsection>
+      
+      <subsection name="XSL Servlet">
+      <p>
+        This project provides a template for an XSL servlet</a>.
+        Just supply the source file path and the xslt file path and this
+        servlet will run an xslt transformation and output the result.
       </p>
       </subsection>
       
