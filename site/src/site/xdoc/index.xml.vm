@@ -117,7 +117,7 @@
       <subsection name="XSL Servlet">
       <p>
         This project provides a template for an XSL servlet</a>.
-        Just supply the source file path and the xslt file path and this
+        Just supply the <i>source</i> file path and the xslt <i>stylesheet</i> file path and this
         servlet will run an xslt transformation and output the result.
       </p>
       </subsection>
