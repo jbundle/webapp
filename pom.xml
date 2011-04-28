@@ -34,6 +34,7 @@
     <module>webstart</module>
     <module>xsl</module>
     <module>filter</module>
+    <module>jnlpservlet</module>
   </modules>
 
   <properties>
