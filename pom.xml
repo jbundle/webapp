@@ -17,6 +17,12 @@
   <packaging>pom</packaging>
   <name>jbundle-util-webapp-root - simple webapp wars</name>
 
+  <scm>
+    <url>https://github.com/jbundle/jbundle-webapp</url>
+    <connection>scm:git:git://github.com/jbundle/jbundle-webapp.git</connection>
+    <developerConnection>scm:git:git@github.com:jbundle/jbundle-webapp.git</developerConnection>
+  </scm>
+
   <modules>
     <!-- module>archetype</module Note: This doesn't assemble correctly without preparation - see bin/release.sh -->
 
