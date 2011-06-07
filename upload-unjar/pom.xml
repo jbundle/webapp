@@ -33,10 +33,10 @@
   	  <version>${project.version}</version>
   	  <classifier>classes</classifier>
     </dependency>
-    <dependency>	<!-- TODO Get rid of this dependency (needed for scanner) -->
+    <dependency>
   	  <groupId>org.jbundle.util</groupId>
       <artifactId>org.jbundle.util.jbackup</artifactId>
-  	  <version>0.7.7-SNAPSHOT</version>
+  	  <version>${jbundle-utilVersion}</version>
     </dependency>
   </dependencies>
   
