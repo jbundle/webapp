@@ -5,28 +5,28 @@
 
 # 2. Create archetypes
 ---Ignore 'resource does not exist errors' on archetype:create-from-project---
-cd jbundle-util-webapp-website
+cd website
 mvn archetype:create-from-project
 
-cd ../jbundle-util-webapp-files
+cd ../files
 mvn archetype:create-from-project
 
-cd ../jbundle-util-webapp-webdav
+cd ../webdav
 mvn archetype:create-from-project
 
-cd ../jbundle-util-webapp-redirect
+cd ../redirect
 mvn archetype:create-from-project
 
-cd ../jbundle-util-webapp-proxy
+cd ../proxy
 mvn archetype:create-from-project
 
-cd ../jbundle-util-webapp-cgi
+cd ../cgi
 mvn archetype:create-from-project
 
-cd ../jbundle-util-webapp-upload
+cd ../upload
 mvn archetype:create-from-project
 
-cd ../jbundle-util-webapp-webstart
+cd ../webstart
 mvn archetype:create-from-project
 
 cd ..
@@ -46,7 +46,7 @@ mvn release:prepare
 mvn release:perform
 
 # 4. Create and deploy archetype code
-cd jbundle-util-webapp-archetype
+cd archetype
 mvn install
 
 cd target/archetype

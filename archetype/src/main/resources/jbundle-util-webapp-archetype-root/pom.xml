@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jbundle.config</groupId>
     <artifactId>jbundle-parent</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
@@ -16,24 +16,20 @@
   <packaging>pom</packaging>
   <name>jbundle-util-webapp-root - archetype project</name>
 
-  <properties>
-    <jbundleScmPath>util/webapp</jbundleScmPath>
-  </properties>
-
-  <!-- scm>
-    <url>http://simpleservlets.hg.sourceforge.net/hgweb/simpleservlets/jbundle-util-webapp-root</url>
-    <connection>scm:hg:http://simpleservlets.hg.sourceforge.net:8000/hgroot/simpleservlets/jbundle-util-webapp-root</connection>
-    <developerConnection>scm:hg:ssh://doncorley@simpleservlets.hg.sourceforge.net/hgroot/simpleservlets/jbundle-util-webapp-root</developerConnection>
-  </scm -->
+  <scm>
+    <url>https://github.com/jbundle/jbundle-webapp-archetype</url>
+    <connection>scm:git:git://github.com/jbundle/jbundle-webapp-archetype.git</connection>
+    <developerConnection>scm:git:git@github.com:jbundle/jbundle-webapp-archetype.git</developerConnection>
+  </scm>
 
   <modules>
-    <module>jbundle-util-webapp-website-archetype</module>
-    <module>jbundle-util-webapp-files-archetype</module>
-    <module>jbundle-util-webapp-webdav-archetype</module>
-    <module>jbundle-util-webapp-redirect-archetype</module>
-    <module>jbundle-util-webapp-proxy-archetype</module>
-    <module>jbundle-util-webapp-cgi-archetype</module>
-    <module>jbundle-util-webapp-upload-archetype</module>
-    <module>jbundle-util-webapp-webstart-archetype</module>
+    <module>website-archetype</module>
+    <module>files-archetype</module>
+    <module>webdav-archetype</module>
+    <module>redirect-archetype</module>
+    <module>proxy-archetype</module>
+    <module>cgi-archetype</module>
+    <module>upload-archetype</module>
+    <module>webstart-archetype</module>
   </modules>
 </project>

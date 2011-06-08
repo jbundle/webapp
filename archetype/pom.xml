@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jbundle.config</groupId>
     <artifactId>jbundle-parent</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
@@ -49,10 +49,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-website-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/website-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-website/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../website/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>
@@ -69,10 +69,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-files-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/files-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-files/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../files/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>
@@ -89,10 +89,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-webdav-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/webdav-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-webdav/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../webdav/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>
@@ -109,10 +109,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-redirect-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/redirect-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-redirect/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../redirect/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>
@@ -129,10 +129,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-proxy-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/proxy-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-proxy/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../proxy/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>
@@ -149,10 +149,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-cgi-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/cgi-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-cgi/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../cgi/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>
@@ -169,10 +169,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-upload-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/upload-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-upload/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../upload/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>
@@ -189,10 +189,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/archetype/jbundle-util-webapp-webstart-archetype</outputDirectory>
+              <outputDirectory>${project.build.directory}/archetype/webstart-archetype</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>${basedir}/../jbundle-util-webapp-webstart/target/generated-sources/archetype</directory>
+                  <directory>${basedir}/../webstart/target/generated-sources/archetype</directory>
                   <filtering>false</filtering>
 		          <excludes>
 		            <exclude>.*</exclude>

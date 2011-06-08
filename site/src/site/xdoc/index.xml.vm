@@ -63,7 +63,7 @@
       <subsection name="OSGi to Web Start Servlet">
       <p>
         This project allows OSGi bundles to run as Web Start applets and an application.
-        <a ref="../osgi-webstart">OSGi to Web Start Servlet</a>
+        <a href="../osgi-webstart">OSGi to Web Start Servlet</a>
       </p>
       </subsection>
       
@@ -124,7 +124,7 @@
       
       <subsection name="XSL Servlet">
       <p>
-        This project provides a template for an XSL servlet</a>.
+        This project provides a template for an XSL servlet.
         Just supply the <i>source</i> file path and the xslt <i>stylesheet</i> file path and this
         servlet will run an xslt transformation and output the result.
       </p>
