@@ -44,6 +44,10 @@
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
           <configuration>
+	  <prefixUrl>${publicReleaseRepository}</prefixUrl>
+	  <remoteOBR>${OBRRepositoryIndex}</remoteOBR>
+	  <!-- The obr is copied to the site root in the jbundle-site project -->
+	  <altDeploymentRepository>local-file::default::file:///${jbundle.workspace}/bin/obr</altDeploymentRepository>
               <supportedProjectTypes>
                   <supportedProjectType>jar</supportedProjectType>
                   <supportedProjectType>bundle</supportedProjectType>
