@@ -8,13 +8,12 @@
     <version>0.9.2-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.util.webapp.base</artifactId>
+  <artifactId>org.jbundle.util.webapp.osgi</artifactId>
 
   <packaging>bundle</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
-  <name>jbundle-util-webapp-base - base servlet</name>
+  <name>jbundle-util-webapp-osgi - osgi servlet</name>
 
-  <description>This project provides a template for a base servlet.
-        This servlet has simple functionality that is shared with several servlets.</description>
+  <description>OSGi servlet utilities.</description>
 
   <dependencies>
     <dependency>
@@ -22,6 +21,21 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+	<dependency>
+		<groupId>org.jbundle.util.osgi</groupId>
+		<artifactId>org.jbundle.util.osgi</artifactId>
+		<version>${jbundleOsgiVersion}</version>
+	</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<scope>provided</scope> <!-- This better be provided -->
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<scope>provided</scope> <!-- This better be provided -->
+		</dependency>
   </dependencies>
 
 </project>

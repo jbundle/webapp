@@ -30,6 +30,7 @@
 
     <module>website</module>
     <module>base</module>
+    <module>osgi</module>
     <module>files</module>
     <module>webdav</module>
     <module>redirect</module>
