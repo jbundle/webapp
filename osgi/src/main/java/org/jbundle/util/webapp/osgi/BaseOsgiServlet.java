@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
  * @author don
  *
  */
-public abstract class BaseOsgiServlet extends HttpServlet/*JnlpDownloadServlet*/ {
+public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*/ {
 	private static final long serialVersionUID = 1L;
     
     private Object context = null;

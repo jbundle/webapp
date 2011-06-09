@@ -9,15 +9,16 @@ package org.jbundle.util.webapp.base;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+
+import org.jbundle.util.webapp.osgi.BaseOsgiServlet;
 
 /**
  * RedirectServlet
  * 
  * This is the base servlet.
  */
-public class BaseServlet extends HttpServlet
+public class BaseServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
 
