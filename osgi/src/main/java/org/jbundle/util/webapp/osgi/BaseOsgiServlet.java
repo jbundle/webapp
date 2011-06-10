@@ -53,14 +53,6 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     {
     }
     /**
-     * Get the properties for this OSGi service.
-     * @return The properties.
-     */
-    public Dictionary<String,String> getDictionary()
-    {
-        return null;
-    }
-    /**
      * Get the Servlet context for this servlet.
      * Override if different from default context.
      * @return The httpcontext.

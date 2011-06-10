@@ -5,13 +5,13 @@
   <parent>
     <groupId>org.jbundle.util.webapp</groupId>
     <artifactId>jbundle-util-webapp-reactor</artifactId>
-    <version>0.9.3-SNAPSHOT</version>
+    <version>0.9.2-SNAPSHOT</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
   <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>org.jbundle.util.webapp.xsl</artifactId>
-  <version>0.9.3-SNAPSHOT</version>
+  <version>0.9.2-SNAPSHOT</version>
 
   <packaging>${packaging.type}</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
   <name>jbundle-util-webapp-xsl - xsl servlet</name>
@@ -28,6 +28,20 @@
 			<properties>
 				<packaging.type>bundle</packaging.type>
 			</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-Activator>${project.artifactId}.HttpServiceActivator</Bundle-Activator>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 		</profile>
 		<profile>
 			<id>webbundle</id>
@@ -95,8 +109,14 @@
     <dependency>	<!-- I don't use project.groupId and .version, because this will be a template -->
       <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.base</artifactId>
-      <version>0.9.3-SNAPSHOT</version>
+      <version>0.9.2-SNAPSHOT</version>
     </dependency>
+
+	<dependency>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.core</artifactId>
+		<scope>provided</scope> <!-- This better be provided -->
+	</dependency>
   </dependencies>
 
 </project>

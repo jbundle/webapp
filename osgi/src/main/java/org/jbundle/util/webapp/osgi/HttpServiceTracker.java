@@ -52,10 +52,8 @@ public class HttpServiceTracker extends ServiceTracker {
         HttpService httpService = (HttpService) context.getService(reference);
         
         try {
-            if (contextPath == null)
-                contextPath = defaultSystemContextPath;
-            if (contextPath == null)
-                if (servicePid != null)
+            Dictionary dictionary = null;
+            if (servicePid != null)
             {
                 ServiceReference caRef = context.getServiceReference(ConfigurationAdmin.class.getName());
                 if (caRef != null)
@@ -63,33 +61,31 @@ public class HttpServiceTracker extends ServiceTracker {
                     ConfigurationAdmin configAdmin = (ConfigurationAdmin)context.getService(caRef);
                     Configuration config = configAdmin.getConfiguration(servicePid);
                  
-                    Dictionary properties = config.getProperties();
-                    if (properties == null)
-                    {
-                       properties = new Hashtable();
-                    }
+                    dictionary = config.getProperties();
+                    if (dictionary == null)
+                       dictionary = new Hashtable();
                     else
-                    {
-                        contextPath = (String)properties.get(BaseOsgiServlet.CONTEXT_PATH);
-                    }
+                        contextPath = (String)dictionary.get(BaseOsgiServlet.CONTEXT_PATH);
+                    if (contextPath == null)
+                        contextPath = defaultSystemContextPath;
                     if (contextPath == null)
                         contextPath = DEFAULT_CONTEXT_PATH;
                     // configure the Dictionary
-                    properties.put(BaseOsgiServlet.CONTEXT_PATH, contextPath);                 
+                    dictionary.put(BaseOsgiServlet.CONTEXT_PATH, contextPath);                 
                     //push the configuration dictionary to the ConfigAdminService
-                    config.update(properties);
+                    config.update(dictionary);
                 }            
+                if (contextPath == null)
+                    contextPath = defaultSystemContextPath;
                 if (contextPath == null)
                     contextPath = DEFAULT_CONTEXT_PATH;
             }
             
             servlet = (HttpServlet)ClassServiceUtility.getClassService().makeObjectFromClassName(servletClassName);
-            Dictionary<String,String> dictionary = null;
             HttpContext httpContext = null;
             if (servlet instanceof BaseOsgiServlet)
             {
                 ((BaseOsgiServlet)servlet).init(context);
-                dictionary = ((BaseOsgiServlet)servlet).getDictionary();
                 httpContext = (HttpContext)((BaseOsgiServlet)servlet).getHttpContext();
             }
             if (dictionary == null)
@@ -126,23 +122,8 @@ public class HttpServiceTracker extends ServiceTracker {
         HttpService httpService = (HttpService) context.getService(reference);
         httpService.unregister(this.contextPath);
         this.contextPath = contextPath;
-            Dictionary<String,String> dictionary = null;
-            HttpContext httpContext = null;
-            if (servlet instanceof BaseOsgiServlet)
-            {
-                ((BaseOsgiServlet)servlet).init(context);
-                dictionary = ((BaseOsgiServlet)servlet).getDictionary();
-                httpContext = (HttpContext)((BaseOsgiServlet)servlet).getHttpContext();
-            }
-            if (dictionary == null)
-                dictionary = new Hashtable<String,String>();
-        try {
-            httpService.registerServlet(contextPath, servlet, dictionary, httpContext);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (NamespaceException e) {
-            e.printStackTrace();
-        }
+        
+        this.addingService(reference);  // Start it back up
     }
     
 }

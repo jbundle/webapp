@@ -110,6 +110,13 @@ public class HttpServiceActivator extends BaseBundleService
     }
     public String getDefaultSystemContextPath(BundleContext context)
     {
-        return context.getProperty(BaseOsgiServlet.CONTEXT_PATH);
+        String contextPath = context.getProperty(BaseOsgiServlet.CONTEXT_PATH);
+        if (contextPath == null)
+        {
+            contextPath = ClassFinderActivator.getPackageName(this.getClass().getName(), false);
+            if (contextPath.lastIndexOf('.') != -1)
+                contextPath = contextPath.substring(contextPath.lastIndexOf('.') + 1);
+        }
+        return contextPath;
     }
 }
