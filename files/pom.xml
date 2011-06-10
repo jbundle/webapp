@@ -5,13 +5,13 @@
   <parent>
     <groupId>org.jbundle.util.webapp</groupId>
     <artifactId>jbundle-util-webapp-reactor</artifactId>
-    <version>0.9.2-SNAPSHOT</version>
+    <version>0.9.2</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
   <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>org.jbundle.util.webapp.files</artifactId>
-  <version>0.9.2-SNAPSHOT</version>
+  <version>0.9.2</version>
   
   <packaging>bundle</packaging>
   <name>jbundle-util-webapp-files - webapp files</name>
@@ -39,7 +39,7 @@
     <dependency>
       <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.osgi</artifactId>
-      <version>0.9.2-SNAPSHOT</version>
+      <version>0.9.2</version>
     </dependency>
     
     <dependency>
