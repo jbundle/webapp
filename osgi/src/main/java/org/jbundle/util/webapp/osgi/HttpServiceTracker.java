@@ -3,7 +3,6 @@ package org.jbundle.util.webapp.osgi;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -13,7 +12,6 @@ import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.HttpService;
-import org.osgi.service.http.NamespaceException;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -32,27 +30,28 @@ public class HttpServiceTracker extends ServiceTracker {
 	String servicePid = null;
 	String servletClassName = null;
 	String defaultSystemContextPath = null;
-
+	HttpContext httpContext = null;
+	
     /**
 	 * Constructor - Listen for HttpService.
 	 * @param context
 	 */
-    public HttpServiceTracker(BundleContext context, String servicePid, String servletClassName, String defaultSystemContextPath) {
+    public HttpServiceTracker(BundleContext context, String servicePid, String servletClassName, String defaultSystemContextPath, HttpContext httpContext) {
         super(context, HttpService.class.getName(), null);
         this.servicePid = servicePid;
         this.servletClassName = servletClassName;
         this.defaultSystemContextPath = defaultSystemContextPath;
+        this.httpContext = httpContext;
     }
     
     /**
      * Http Service is up, add my servlets.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Object addingService(ServiceReference reference) {
         HttpService httpService = (HttpService) context.getService(reference);
         
         try {
-            Dictionary dictionary = null;
+            Dictionary<String,String> dictionary = null;
             if (servicePid != null)
             {
                 ServiceReference caRef = context.getServiceReference(ConfigurationAdmin.class.getName());
@@ -63,31 +62,23 @@ public class HttpServiceTracker extends ServiceTracker {
                  
                     dictionary = config.getProperties();
                     if (dictionary == null)
-                       dictionary = new Hashtable();
-                    else
-                        contextPath = (String)dictionary.get(BaseOsgiServlet.CONTEXT_PATH);
+                       dictionary = new Hashtable<String,String>();
+                    contextPath = (String)dictionary.get(BaseOsgiServlet.CONTEXT_PATH);
                     if (contextPath == null)
-                        contextPath = defaultSystemContextPath;
-                    if (contextPath == null)
-                        contextPath = DEFAULT_CONTEXT_PATH;
+                        contextPath = calculateContextPath();
                     // configure the Dictionary
                     dictionary.put(BaseOsgiServlet.CONTEXT_PATH, contextPath);                 
                     //push the configuration dictionary to the ConfigAdminService
                     config.update(dictionary);
                 }            
-                if (contextPath == null)
-                    contextPath = defaultSystemContextPath;
-                if (contextPath == null)
-                    contextPath = DEFAULT_CONTEXT_PATH;
             }
+            if (contextPath == null)
+                contextPath = calculateContextPath();
             
             servlet = (HttpServlet)ClassServiceUtility.getClassService().makeObjectFromClassName(servletClassName);
-            HttpContext httpContext = null;
+            HttpContext httpContext = this.httpContext;
             if (servlet instanceof BaseOsgiServlet)
-            {
                 ((BaseOsgiServlet)servlet).init(context);
-                httpContext = (HttpContext)((BaseOsgiServlet)servlet).getHttpContext();
-            }
             if (dictionary == null)
                 dictionary = new Hashtable<String,String>();
 	        httpService.registerServlet(contextPath, servlet, dictionary, httpContext);
@@ -124,6 +115,17 @@ public class HttpServiceTracker extends ServiceTracker {
         this.contextPath = contextPath;
         
         this.addingService(reference);  // Start it back up
+    }
+    
+    public String calculateContextPath()
+    {
+        String contextPath = null;
+        contextPath = context.getProperty(BaseOsgiServlet.CONTEXT_PATH);
+        if (contextPath == null)
+            contextPath = defaultSystemContextPath;
+        if (contextPath == null)
+            contextPath = DEFAULT_CONTEXT_PATH;
+        return contextPath;
     }
     
 }

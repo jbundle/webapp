@@ -11,6 +11,7 @@ import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
+import org.osgi.service.http.HttpContext;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -71,7 +72,7 @@ public class HttpServiceActivator extends BaseBundleService
     @Override
     public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
-        httpServiceTracker = new HttpServiceTracker(context, getServicePid(), getServletClass(), getDefaultSystemContextPath(context));
+        httpServiceTracker = new HttpServiceTracker(context, getServicePid(), getServletClass(), getDefaultSystemContextPath(context), getHttpContext());
         httpServiceTracker.open();
         context.registerService(ServiceTracker.class.getName(), httpServiceTracker, null);    // Why isn't this done automatically?
 
@@ -118,5 +119,14 @@ public class HttpServiceActivator extends BaseBundleService
                 contextPath = contextPath.substring(contextPath.lastIndexOf('.') + 1);
         }
         return contextPath;
+    }
+    /**
+     * Get the Servlet context for this servlet.
+     * Override if different from default context.
+     * @return The httpcontext.
+     */
+    public HttpContext getHttpContext()
+    {
+        return null;    // Override this
     }
 }

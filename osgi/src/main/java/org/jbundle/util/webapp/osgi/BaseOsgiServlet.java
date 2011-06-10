@@ -53,15 +53,6 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     {
     }
     /**
-     * Get the Servlet context for this servlet.
-     * Override if different from default context.
-     * @return The httpcontext.
-     */
-    public Object getHttpContext()
-    {
-        return null;    // Override this
-    }
-    /**
      * Convenience method.
      * Note: You will have to cast the class or override this in your actual OSGi servlet.
      */
