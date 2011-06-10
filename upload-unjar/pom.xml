@@ -13,7 +13,7 @@
   <artifactId>org.jbundle.util.webapp.upload.unjar</artifactId>
   <version>0.9.2-SNAPSHOT</version>
 
-  <packaging>war</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
+  <packaging>bundle</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
   <name>jbundle-util-webapp-upload-unjar - unjar servlet</name>
 
   <properties>
@@ -38,6 +38,12 @@
       <artifactId>org.jbundle.util.jbackup</artifactId>
   	  <version>${jbundle-utilVersion}</version>
     </dependency>
+
+	<dependency>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.core</artifactId>
+		<scope>provided</scope> <!-- This better be provided -->
+	</dependency>
   </dependencies>
   
 </project>

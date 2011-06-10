@@ -13,7 +13,7 @@
   <artifactId>org.jbundle.util.webapp.website</artifactId>
   <version>0.9.2-SNAPSHOT</version>
   
-  <packaging>war</packaging>
+  <packaging>bundle</packaging>
   <name>jbundle-util-webapp-website - simple website</name>
 
   <description>This project provides a template for a simple web site.
@@ -24,10 +24,28 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>org.jbundle.util.webapp.osgi</artifactId>
+      <version>0.9.2-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>catalina</artifactId>
+      <scope>provided</scope>	<!-- This is usually included in distributions. If you do include this, the servlet is tiny, the jar is huge -->
+    </dependency>
+
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
+	<dependency>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.core</artifactId>
+		<scope>provided</scope> <!-- This better be provided -->
+	</dependency>
   </dependencies>
 
 </project>

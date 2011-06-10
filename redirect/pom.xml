@@ -32,7 +32,7 @@
 		<profile>
 			<id>webbundle</id>
 			<properties>
-				<packaging.type>war</packaging.type>
+				<packaging.type>bundle</packaging.type>
 			</properties>
   <build>
     <plugins>
@@ -59,10 +59,6 @@
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
           <configuration>
-	  <prefixUrl>${publicReleaseRepository}</prefixUrl>
-	  <remoteOBR>${OBRRepositoryIndex}</remoteOBR>
-	  <!-- The obr is copied to the site root in the jbundle-site project -->
-	  <altDeploymentRepository>local-file::default::file:///${jbundle.workspace}/bin/obr</altDeploymentRepository>
               <supportedProjectTypes>
                   <supportedProjectType>jar</supportedProjectType>
                   <supportedProjectType>bundle</supportedProjectType>
@@ -100,6 +96,29 @@
       <artifactId>org.jbundle.util.webapp.base</artifactId>
       <version>0.9.2-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.jbundle.util.webapp</groupId>
+      <artifactId>org.jbundle.util.webapp.osgi</artifactId>
+      <version>0.9.2-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>catalina</artifactId>
+      <scope>provided</scope>	<!-- This is usually included in distributions. If you do include this, the servlet is tiny, the jar is huge -->
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+	<dependency>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.core</artifactId>
+		<scope>provided</scope> <!-- This better be provided -->
+	</dependency>
   </dependencies>
 
 </project>

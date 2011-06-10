@@ -13,7 +13,7 @@
   <artifactId>org.jbundle.util.webapp.proxy</artifactId>
   <version>0.9.2-SNAPSHOT</version>
 
-  <packaging>war</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
+  <packaging>bundle</packaging>	<!-- NOTE Should add companion war pom with sample web.xml file -->
   <name>jbundle-util-webapp-proxy - proxy servlet</name>
 
   <description>This project provides a template for a proxy servlet.
@@ -40,6 +40,12 @@
 	    <groupId>org.apache.httpcomponents</groupId>
 	    <artifactId>httpclient</artifactId>
     </dependency>
+
+	<dependency>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.core</artifactId>
+		<scope>provided</scope> <!-- This better be provided -->
+	</dependency>
   </dependencies>
 
 </project>

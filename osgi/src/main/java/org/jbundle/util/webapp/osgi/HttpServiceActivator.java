@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import org.jbundle.util.osgi.BundleService;
 import org.jbundle.util.osgi.bundle.BaseBundleService;
+import org.jbundle.util.osgi.finder.ClassFinderActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceReference;
@@ -95,9 +96,13 @@ public class HttpServiceActivator extends BaseBundleService
         }
     }
     
+    /**
+     * The service key in the config admin system.
+     * @return By default the package name, else override this.
+     */
     public String getServicePid()
     {
-        return null;    // Override this to enable config admin.
+        return ClassFinderActivator.getPackageName(this.getClass().getName(), false);
     }
     public String getServletClass()
     {
@@ -105,6 +110,6 @@ public class HttpServiceActivator extends BaseBundleService
     }
     public String getDefaultSystemContextPath(BundleContext context)
     {
-        return null;    // Override with: context.getProperty(OsgiJnlpServlet.CONTEXT_PATH);
+        return context.getProperty(BaseOsgiServlet.CONTEXT_PATH);
     }
 }
