@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jbundle.util.webapp</groupId>
     <artifactId>jbundle-util-webapp-reactor</artifactId>
-    <version>0.9.2-SNAPSHOT</version>
+    <version>0.9.2</version>
   </parent>
 
   <artifactId>org.jbundle.util.webapp.osgi</artifactId>
@@ -24,7 +24,7 @@
 	<dependency>
 		<groupId>org.jbundle.util.osgi</groupId>
 		<artifactId>org.jbundle.util.osgi</artifactId>
-		<version>${jbundleOsgiVersion}</version>
+		<version>1.1.2</version>
 	</dependency>
 	<dependency>
 		<groupId>org.osgi</groupId>
