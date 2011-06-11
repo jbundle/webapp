@@ -77,10 +77,10 @@ public class HttpServiceTracker extends ServiceTracker {
             
             servlet = (HttpServlet)ClassServiceUtility.getClassService().makeObjectFromClassName(servletClassName);
             HttpContext httpContext = this.httpContext;
-            if (servlet instanceof BaseOsgiServlet)
-                ((BaseOsgiServlet)servlet).init(context);
             if (dictionary == null)
                 dictionary = new Hashtable<String,String>();
+            if (servlet instanceof BaseOsgiServlet)
+                ((BaseOsgiServlet)servlet).init(context, servicePid, dictionary);
 	        httpService.registerServlet(contextPath, servlet, dictionary, httpContext);
         } catch (Exception e) {
             e.printStackTrace();

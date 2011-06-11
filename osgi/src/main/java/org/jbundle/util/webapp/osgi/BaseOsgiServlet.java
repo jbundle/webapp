@@ -3,6 +3,7 @@ package org.jbundle.util.webapp.osgi;
 import java.util.Dictionary;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -18,6 +19,8 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
 	private static final long serialVersionUID = 1L;
     
     private Object context = null;
+    String servicePid = null;
+    Dictionary<String, String> properties = null;
     
     public static final String CONTEXT_PATH = "org.jbundle.util.osgi.contextpath";  // In Config Service
 
@@ -33,17 +36,19 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
      * Constructor.
      * @param context
      */
-    public BaseOsgiServlet(Object context) {
+    public BaseOsgiServlet(Object context, String servicePid, Dictionary<String, String> properties) {
     	this();
-    	init(context);
+    	init(context, servicePid, properties);
     }
     
     /**
      * Constructor.
      * @param context
      */
-    public void init(Object context) {
+    public void init(Object context, String servicePid, Dictionary<String, String> properties) {
     	this.context = context;
+    	this.servicePid = servicePid;
+    	this.properties = properties;
     }
      
     /**
@@ -59,5 +64,25 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     public Object getBundleContext()
     {
         return context;
+    }
+    /**
+     * Get this param from the request or from the servlet's properties.
+     * @param request
+     * @param param
+     * @param defaultValue
+     * @return
+     */
+    public String getRequestParam(HttpServletRequest request, String param, String defaultValue)
+    {
+        String value = request.getParameter(servicePid + '.' + param);
+        if ((value == null) && (properties != null))
+            value = properties.get(servicePid + '.' + param);
+        if (value == null)
+            value = request.getParameter(param);
+        if ((value == null) && (properties != null))
+            value = properties.get(param);
+        if (value == null)
+                value = defaultValue;
+        return value;
     }
 }
