@@ -24,7 +24,7 @@
 	<dependency>
 		<groupId>org.jbundle.util.osgi</groupId>
 		<artifactId>org.jbundle.util.osgi</artifactId>
-		<version>1.1.2-SNAPSHOT</version>
+		<version>${jbundleOsgiVersion}</version>
 	</dependency>
 	<dependency>
 		<groupId>org.osgi</groupId>
