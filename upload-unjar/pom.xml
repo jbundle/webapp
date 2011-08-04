@@ -46,7 +46,7 @@
     <dependency>
   	  <groupId>org.jbundle.util</groupId>
       <artifactId>org.jbundle.util.jbackup</artifactId>
-  	  <version>0.7.10-SNAPSHOT</version>
+  	  <version>${jbundle-utilVersion}</version>
     </dependency>
 
 	<dependency>
