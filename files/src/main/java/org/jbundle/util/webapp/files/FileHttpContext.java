@@ -40,7 +40,65 @@ public class FileHttpContext implements HttpContext {
 
 	@Override
 	public String getMimeType(String name) {
-		return "application/x-java-jnlp-file";
+	    String mimeType = "text/html";
+		if (name != null)
+			if (name.lastIndexOf('.') != -1)
+		{
+			String extension = name.substring(name.lastIndexOf('.') + 1);
+			if (isType(extension, IMAGE_EXTENSIONS))
+			{
+				if ("jpg".equalsIgnoreCase(extension))
+					extension = "jpeg";
+				mimeType = "image/" + extension.toLowerCase();
+			}
+			else if (isType(extension, TEXT_EXTENSIONS))
+			{
+				if ("htm".equalsIgnoreCase(extension))
+					extension = "html";
+				if ("txt".equalsIgnoreCase(extension))
+					extension = "plain";
+				mimeType = "text/" + extension.toLowerCase();
+			}
+			else if (isType(extension, AUDIO_EXTENSIONS))
+			{
+				if ("mp3".equalsIgnoreCase(extension))
+					extension = "mpeg";
+				mimeType = "text/" + extension.toLowerCase();
+			}
+			else if (isType(extension, VIDEO_EXTENSIONS))
+			{
+				if ("mov".equalsIgnoreCase(extension))
+					extension = "quicktime";
+				mimeType = "text/" + extension.toLowerCase();
+			}
+		}
+		return mimeType;
+	}
+	
+	public static final String[] IMAGE_EXTENSIONS = {
+		"gif", "png", "bmp", "jpg", "jpeg", "tiff"
+		};
+	public static final String[] TEXT_EXTENSIONS = {
+		"css", "html", "htm", "txt"
+		};
+	public static final String[] APPLICATION_EXTENSIONS = {
+		"json", "js", "pdf", "zip", "jnlp"
+		};
+	public static final String[] AUDIO_EXTENSIONS = {
+		"mp3", "wav"
+		};
+	public static final String[] VIDEO_EXTENSIONS = {
+		"mpeg", "mov"
+		};
+	
+	private boolean isType(String extension, String[] types)
+	{
+		for (String imageExtension : types)
+		{
+			if (imageExtension.equalsIgnoreCase(extension))
+				return true;
+		}
+		return false;
 	}
 
 }
