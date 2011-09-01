@@ -11,14 +11,14 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.jbundle.util.webapp.osgi.BaseOsgiServlet;
+import org.jbundle.util.webapp.osgi.OSGiFileServlet;
 
 /**
  * RedirectServlet
  * 
  * This is the base servlet.
  */
-public class BaseServlet extends BaseOsgiServlet
+public class BaseServlet extends OSGiFileServlet
 {
 	private static final long serialVersionUID = 1L;
 
