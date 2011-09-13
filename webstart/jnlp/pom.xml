@@ -5,13 +5,13 @@
   <parent>
     <groupId>org.jbundle.util.webapp</groupId>
     <artifactId>jbundle-util-webapp-webstart-reactor</artifactId>
-    <version>0.9.4-SNAPSHOT</version>
+    <version>0.9.4</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
   <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>org.jbundle.util.webapp.webstart.jnlp</artifactId>
-  <version>0.9.4-SNAPSHOT</version>
+  <version>0.9.4</version>
 
   <packaging>war</packaging>
   <name>jbundle-util-webapp-webstart-jnlp - jnlp servlet</name>
