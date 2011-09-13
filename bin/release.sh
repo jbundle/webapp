@@ -65,10 +65,12 @@ hg init
 exit
 --------------
 
-hg init
-hg add
-hg commit -m "Initial test commit"
-hg push ssh://www.donandann.com//space/hg/jbundle-util-webapp-archetype-root
+git init
+cp ../../../.gitignore .
+git add .
+git commit -m "Initial commit"
+git remote add origin git@github.com:jbundle/jbundle-webapp-archetype.git
+git push
 
 mvn install
 mvn release:clean
