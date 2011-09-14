@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jbundle.config</groupId>
     <artifactId>jbundle-parent</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
