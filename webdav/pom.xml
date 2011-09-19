@@ -5,13 +5,13 @@
   <parent>
     <groupId>org.jbundle.util.webapp</groupId>
     <artifactId>jbundle-util-webapp-reactor</artifactId>
-    <version>0.9.5</version>
+    <version>0.9.6-SNAPSHOT</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
   <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>org.jbundle.util.webapp.webdav</artifactId>
-  <version>0.9.5</version>
+  <version>0.9.6-SNAPSHOT</version>
 
   <packaging>bundle</packaging>
   <name>jbundle-util-webapp-webdav - webdav directory</name>
@@ -39,7 +39,7 @@
     <dependency>
       <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.osgi</artifactId>
-      <version>0.9.5</version>
+      <version>0.9.6-SNAPSHOT</version>
     </dependency>
     
     <dependency>
