@@ -32,19 +32,6 @@ mvn archetype:create-from-project
 cd ..
 
 
---------- try doing step 4 first-----------
-
-# 3. Create and deploy servlet code
-# do not do mvn clean
-# or? mvn release:clean
-mvn release:prepare
-
---IT FAILS: do:
-mvn install
-
-mvn release:prepare
-mvn release:perform
-
 # 4. Create and deploy archetype code
 cd archetype
 mvn install
@@ -58,22 +45,29 @@ and remove:
     <status>generated</status>
   </distributionManagement>
 ---MANUALLY reinit remote repo-----
-ssh donandann.com
-cd /space/hg/jbundle-util-webapp-archetype-root
-rm -fr .hg
-hg init
-exit
---------------
-
 git init
 cp ../../../.gitignore .
 git add .
 git commit -m "Initial commit"
 git remote add origin git@github.com:jbundle/jbundle-webapp-archetype.git
-git push
+git push origin master
 
+
+# wait until after main code (#3) to do this:
 mvn install
 mvn release:clean
+mvn release:prepare
+mvn release:perform
+
+
+# 3. Create and deploy servlet code
+# do not do mvn clean
+# or? mvn release:clean
+mvn release:prepare
+
+--IT FAILS: do:
+mvn install
+
 mvn release:prepare
 mvn release:perform
 
