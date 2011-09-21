@@ -40,6 +40,7 @@ cd target/archetype
 
 -----------------NOTE:  I CHANGED the scm tag - FIX IN ARCHETYPE -------------
 ---MANUALLY CHANGE ALL POMS to have archetype-root as parent---
+-- and manually remove the -SNAPSHOT in the archetypes
 and remove:
   <distributionManagement>
     <status>generated</status>
@@ -54,8 +55,8 @@ git push origin master
 
 
 # wait until after main code (#3) to do this:
-mvn install
-mvn release:clean
+cd archetype/target/archetype
+# You will have to fix (edit) the archetype-metadata file for webstart and correct the dir= attribute
 mvn release:prepare
 mvn release:perform
 
@@ -63,11 +64,6 @@ mvn release:perform
 # 3. Create and deploy servlet code
 # do not do mvn clean
 # or? mvn release:clean
-mvn release:prepare
-
---IT FAILS: do:
-mvn install
-
 mvn release:prepare
 mvn release:perform
 
