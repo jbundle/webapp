@@ -16,7 +16,7 @@
     <servlet-class>org.jbundle.util.webapp.proxy.ProxyServlet</servlet-class>
     <init-param>
       <param-name>proxyservlet.urlprefix</param-name>
-      <param-value>http://www.jbundle.org:8080</param-value>
+      <param-value>http://www.jbundle.org:8181</param-value>
     </init-param>
   </servlet>
 
