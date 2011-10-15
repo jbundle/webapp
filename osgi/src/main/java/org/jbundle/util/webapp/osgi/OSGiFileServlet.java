@@ -61,7 +61,7 @@ public class OSGiFileServlet extends BaseOsgiServlet
             	path = path.substring(1);	// Can't start from root
             
             try {
-                url = ClassServiceUtility.getClassService().getResourceURL(path, null, this.getClass().getClassLoader());
+                url = ClassServiceUtility.getClassService().getResourceURL(path, null, null, this.getClass().getClassLoader());
             } catch (RuntimeException e) {
                 e.printStackTrace();    // ???
             }        	
