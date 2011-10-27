@@ -11,7 +11,7 @@
   <!-- Note: I include the version and groups in each pom, becuase they will become archetypes -->
   <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>jbundle-util-webapp-archetype</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>jbundle-util-webapp-archetype - archetype setup project</name>

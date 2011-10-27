@@ -56,7 +56,7 @@ git push origin master
 
 # wait until after main code (#3) to do this:
 cd archetype/target/archetype
-# You will have to fix (edit) the archetype-metadata file for webstart and correct the dir= attribute
+# You will have to fix (edit) the archetype-metadata file for webstart and correct to dir=code and dir=jnlp attribute
 mvn release:prepare
 mvn release:perform
 
@@ -69,7 +69,7 @@ mvn release:perform
 
 # 5. Publish the new site
 
-cd target/checkout/jbundle-util-webapp-site/
+cd target/checkout/site/
 mvn clean
 mvn site:site
 mvn site:deploy
