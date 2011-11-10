@@ -13,13 +13,13 @@ import org.osgi.framework.Bundle;
 import org.osgi.service.http.HttpContext;
 
 /**
- * Jnlp http context.
+ * Retrieve files from the bundle context.
  * @author don
  *
  */
 public class FileHttpContext implements HttpContext {
 
-    private Bundle bundle;
+    protected Bundle bundle;
 
     public FileHttpContext(Bundle bundle)
     {
@@ -29,7 +29,7 @@ public class FileHttpContext implements HttpContext {
 	@Override
 	public boolean handleSecurity(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		return true;
+		return true;	// For now
 	}
 
 	@Override
@@ -74,6 +74,18 @@ public class FileHttpContext implements HttpContext {
 					extension = "quicktime";
 				mimeType = "text/" + extension.toLowerCase();
 			}
+			else if (isType(extension, APPLICATION_EXTENSIONS))
+			{
+				if ("jnlp".equalsIgnoreCase(extension))
+					extension = "x-java-jnlp-file";
+				if (("swf".equalsIgnoreCase(extension)) || ("cab".equalsIgnoreCase(extension)))
+					extension = "x-shockwave-flash";
+				if ("jar".equalsIgnoreCase(extension))
+					extension = "java-archive";
+				if ("js".equalsIgnoreCase(extension))
+					extension = "x-javascript";
+				mimeType = "application/" + extension.toLowerCase();
+			}
 		}
 		return mimeType;
 	}
@@ -85,7 +97,7 @@ public class FileHttpContext implements HttpContext {
 		"css", "html", "htm", "txt"
 		};
 	public static final String[] APPLICATION_EXTENSIONS = {
-		"json", "js", "pdf", "zip", "jnlp"
+		"json", "js", "pdf", "zip", "jnlp", "swf", "cab", "jar"
 		};
 	public static final String[] AUDIO_EXTENSIONS = {
 		"mp3", "wav"

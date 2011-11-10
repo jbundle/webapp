@@ -50,7 +50,8 @@ public class HttpServiceTracker extends ServiceTracker {
     /**
      * Http Service is up, add my servlets.
      */
-    public Object addingService(ServiceReference reference) {
+    @SuppressWarnings("unchecked")
+	public Object addingService(ServiceReference reference) {
         HttpService httpService = (HttpService) context.getService(reference);
         
         try {

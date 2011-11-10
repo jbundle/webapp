@@ -6,7 +6,9 @@ package org.jbundle.util.webapp.osgi;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Dictionary;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +25,28 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
 public class OSGiFileServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
+	public static final String BASE_URL = "baseURL";
+	protected URL baseURL = null;
 
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    /**
+     * Constructor.
+     * @param context
+     */
+    public void init(Object context, String servicePid, Dictionary<String, String> properties) {
+    	super.init(context, servicePid, properties);
+    	if (properties != null)
+    		if (properties.get(BASE_URL) != null)
+				try {
+					baseURL = new URL(properties.get(BASE_URL));
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+    }
+
+    /**
+     * 
+     */
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException
 	{
 	    boolean fileFound = getResourceFile(req, resp, true);
