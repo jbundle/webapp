@@ -72,7 +72,7 @@ public class RegexRedirectServlet extends RedirectServlet
             		{
             	        if (logger != null)
             	        	logger.info("Redirect " + server + " to " + target);
-            	        if ((allow == null) || target.matches(allow))
+            	        if ((match == null) || target.matches(match))
             	        	res.sendRedirect(target);
             			return;
             		}

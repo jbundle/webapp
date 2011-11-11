@@ -49,10 +49,23 @@ public class OSGiFileServlet extends BaseOsgiServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException
 	{
-	    boolean fileFound = getResourceFile(req, resp, true);
+	    boolean fileFound = sendResourceFile(req, resp);
 		if (!fileFound)
 		    resp.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found");
 	}
+    /**
+     *  process an HTML get or post.
+     * @exception ServletException From inherited class.
+     * @exception IOException From inherited class.
+     */
+    public void service(HttpServletRequest req, HttpServletResponse resp) 
+        throws ServletException, IOException
+    {
+	    boolean fileFound = sendResourceFile(req, resp);
+		if (!fileFound)
+		    resp.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found");
+//    	super.service(req, resp);
+    }
     /**
      * Send this is resource to the response stream.
      * @param request
@@ -60,34 +73,20 @@ public class OSGiFileServlet extends BaseOsgiServlet
      * @return
      * @throws IOException
      */
-    public boolean getResourceFile(HttpServletRequest request, HttpServletResponse response, boolean useOSGiLookup) throws IOException
+    public boolean sendResourceFile(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-        URL url = null;
-        if (!useOSGiLookup)
-        {
-            String path = request.getPathInfo();
-            if (path == null)
-                return false;
-            if (!path.startsWith("/"))
-                path = "/" + path;  // Must start from root
-        	url = this.getClass().getResource(path);
-        }
-        else
-        {
-        	String contextPath = this.getServletContext().getContextPath();
-            String path = request.getRequestURI();
-            if ((contextPath != null) && (contextPath.length() > 0))
-            	if (path.startsWith(contextPath))
-            		path = path.substring(contextPath.length());
-            if (path.startsWith("/"))
-            	path = path.substring(1);	// Can't start from root
+        String path = request.getPathInfo();
+        if (path == null)
+            return false;
+        if (path.startsWith("/"))
+        	path = path.substring(1);	// Resources already start from root/baseURL
             
-            try {
-                url = ClassServiceUtility.getClassService().getResourceURL(path, null, null, this.getClass().getClassLoader());
-            } catch (RuntimeException e) {
-                e.printStackTrace();    // ???
-            }        	
-        }
+        URL url = null;
+        try {
+            url = ClassServiceUtility.getClassService().getResourceURL(path, baseURL, null, this.getClass().getClassLoader());
+        } catch (RuntimeException e) {
+            e.printStackTrace();    // ???
+        }        	
         if (url == null)
             return false;   // Not found
         InputStream inStream = null;
