@@ -24,7 +24,6 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class HttpServiceActivator extends BaseBundleService
 {
-    public static final String SERVICE_PID = "service.pid"; // This must be somewhere
     ServiceTracker httpServiceTracker;
     private ServiceRegistration ppcService;
 
@@ -48,7 +47,7 @@ public class HttpServiceActivator extends BaseBundleService
             if (pid != null)
             {
                 Dictionary props = new Hashtable();
-                props.put(SERVICE_PID, pid);
+                props.put(HttpServiceTracker.SERVICE_PID, pid);
                 ppcService = context.registerService(ManagedService.class.getName(), new HttpConfigurator(context), props);
             }
 
@@ -75,9 +74,13 @@ public class HttpServiceActivator extends BaseBundleService
     @Override
     public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
-        httpServiceTracker = new HttpServiceTracker(context, getServicePid(), getServletClass(), getDefaultSystemContextPath(context), getHttpContext());
+    	Dictionary<String, String> dictionary = new Hashtable<String, String>();
+    	dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid());
+    	dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass());
+    	dictionary.put(HttpServiceTracker.DEFAULT_CONTEXT_PATH_PARAM, getDefaultSystemContextPath(context)); 
+        httpServiceTracker = new HttpServiceTracker(context, getHttpContext(), dictionary);
         httpServiceTracker.open();
-        context.registerService(ServiceTracker.class.getName(), httpServiceTracker, null);    // Why isn't this done automatically?
+        context.registerService(ServiceTracker.class.getName(), httpServiceTracker, dictionary);    // Why isn't this done automatically?
 
         return true;
     }

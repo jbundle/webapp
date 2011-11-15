@@ -12,6 +12,11 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.util.tracker.ServiceTracker;
 
+/**
+ * Call me when my configuration data changes.
+ * @author don
+ *
+ */
 public class HttpConfigurator implements ManagedService {
     BundleContext context = null;
     
@@ -30,7 +35,7 @@ public class HttpConfigurator implements ManagedService {
             // or old configuration has been deleted
         } else {
             // apply configuration from config admin
-            String  contextPath = (String)properties.get(BaseOsgiServlet.CONTEXT_PATH);
+            String contextPath = (String)properties.get(BaseOsgiServlet.CONTEXT_PATH);
             if (contextPath != null)
             {
                 String filter = null; //??? "(" + Constants.OBJECTCLASS + "=" + HttpServiceTracker.class.getName() + ")"; 

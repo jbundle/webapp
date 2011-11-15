@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Base OSGi Servlet.
  * Note: Even though this is called OsgiServlet, is must be able to run in a non-osgi environment,
- * so don't have any osgi imports.
- * Note: This is designed to override the JnlpDownloadServlet. I just a little 
+ * so don't do any osgi imports.
+ * Note: This is designed to override the JnlpDownloadServlet. I'm a little 
  * apprehensive about the licensing if I wrap the (sun) code in an OSGi wrapper. 
  * @author don
  *
