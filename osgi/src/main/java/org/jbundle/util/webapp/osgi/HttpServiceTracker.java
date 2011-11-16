@@ -139,23 +139,20 @@ public class HttpServiceTracker extends ServiceTracker {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Dictionary<String, String> getDictionary() {
+    public Dictionary<String, String> getDictionary()
+    {
         Dictionary<String, String> dictionary = null;
         try {
             if (servicePid != null) {
-                ServiceReference caRef = context
-                        .getServiceReference(ConfigurationAdmin.class.getName());
+                ServiceReference caRef = context.getServiceReference(ConfigurationAdmin.class.getName());
                 if (caRef != null) {
-                    ConfigurationAdmin configAdmin = (ConfigurationAdmin) context
-                            .getService(caRef);
-                    Configuration config = configAdmin
-                            .getConfiguration(servicePid);
+                    ConfigurationAdmin configAdmin = (ConfigurationAdmin) context.getService(caRef);
+                    Configuration config = configAdmin.getConfiguration(servicePid);
 
                     dictionary = config.getProperties();
                     if (dictionary == null)
                         dictionary = new Hashtable<String, String>();
-                    contextPath = (String) dictionary
-                            .get(BaseOsgiServlet.CONTEXT_PATH);
+                    contextPath = (String) dictionary.get(BaseOsgiServlet.CONTEXT_PATH);
                     if (contextPath == null)
                         contextPath = calculateContextPath();
                     // configure the Dictionary

@@ -50,16 +50,6 @@ public class OSGiFileServlet extends BaseOsgiServlet
     }
 
     /**
-     * 
-     */
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-    		throws ServletException, IOException
-	{
-	    boolean fileFound = sendResourceFile(req, resp);
-		if (!fileFound)
-		    resp.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found");
-	}
-    /**
      *  process an HTML get or post.
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
