@@ -29,40 +29,39 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class HttpServiceTracker extends ServiceTracker {
 
+    public static final String NAME = "name"; // The name of the servlet
     public static final String SERVICE_PID = "service.pid"; // The id of the data in the config registry
     public static final String SERVLET_CLASS = "servletClass"; // Optional class name for single servlets
     // Set this param to change root URL
-    public static final String WEB_CONTEXT = "org.jbundle.web.webcontext";
+    public static final String WEB_CONTEXT_PREFIX = "org.jbundle.web.webcontext";
     public static final String DEFAULT_CONTEXT_PATH_PARAM = "defaultContextPath";
 
     public static final String DEFAULT_CONTEXT_PATH = "/webstart";
 
-    protected String webContextPath = null; // The web url (if this is a single servlet)
+    String contextPath = null; // The path (alias) that this http service is registered to
+
+    String servicePid = null; // The registration key that my configuration data is stored under (typically the package name)
+    String servletClassName = null; // The servlet class name to create
+
+    protected String webContextPrefix = null; // The web url to prefix the alias by (if this is a single servlet)
 
     protected String defaultContextPath = null; // If no web url was passed in
 
     protected HttpContext httpContext = null;
-
-    String contextPath = null; // The path that this http service is registered to
-
-    String servicePid = null; // The registration key that my configuration data is stored under (typically the package name)
-    String servletClassName = null; // The servlet class name to create
 
     /**
      * Constructor - Listen for HttpService.
      * 
      * @param context
      */
-    public HttpServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, String> dictionary) {
+    public HttpServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, String> dictionary) 
+    {
         super(context, HttpService.class.getName(), null);
         this.httpContext = httpContext;
-        if (dictionary != null) {
-            defaultContextPath = getProperty(DEFAULT_CONTEXT_PATH_PARAM,
-                    context, dictionary);
-            webContextPath = getProperty(WEB_CONTEXT, context, dictionary);
-            servicePid = getProperty(SERVICE_PID, context, dictionary);
-            servletClassName = getProperty(SERVLET_CLASS, context, dictionary);
-        }
+        defaultContextPath = getProperty(DEFAULT_CONTEXT_PATH_PARAM, context, dictionary);
+        webContextPrefix = getProperty(WEB_CONTEXT_PREFIX, context, dictionary);
+        servicePid = getProperty(SERVICE_PID, context, dictionary);
+        servletClassName = getProperty(SERVLET_CLASS, context, dictionary);
     }
 
     /**
@@ -127,8 +126,8 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public void removeService(String name, Servlet servlet,
             ServiceReference reference, Object service) {
-        name = this.getPathFromName(name);
-        ((HttpService) service).unregister(name);
+        String alias = this.getPathFromName(name);
+        ((HttpService) service).unregister(alias);
         if (servlet instanceof BaseOsgiServlet)
             ((BaseOsgiServlet) servlet).free();
     }
@@ -181,7 +180,7 @@ public class HttpServiceTracker extends ServiceTracker {
      * @return
      */
     public String getPathFromName(String name) {
-        return HttpServiceTracker.addURLPath(webContextPath, name);
+        return HttpServiceTracker.addURLPath(webContextPrefix, name);
     }
 
     /**
@@ -239,8 +238,8 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param dictionary
      * @return
      */
-    public static String getProperty(String key, BundleContext context,
-            Dictionary<String, String> dictionary) {
+    public static String getProperty(String key, BundleContext context, Dictionary<String, String> dictionary)
+    {
         String value = null;
         if (context != null)
             value = context.getProperty(key);
