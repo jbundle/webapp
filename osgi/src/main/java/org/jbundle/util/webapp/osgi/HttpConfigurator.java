@@ -35,7 +35,7 @@ public class HttpConfigurator implements ManagedService {
             // or old configuration has been deleted
         } else {
             // apply configuration from config admin
-            String contextPath = (String)properties.get(BaseOsgiServlet.CONTEXT_PATH);
+            String contextPath = (String)properties.get(BaseOsgiServlet.WEB_ALIAS);
             if (contextPath != null)
             {
                 String filter = null; //??? "(" + Constants.OBJECTCLASS + "=" + HttpServiceTracker.class.getName() + ")"; 

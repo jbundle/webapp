@@ -30,7 +30,8 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     String servicePid = null;
     Dictionary<String, String> properties = null;
     
-    public static final String CONTEXT_PATH = "org.jbundle.util.osgi.contextpath";  // In Config Service
+    public static final String PROPERTY_PREFIX = "org.jbundle.util.webapp.osgi.";  // In Config Service
+    public static final String WEB_ALIAS = PROPERTY_PREFIX + "webalias";  // In Config Service
 
     /**
      * Constructor.
