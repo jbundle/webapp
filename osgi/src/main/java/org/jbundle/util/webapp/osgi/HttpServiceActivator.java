@@ -77,7 +77,7 @@ public class HttpServiceActivator extends BaseBundleService
     	Dictionary<String, String> dictionary = new Hashtable<String, String>();
     	dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid());
     	dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass());
-    	dictionary.put(HttpServiceTracker.DEFAULT_WEB_ALIAS_PARAM, getDefaultSystemContextPath(context)); 
+    	dictionary.put(HttpServiceTracker.WEB_ALIAS, getDefaultSystemContextPath(context)); 
         httpServiceTracker = new HttpServiceTracker(context, getHttpContext(), dictionary);
         httpServiceTracker.open();
         context.registerService(ServiceTracker.class.getName(), httpServiceTracker, dictionary);    // Why isn't this done automatically?
