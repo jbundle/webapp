@@ -8,25 +8,25 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Dictionary;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /**
  * Base OSGi Servlet.
  * Note: Even though this is called OsgiServlet, is must be able to run in a non-osgi environment,
  * so don't do any osgi imports.
  * Note: This is designed to override the JnlpDownloadServlet. I'm a little 
- * apprehensive about the licensing if I wrap the (sun) code in an OSGi wrapper. 
+ * apprehensive about the licensing so for now I wont wrap the (sun) code in an OSGi wrapper. 
  * @author don
  *
  */
 public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*/ {
 	private static final long serialVersionUID = 1L;
     
-    private Object context = null;
+    private Object bundleContext = null;
     String servicePid = null;
     Dictionary<String, String> properties = null;
     
@@ -35,7 +35,7 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
 
     /**
      * Constructor.
-     * @param context
+     * @param bundleContext
      */
     public BaseOsgiServlet() {
     	super();
@@ -45,19 +45,35 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
      * Constructor.
      * @param context
      */
-    public BaseOsgiServlet(Object context, String servicePid, Dictionary<String, String> properties) {
+    public BaseOsgiServlet(Object bundleContext, String servicePid, Dictionary<String, String> properties) {
     	this();
-    	init(context, servicePid, properties);
+    	init(bundleContext, servicePid, properties);
     }
     
     /**
      * Constructor.
      * @param context
      */
-    public void init(Object context, String servicePid, Dictionary<String, String> properties) {
-    	this.context = context;
+    public void init(Object bundleContext, String servicePid, Dictionary<String, String> properties) {
+    	this.bundleContext = bundleContext;
     	this.servicePid = servicePid;
     	this.properties = properties;
+    }
+    /**
+     * web servlet init method.
+     * @exception ServletException From inherited class.
+     */
+    public void init(ServletConfig config) throws ServletException
+    {
+        super.init(config);
+    }
+    /**
+     * Destroy this Servlet and any active applications.
+     * This is only called when all users are done using this Servlet.
+     */
+    public void destroy()
+    {
+        super.destroy();
     }
      
     /**
@@ -80,7 +96,7 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
      */
     public Object getBundleContext()
     {
-        return context;
+        return bundleContext;
     }
     /**
      * Get this param from the request or from the servlet's properties.
@@ -118,4 +134,74 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
 		        e.printStackTrace();
 		}
     }
+    /**
+     * Get the browser type.
+     */
+    public String getBrowser(HttpServletRequest req)
+    {
+        String strAgent = req.getHeader("user-agent");
+        if (strAgent == null)
+            return OTHER;
+        strAgent = strAgent.toUpperCase();
+        for (int i = 0; i < BROWSER.length; i++)
+        {
+            if (strAgent.indexOf(BROWSER[i][1]) != -1)
+                return BROWSER[i][0];
+        }
+        return OTHER;
+    }
+    /**
+     * Get the browser type.
+     */
+    public String getOS(HttpServletRequest req)
+    {
+        String strAgent = req.getHeader("user-agent");
+        if (strAgent == null)
+            return OTHER;
+        strAgent = strAgent.toUpperCase();
+        for (int i = 0; i < OS.length; i++)
+        {
+            if (strAgent.indexOf(OS[i][1]) != -1)
+                return OS[i][0];
+        }
+        return OTHER;
+    }
+    
+    /**
+     * Get the languages that the user would like to see.
+     * @param req
+     * @return
+     */
+    public String getLanguage(HttpServletRequest req)
+    {
+        return req.getHeader("Accept-Language");
+    }
+    
+    public static final String IE = "ie";
+    public static final String FIREFOX = "firefox";
+    public static final String WEBKIT = "webkit";
+    public static final String JAVA = "java";
+    public static final String OTHER = "other";
+    
+    public static final String WINDOWS = "WINDOWS";
+    public static final String LINUX = "LINUX";
+    public static final String MAC = "MAC";
+    
+    public static String[][] OS = {
+        {WINDOWS, WINDOWS},
+        {LINUX, LINUX},
+        {MAC, MAC},
+    };
+
+    public static String[][] BROWSER = {
+        {IE, "MSIE"},
+        {WEBKIT, "CHROME"},
+        {WEBKIT, "SAFARI"},
+        {WEBKIT, "OPERA"},
+        {JAVA, "JAVA"},
+        {FIREFOX, "MOZILLA/5"},
+        {WEBKIT, "webkit"},
+        {OTHER, ""}
+    };
+
 }

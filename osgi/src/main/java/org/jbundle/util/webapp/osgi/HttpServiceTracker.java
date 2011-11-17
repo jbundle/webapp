@@ -76,7 +76,7 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         for (String alias : getServletAliases(dictionary)) {
             Servlet servlet = this.addService(alias, dictionary, httpService); // Override this to add multiple http services
-            servlets.put(alias, servlet); // Null servlets are okay - they could be resource mappings
+            servlets.put(this.fixAlias(alias), servlet); // Null servlets are okay - they could be resource mappings
         }
     }
 
@@ -88,15 +88,14 @@ public class HttpServiceTracker extends ServiceTracker {
     public Servlet addService(String alias, Dictionary<String, String> dictionary, HttpService httpService)
     {
         Servlet servlet = null;
-        alias = this.fixAlias(alias);
-        dictionary = this.updateDictionaryConfig(alias, dictionary, true);
+        dictionary = this.updateDictionaryConfig(this.fixAlias(alias), dictionary, true);
         try {
             servlet = this.makeServlet(alias, dictionary);
             String servicePid = dictionary.get(SERVICE_PID);
             if (servlet instanceof BaseOsgiServlet)
                 ((BaseOsgiServlet) servlet).init(context, servicePid, dictionary);
             if (servlet != null)
-                httpService.registerServlet(alias, servlet, dictionary, httpContext);
+                httpService.registerServlet(this.fixAlias(alias), servlet, dictionary, httpContext);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -215,7 +214,6 @@ public class HttpServiceTracker extends ServiceTracker {
         String alias = dictionary.get(WEB_ALIAS);
         if (alias == null)
             return EMPTY_ARRAY;
-        alias = this.fixAlias(alias);
         String[] aliases = { alias };
         return aliases;
     }
