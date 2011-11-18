@@ -48,7 +48,7 @@ public class HttpServiceActivator extends BaseBundleService
             {
                 Dictionary props = new Hashtable();
                 props.put(HttpServiceTracker.SERVICE_PID, pid);
-                ppcService = context.registerService(ManagedService.class.getName(), new HttpConfigurator(context), props);
+                ppcService = context.registerService(ManagedService.class.getName(), new HttpConfigurator(context, pid), props);
             }
 
             if (httpServiceTracker == null)

@@ -42,7 +42,7 @@ public class ProxyServlet extends RegexRedirectServlet {
 	public static final String OPTIONS = "OTPIONS";
 	public static final String TRACE = "TRACE";
 	
-    public static final String PROXY_URL_PREFIX = "proxyservlet.urlprefix";
+    public static final String PROXY_URL_PREFIX = PROPERTY_PREFIX + "urlprefix";
     
     private String proxyURLPrefix = null;
 

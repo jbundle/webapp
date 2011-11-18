@@ -30,7 +30,7 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     String servicePid = null;
     Dictionary<String, String> properties = null;
     
-    public static final String PROPERTY_PREFIX = "org.jbundle.util.webapp.osgi.";  // In Config Service
+    public static final String PROPERTY_PREFIX = "org.jbundle.util.webapp.";  // In Config Service
     public static final String WEB_ALIAS = PROPERTY_PREFIX + "webalias";  // In Config Service
 
     /**
@@ -45,19 +45,19 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
      * Constructor.
      * @param context
      */
-    public BaseOsgiServlet(Object bundleContext, String servicePid, Dictionary<String, String> properties) {
+    public BaseOsgiServlet(Object bundleContext, String servicePid, Dictionary<String, String> dictionary) {
     	this();
-    	init(bundleContext, servicePid, properties);
+    	init(bundleContext, servicePid, dictionary);
     }
     
     /**
      * Constructor.
      * @param context
      */
-    public void init(Object bundleContext, String servicePid, Dictionary<String, String> properties) {
+    public void init(Object bundleContext, String servicePid, Dictionary<String, String> dictionary) {
     	this.bundleContext = bundleContext;
     	this.servicePid = servicePid;
-    	this.properties = properties;
+    	this.properties = dictionary;
     }
     /**
      * web servlet init method.
@@ -204,4 +204,12 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
         {OTHER, ""}
     };
 
+    public void setProperties(Dictionary<String, String> dictionary)
+    {
+        this.properties = dictionary;
+    }
+    public Dictionary<String, String> getDictionary()
+    {
+        return this.properties;
+    }
 }

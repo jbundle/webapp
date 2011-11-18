@@ -19,43 +19,51 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class HttpConfigurator implements ManagedService {
     BundleContext context = null;
+    String pid = null;
     
-    public HttpConfigurator(BundleContext context)
+    public HttpConfigurator(BundleContext context, String pid)
     {
         super();
         this.context = context;
+        this.pid = pid;
     }
     
-    @SuppressWarnings("rawtypes")
+    /**
+     * 
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void updated(Dictionary properties) throws ConfigurationException {
-        // TODO Stop and start the service with the new context.
+    public void updated(Dictionary properties) throws ConfigurationException
+    {
+        // Stop and start the service with the new context.
         if (properties == null) {
             // no configuration from configuration admin
             // or old configuration has been deleted
         } else {
             // apply configuration from config admin
-            String contextPath = (String)properties.get(BaseOsgiServlet.WEB_ALIAS);
-            if (contextPath != null)
+            String filter = null; //??? "(" + Constants.OBJECTCLASS + "=" + HttpServiceTracker.class.getName() + ")"; 
+            ServiceReference[] references = null;
+            try {
+                references = context.getServiceReferences(ServiceTracker.class.getName(), filter);
+            } catch (InvalidSyntaxException e) {
+                e.printStackTrace();
+            }
+            HttpServiceTracker httpService = null;
+            if (references != null)
             {
-                String filter = null; //??? "(" + Constants.OBJECTCLASS + "=" + HttpServiceTracker.class.getName() + ")"; 
-                ServiceReference[] references = null;
-                try {
-                    references = context.getServiceReferences(ServiceTracker.class.getName(), filter);
-                } catch (InvalidSyntaxException e) {
-                    e.printStackTrace();
-                }
-                HttpServiceTracker httpService = null;
-                if (references != null)
+                for (ServiceReference reference : references)
                 {
-                    for (ServiceReference reference : references)
+                    if (context.getService(reference) instanceof HttpServiceTracker)
                     {
-                        if (context.getService(reference) instanceof HttpServiceTracker)
-                            httpService = (HttpServiceTracker)context.getService(reference);
+                        httpService = (HttpServiceTracker)context.getService(reference);
+                        if (httpService instanceof HttpServiceTracker)
+                            if (pid.equals(httpService.getProperty(HttpServiceTracker.SERVICE_PID)))
+                            {  // This is the one!
+                                httpService.updateProperties(properties);
+                                break;
+                            }
                     }
                 }
-                if (httpService != null)
-                    httpService.setContextPath(contextPath);
             }
         }
     }

@@ -29,9 +29,9 @@ public class RedirectServlet extends BaseServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	public static final String LOG_PARAM = "log";
-	public static final String MATCH_PARAM = "allow";
-	public static final String TARGET = "target";
+	public static final String LOG_PARAM = PROPERTY_PREFIX + "log";
+	public static final String MATCH_PARAM = PROPERTY_PREFIX + "allow";
+	public static final String TARGET = PROPERTY_PREFIX + "target";
     public static final String DEFAULT_TARGET_URL = "http://www.jbundle.org";
 
 	protected Logger logger = null;

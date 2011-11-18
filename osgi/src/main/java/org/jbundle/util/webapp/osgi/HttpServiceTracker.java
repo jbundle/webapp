@@ -268,22 +268,68 @@ public class HttpServiceTracker extends ServiceTracker {
     }
 
     /**
+     * 
+     * @param key
+     * @return
+     */
+    public String getProperty(String key)
+    {
+        String value = dictionary.get(key);
+        if (value == null)
+            if (key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX))
+                value = dictionary.get(key.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
+        return value;
+    }
+    /**
      * Change the contextPath.
      * 
      * @param contextPath
      */
-    public void setContextPath(String contextPath) {
-        if (contextPath.equals(dictionary.get(WEB_ALIAS)))
+    public void updateProperties(Dictionary<String, String> properties)
+    {
+        if (this.propertiesEqual(properties, dictionary, true))
             return;
-        ServiceReference reference = context
-                .getServiceReference(HttpService.class.getName());
+        ServiceReference reference = context.getServiceReference(HttpService.class.getName());
         if (reference == null)
             return;
         HttpService httpService = (HttpService) context.getService(reference);
-        httpService.unregister(dictionary.get(WEB_ALIAS));
-        dictionary.put(WEB_ALIAS, contextPath);
+
+        String oldAlias = dictionary.get(WEB_ALIAS);
+        Servlet servlet = this.getServletFromAlias(oldAlias);
+        if (servlet instanceof BaseOsgiServlet)// Always
+        {
+            Dictionary<String, String> dictionary = ((BaseOsgiServlet)servlet).getDictionary();
+            dictionary = putAll(properties, dictionary);
+            ((BaseOsgiServlet)servlet).setProperties(dictionary);
+        }
+        String newAlias = properties.get(WEB_ALIAS);
+        if (oldAlias.equals(newAlias))
+            return;
+        httpService.unregister(oldAlias);
+        dictionary.put(WEB_ALIAS, newAlias);
 
         this.addingService(reference); // Start it back up
+    }
+    
+    public boolean propertiesEqual(Dictionary<String, String> properties, Dictionary<String, String> dictionary, boolean persistentOnly)
+    {
+        Enumeration<String> props = properties.keys();
+        while (props.hasMoreElements())
+        {
+            String key = props.nextElement();
+            if ((!persistentOnly) || (key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX)))
+                if (!properties.get(key).equals(dictionary.get(key)))
+                    return false;
+        }
+        props = dictionary.keys();
+        while (props.hasMoreElements())
+        {
+            String key = props.nextElement();
+            if ((!persistentOnly) || (key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX)))
+                if (!dictionary.get(key).equals(properties.get(key)))
+                    return false;
+        }
+        return true;
     }
 
     /**

@@ -26,8 +26,8 @@ public class RegexRedirectServlet extends RedirectServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	public static final String REGEX = "regex";
-	public static final String REGEX_TARGET = "regexTarget";
+	public static final String REGEX = PROPERTY_PREFIX + "regex";
+	public static final String REGEX_TARGET = PROPERTY_PREFIX + "regexTarget";
 
     /**
      * returns the servlet info
