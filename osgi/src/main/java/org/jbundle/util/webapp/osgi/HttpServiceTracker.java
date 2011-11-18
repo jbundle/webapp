@@ -177,7 +177,7 @@ public class HttpServiceTracker extends ServiceTracker {
                     while (keys.hasMoreElements())
                     {
                         String key = keys.nextElement();
-                        if (key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX))
+                        if (isPersistentProperty(key))
                             configDictionary.put(key, dictionary.get(key)); // Make sure all the fully qualified keys are persisted
                     }
                     // push the configuration dictionary to the ConfigAdminService
@@ -276,7 +276,7 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         String value = dictionary.get(key);
         if (value == null)
-            if (key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX))
+            if (isPersistentProperty(key))
                 value = dictionary.get(key.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
         return value;
     }
@@ -317,7 +317,7 @@ public class HttpServiceTracker extends ServiceTracker {
         while (props.hasMoreElements())
         {
             String key = props.nextElement();
-            if ((!persistentOnly) || (key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX)))
+            if ((!persistentOnly) || (isPersistentProperty(key)))
                 if (!properties.get(key).equals(dictionary.get(key)))
                     return false;
         }
@@ -325,7 +325,7 @@ public class HttpServiceTracker extends ServiceTracker {
         while (props.hasMoreElements())
         {
             String key = props.nextElement();
-            if ((!persistentOnly) || (key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX)))
+            if ((!persistentOnly) || (isPersistentProperty(key)))
                 if (!dictionary.get(key).equals(properties.get(key)))
                     return false;
         }
@@ -352,5 +352,16 @@ public class HttpServiceTracker extends ServiceTracker {
             }
         }
         return destDictionary;
+    }
+    
+    /**
+     * Is this a persistent property?
+     * Override this to add more.
+     * @param key
+     * @return
+     */
+    public boolean isPersistentProperty(String key)
+    {
+        return key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX);
     }
 }
