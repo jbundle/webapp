@@ -59,7 +59,7 @@ public class HttpConfigurator implements ManagedService {
                         if (httpService instanceof HttpServiceTracker)
                             if (pid.equals(httpService.getProperty(HttpServiceTracker.SERVICE_PID)))
                             {  // This is the one!
-                                httpService.updateProperties(properties);
+                                httpService.updateConfigProperties(properties);
                                 break;
                             }
                     }

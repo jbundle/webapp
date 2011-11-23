@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author don
  *
  */
-public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*/ {
+public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*/
+    implements WebappServlet
+{
 	private static final long serialVersionUID = 1L;
     
     private Object bundleContext = null;
@@ -120,6 +122,12 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     }
 
 	static final int BUFFER = 2048;
+	/**
+	 * 
+	 * @param inStream
+	 * @param outStream
+	 * @param ignoreErrors
+	 */
     public static void copyStream(InputStream inStream, OutputStream outStream, boolean ignoreErrors)
     {
     	byte[] data = new byte[BUFFER];
@@ -204,12 +212,21 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
         {OTHER, ""}
     };
 
-    public void setProperties(Dictionary<String, String> dictionary)
+    public boolean setProperties(Dictionary<String, String> properties)
     {
-        this.properties = dictionary;
+        this.properties = properties;
+        return true;
     }
-    public Dictionary<String, String> getDictionary()
+    public Dictionary<String, String> getProperties()
     {
         return this.properties;
+    }
+    /**
+     * Do I have to restart the servlet after I change properties?
+     * @return
+     */
+    public boolean restartRequired()
+    {
+        return false;   // Override this if you need to restart the server.
     }
 }

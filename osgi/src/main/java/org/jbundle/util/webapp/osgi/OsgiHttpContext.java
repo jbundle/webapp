@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.util.webapp.files;
+package org.jbundle.util.webapp.osgi;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,7 +16,7 @@ import org.osgi.framework.Bundle;
  * @author don
  *
  */
-public class OsgiHttpContext extends org.jbundle.util.webapp.files.FileHttpContext {
+public class OsgiHttpContext extends FileHttpContext {
 
     private URL urlCodeBase = null;
 

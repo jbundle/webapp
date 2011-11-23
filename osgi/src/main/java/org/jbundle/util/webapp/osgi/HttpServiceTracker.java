@@ -6,23 +6,23 @@ package org.jbundle.util.webapp.osgi;
 import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 import javax.servlet.Servlet;
 
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.cm.ManagedService;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.HttpService;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * HttpServiceTracker - Wait for the http service to come up to add servlets.
+ * HttpServiceTracker - Wait for the http service to come up to add this servlet.
  * 
  * @author don
  * 
@@ -35,9 +35,11 @@ public class HttpServiceTracker extends ServiceTracker {
     public static final String DEFAULT_WEB_ALIAS = "/webstart";
     public static final String WEB_ALIAS = BaseOsgiServlet.WEB_ALIAS;
     
-    protected Dictionary<String, String> dictionary = null;
-
+    protected Dictionary<String, String> properties = null;
+    protected Dictionary<String, String> configProperties = null; // properties saved in the configuration system
     protected HttpContext httpContext = null;
+    protected Servlet servlet = null;    // The servlet that I am responsible for
+    private ServiceRegistration serviceRegistration = null; // The configuration tracker
 
     /**
      * Constructor - Listen for HttpService.
@@ -48,13 +50,13 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         super(context, HttpService.class.getName(), null);
         this.httpContext = httpContext;
-        this.dictionary = HttpServiceTracker.putAll(dictionary, null);
+        this.properties = HttpServiceTracker.putAll(dictionary, null);
         if (context.getProperty(SERVLET_CLASS) != null)
-            this.dictionary.put(SERVLET_CLASS, context.getProperty(SERVLET_CLASS));
+            this.properties.put(SERVLET_CLASS, context.getProperty(SERVLET_CLASS));
         if (context.getProperty(SERVICE_PID) != null)
-            this.dictionary.put(SERVICE_PID, context.getProperty(SERVICE_PID));
+            this.properties.put(SERVICE_PID, context.getProperty(SERVICE_PID));
         if (context.getProperty(WEB_ALIAS) != null)
-            this.dictionary.put(WEB_ALIAS, context.getProperty(WEB_ALIAS));
+            this.properties.put(WEB_ALIAS, context.getProperty(WEB_ALIAS));
     }
 
     /**
@@ -64,42 +66,28 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         HttpService httpService = (HttpService) context.getService(reference);
 
-        this.addServices(httpService);
-
-        return httpService;
-    }
-
-    /**
-     * Http Service is up, add my servlets.
-     */
-    public void addServices(HttpService httpService)
-    {
-        for (String alias : getServletAliases(dictionary)) {
-            Servlet servlet = this.addService(alias, dictionary, httpService); // Override this to add multiple http services
-            servlets.put(this.fixAlias(alias), servlet); // Null servlets are okay - they could be resource mappings
-        }
-    }
-
-    /**
-     * Http Service is up, add my servlet.
-     * @param alias
-     * @param dictionary
-     */
-    public Servlet addService(String alias, Dictionary<String, String> dictionary, HttpService httpService)
-    {
-        Servlet servlet = null;
-        dictionary = this.updateDictionaryConfig(this.fixAlias(alias), dictionary, true);
+        String alias = this.getAlias();
+        this.properties = this.updateDictionaryConfig(this.properties, true);
         try {
-            servlet = this.makeServlet(alias, dictionary);
-            String servicePid = dictionary.get(SERVICE_PID);
-            if (servlet instanceof BaseOsgiServlet)
-                ((BaseOsgiServlet) servlet).init(context, servicePid, dictionary);
-            if (servlet != null)
-                httpService.registerServlet(this.fixAlias(alias), servlet, dictionary, httpContext);
+            String servicePid = this.properties.get(SERVICE_PID);
+            if (servlet == null)
+            {
+                servlet = this.makeServlet(alias, this.properties);
+                if (servlet instanceof WebappServlet)
+                    ((WebappServlet) servlet).init(context, servicePid, this.properties);
+            }
+            else
+                if (servlet instanceof WebappServlet)
+                    ((WebappServlet) servlet).setProperties(properties);
+            if (servicePid != null)   // Listen for configuration changes
+                serviceRegistration = context.registerService(ManagedService.class.getName(), new HttpConfigurator(context, servicePid), this.properties);
+
+            httpService.registerServlet(alias, servlet, this.properties, httpContext);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return servlet;
+
+        return httpService;
     }
     
     /**
@@ -116,41 +104,30 @@ public class HttpServiceTracker extends ServiceTracker {
     }
 
     /**
-     * Http Service is down, remove my servlets.
+     * Http Service is down, remove my servlet.
      */
-    public void removedService(ServiceReference reference, Object service) {
-        this.removeServices(reference, service);
-        super.removedService(reference, service);
-    }
+    public void removeService(ServiceReference reference, Object service) {
+        if (serviceRegistration != null) {
+            serviceRegistration.unregister();
+            serviceRegistration = null;
+        }
 
-    /**
-     * Http Service is down, remove my servlets.
-     */
-    public void removeServices(ServiceReference reference, Object service) {
-        for (String alias : getServletAliases(dictionary)) {
-            Servlet servlet = this.getServletFromAlias(alias);
-            this.removeService(alias, servlet, reference, service);
+        String alias = this.getAlias();
+        ((HttpService) service).unregister(alias);
+        if (servlet instanceof WebappServlet)
+            if (((WebappServlet)servlet).restartRequired())
+        {
+            ((WebappServlet)servlet).free();
+            servlet = null;
         }
     }
 
     /**
-     * Http Service is down, remove my servlet.
-     */
-    public void removeService(String alias, Servlet servlet, ServiceReference reference, Object service) {
-        alias = this.fixAlias(alias);
-        ((HttpService) service).unregister(alias);
-        if (servlet instanceof BaseOsgiServlet)
-            ((BaseOsgiServlet) servlet).free();
-    }
-
-    /**
      * Get the (persistent) configuration dictionary from the service manager.
-     * @param alias TODO
-     * 
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Dictionary<String, String> updateDictionaryConfig(String alias, Dictionary<String, String> dictionary, boolean returnCopy)
+    public Dictionary<String, String> updateDictionaryConfig(Dictionary<String, String> dictionary, boolean returnCopy)
     {
         if (returnCopy)
             dictionary = HttpServiceTracker.putAll(dictionary, null);
@@ -166,77 +143,50 @@ public class HttpServiceTracker extends ServiceTracker {
                     ConfigurationAdmin configAdmin = (ConfigurationAdmin)context.getService(caRef);
                     Configuration config = configAdmin.getConfiguration(servicePid);
 
-                    Dictionary<String, String> configDictionary = config.getProperties();
-                    if (configDictionary == null)
-                        configDictionary = new Hashtable<String, String>();
+                    configProperties = config.getProperties();
+                    if (configProperties == null)
+                        configProperties = new Hashtable<String, String>();
                     // First, move all settings to dictionary
-                    dictionary = HttpServiceTracker.putAll(configDictionary, dictionary);
-                    dictionary.put(BaseOsgiServlet.WEB_ALIAS, this.calculateWebAlias(alias, dictionary));
+                    dictionary = HttpServiceTracker.putAll(configProperties, dictionary);
+                    dictionary.put(BaseOsgiServlet.WEB_ALIAS, this.calculateWebAlias(dictionary));
                     // Next, move all saveable settings to the config dictionary (and save them)
                     Enumeration<String> keys = dictionary.keys();
                     while (keys.hasMoreElements())
                     {
                         String key = keys.nextElement();
                         if (isPersistentProperty(key))
-                            configDictionary.put(key, dictionary.get(key)); // Make sure all the fully qualified keys are persisted
+                            configProperties.put(key, dictionary.get(key)); // Make sure all the fully qualified keys are persisted
                     }
                     // push the configuration dictionary to the ConfigAdminService
-                    config.update(configDictionary);
+                    config.update(configProperties);
                 }
             }
             if (dictionary.get(BaseOsgiServlet.WEB_ALIAS) == null)
-                dictionary.put(BaseOsgiServlet.WEB_ALIAS, this.calculateWebAlias(alias, dictionary));
+                dictionary.put(BaseOsgiServlet.WEB_ALIAS, this.calculateWebAlias(dictionary));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return dictionary;
     }
 
-    private Map<String, Servlet> servlets = new HashMap<String, Servlet>();
-
-    /**
-     * Look up the servlet.
-     * @param alias
-     * @return
-     */
-    public Servlet getServletFromAlias(String alias) {
-        return servlets.get(alias);
-    }
-
-    /**
-     * Get all the web paths to add.
-     * @param dictionary
-     * 
-     * @return
-     */
-    public String[] getServletAliases(Dictionary<String, String> dictionary)
-    { // Override this to supply more than one servlet
-        String alias = dictionary.get(WEB_ALIAS);
-        if (alias == null)
-            return EMPTY_ARRAY;
-        String[] aliases = { alias };
-        return aliases;
-    }
-    public static final String[] EMPTY_ARRAY = new String[0];
-
     /**
      * Get the web context path from the service name.
-     * @param alias
      * @return
      */
-    public String fixAlias(String alias)
+    public String getAlias()
     {
+        String alias = this.properties.get(WEB_ALIAS);
         return HttpServiceTracker.addURLPath(null, alias);
     }
 
     /**
      * Figure out the correct web alias.
-     * @param alias
      * @param dictionary
      * @return
      */
-    public String calculateWebAlias(String alias, Dictionary<String, String> dictionary)
+    public String calculateWebAlias(Dictionary<String, String> dictionary)
     {
+        String alias = this.getAlias();
         if (alias == null)
             alias = dictionary.get(WEB_ALIAS);
         if (alias == null)
@@ -274,66 +224,108 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public String getProperty(String key)
     {
-        String value = dictionary.get(key);
+        String value = this.properties.get(key);
         if (value == null)
             if (isPersistentProperty(key))
-                value = dictionary.get(key.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
+                value = this.properties.get(key.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
         return value;
     }
     /**
-     * Change the contextPath.
+     * Update the servlet's properties.
+     * Called when the configuration changes.
      * 
      * @param contextPath
      */
-    public void updateProperties(Dictionary<String, String> properties)
+    public void updateConfigProperties(Dictionary<String, String> properties)
     {
-        if (this.propertiesEqual(properties, dictionary, true))
+        if (HttpServiceTracker.propertiesEqual(properties, configProperties))
             return;
+        configProperties = properties;
         ServiceReference reference = context.getServiceReference(HttpService.class.getName());
         if (reference == null)
             return;
         HttpService httpService = (HttpService) context.getService(reference);
 
-        String oldAlias = dictionary.get(WEB_ALIAS);
-        Servlet servlet = this.getServletFromAlias(oldAlias);
-        if (servlet instanceof BaseOsgiServlet)// Always
-        {
-            Dictionary<String, String> dictionary = ((BaseOsgiServlet)servlet).getDictionary();
-            dictionary = putAll(properties, dictionary);
-            ((BaseOsgiServlet)servlet).setProperties(dictionary);
-        }
-        String newAlias = properties.get(WEB_ALIAS);
-        if (oldAlias.equals(newAlias))
+        String oldAlias = this.getAlias();
+        this.changeServletProperties(servlet, properties);
+        String alias = properties.get(WEB_ALIAS);
+        boolean restartRequired = false;
+        if (!oldAlias.equals(alias))
+            restartRequired = true;
+        else if (servlet instanceof WebappServlet)
+            restartRequired = ((WebappServlet)servlet).restartRequired();
+        if (!restartRequired)
             return;
         httpService.unregister(oldAlias);
-        dictionary.put(WEB_ALIAS, newAlias);
+        this.properties.put(WEB_ALIAS, alias);
+        
+        if (servlet instanceof WebappServlet)
+            if (((WebappServlet)servlet).restartRequired())
+        {
+            ((WebappServlet)servlet).free();
+            servlet = null;
+        }
 
         this.addingService(reference); // Start it back up
     }
     
-    public boolean propertiesEqual(Dictionary<String, String> properties, Dictionary<String, String> dictionary, boolean persistentOnly)
+    /**
+     * Change the servlet properties to these properties.
+     * @param servlet
+     * @param properties
+     * @return
+     */
+    public boolean changeServletProperties(Servlet servlet, Dictionary<String, String> properties)
+    {
+        if (servlet instanceof WebappServlet)
+        {
+            Dictionary<String, String> dictionary = ((WebappServlet)servlet).getProperties();
+            properties = putAll(properties, dictionary);
+        }
+        return this.setServletProperties(servlet, properties);
+    }
+    
+    /**
+     * Set the serlvlet's properties.
+     * @param servlet
+     * @param properties
+     * @return
+     */
+    public boolean setServletProperties(Servlet servlet, Dictionary<String, String> properties)
+    {
+        this.properties = properties;
+        if (servlet instanceof WebappServlet)
+            return ((WebappServlet)servlet).setProperties(properties);
+        return true;    // Success
+    }
+    
+    /**
+     * Are these properties equal.
+     * @param properties
+     * @param dictionary
+     * @return
+     */
+    public static boolean propertiesEqual(Dictionary<String, String> properties, Dictionary<String, String> dictionary)
     {
         Enumeration<String> props = properties.keys();
         while (props.hasMoreElements())
         {
             String key = props.nextElement();
-            if ((!persistentOnly) || (isPersistentProperty(key)))
-                if (!properties.get(key).equals(dictionary.get(key)))
-                    return false;
+            if (!properties.get(key).equals(dictionary.get(key)))
+                return false;
         }
         props = dictionary.keys();
         while (props.hasMoreElements())
         {
             String key = props.nextElement();
-            if ((!persistentOnly) || (isPersistentProperty(key)))
-                if (!dictionary.get(key).equals(properties.get(key)))
-                    return false;
+            if (!dictionary.get(key).equals(properties.get(key)))
+                return false;
         }
         return true;
     }
 
     /**
-     * 
+     * Copy all the values from one dictionary to another.
      * @param sourceDictionary
      * @param destDictionary
      * @return
@@ -360,8 +352,13 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param key
      * @return
      */
-    public boolean isPersistentProperty(String key)
+    public static boolean isPersistentProperty(String key)
     {
         return key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX);
+    }
+    
+    public void setServlet(Servlet servlet)
+    {
+        this.servlet = servlet;
     }
 }

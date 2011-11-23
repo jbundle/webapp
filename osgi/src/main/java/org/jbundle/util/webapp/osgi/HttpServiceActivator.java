@@ -11,9 +11,9 @@ import org.jbundle.util.osgi.bundle.BaseBundleService;
 import org.jbundle.util.osgi.finder.ClassFinderActivator;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
-import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.cm.ManagedService;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
@@ -24,14 +24,13 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class HttpServiceActivator extends BaseBundleService
 {
-    ServiceTracker httpServiceTracker;
-    private ServiceRegistration ppcService;
+    protected ServiceTracker httpServiceTracker;
 
     /**
-     * Start or stop the http service tracker on bundle start/stop.
+     * Called when the http service tracker come up or is shut down.
+     * Start or stop the bundle on start/stop.
      * @param event The service event.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void serviceChanged(ServiceEvent event) {
         BundleContext context = null;
@@ -40,30 +39,18 @@ public class HttpServiceActivator extends BaseBundleService
                 if (event.getServiceReference().getBundle() != null)
                     context = event.getServiceReference().getBundle().getBundleContext();
         if (event.getType() == ServiceEvent.REGISTERED)
-        { // Osgi Service is up, Okay to start the server
-            ClassServiceUtility.log(context, LogService.LOG_INFO, "Starting the WebStart Http Service tracker");
+        { // Osgi http Service is up, Okay to start the server
+            ClassServiceUtility.log(context, LogService.LOG_INFO, "Starting the osgi Http Service tracker");
             
-            String pid = this.getServicePid();
-            if (pid != null)
-            {
-                Dictionary props = new Hashtable();
-                props.put(HttpServiceTracker.SERVICE_PID, pid);
-                ppcService = context.registerService(ManagedService.class.getName(), new HttpConfigurator(context, pid), props);
-            }
-
             if (httpServiceTracker == null)
     		    this.startupThisService(null, context);
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {
             ClassServiceUtility.log(context, LogService.LOG_INFO, "Stopping the WebStart http service tracker");
-            if (ppcService != null) {
-                ppcService.unregister();
-                ppcService = null;
-            }
-            if (httpServiceTracker != null)
-                httpServiceTracker.close();
-            httpServiceTracker = null;
+            
+            if (this.shutdownThisService(null, context))
+                httpServiceTracker = null;        
         }        
     }
     /**
@@ -74,11 +61,11 @@ public class HttpServiceActivator extends BaseBundleService
     @Override
     public boolean startupThisService(BundleService bundleService, BundleContext context)
     {
-    	Dictionary<String, String> dictionary = new Hashtable<String, String>();
-    	dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid());
-    	dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass());
-    	dictionary.put(HttpServiceTracker.WEB_ALIAS, getDefaultSystemContextPath(context)); 
-        httpServiceTracker = new HttpServiceTracker(context, getHttpContext(), dictionary);
+        Dictionary<String, String> dictionary = new Hashtable<String, String>();
+        dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));
+        dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass(context));
+        dictionary.put(HttpServiceTracker.WEB_ALIAS, getWebAlias(context)); 
+        httpServiceTracker = this.createServiceTracker(context, getHttpContext(), dictionary);
         httpServiceTracker.open();
         context.registerService(ServiceTracker.class.getName(), httpServiceTracker, dictionary);    // Why isn't this done automatically?
 
@@ -86,23 +73,66 @@ public class HttpServiceActivator extends BaseBundleService
     }
     
     /**
+     * Start this service.
+     * Override this to do all the startup.
+     * @return true if successful.
+     */
+    @Override
+    public boolean shutdownThisService(BundleService bundleService, BundleContext context)
+    {
+        if (httpServiceTracker != null)
+            httpServiceTracker.close();
+        return true;
+    }
+    
+    /**
+     * Create the service tracker.
+     * @param context
+     * @param httpContext
+     * @param dictionary
+     * @return
+     */
+    public HttpServiceTracker createServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, String> dictionary)
+    {
+        return new HttpServiceTracker(context, getHttpContext(), dictionary);
+    }
+    
+    /**
      * The service key in the config admin system.
+     * @param context
      * @return By default the package name, else override this.
      */
-    public String getServicePid()
+    public String getServicePid(BundleContext context)
     {
-        return ClassFinderActivator.getPackageName(this.getClass().getName(), false);
+        String servicePid = context.getProperty(HttpServiceTracker.SERVICE_PID);
+        if (servicePid != null)
+            return servicePid;
+        servicePid = this.getServletClass(context);
+        if ((servicePid == null)
+                || (!servicePid.startsWith(HttpServiceActivator.PACKAGE_NAME)))
+            servicePid = this.getClass().getName();
+        return ClassFinderActivator.getPackageName(servicePid, false);
     }
-    public String getServletClass()
+    /**
+     * Get the servlet class to activate.
+     * @param context 
+     * @return
+     */
+    public String getServletClass(BundleContext context)
     {
-        return null;    // Override this to enable config admin.
+        return context.getProperty(HttpServiceTracker.SERVLET_CLASS);    // Override this to enable config admin.
     }
-    public String getDefaultSystemContextPath(BundleContext context)
+    /**
+     * Get the web alias for this servlet.
+     * @param context
+     * @return
+     */
+    public String getWebAlias(BundleContext context)
     {
         String contextPath = context.getProperty(BaseOsgiServlet.WEB_ALIAS);
         if (contextPath == null)
         {
-            contextPath = ClassFinderActivator.getPackageName(this.getClass().getName(), false);
+            contextPath = this.getServicePid(context);
             if (contextPath.lastIndexOf('.') != -1)
                 contextPath = contextPath.substring(contextPath.lastIndexOf('.') + 1);
         }
@@ -117,7 +147,33 @@ public class HttpServiceActivator extends BaseBundleService
      */
     public HttpContext getHttpContext()
     {
-        return null;    // Override this
+        return null;    // Override this if you don't want to use the default http context
     }
+    /**
+     * 
+     * @param alias
+     * @return
+     */
+    public HttpServiceTracker getServiceTracker(BundleContext context, String alias)
+    {
+        String filter = "(" + HttpServiceTracker.WEB_ALIAS + "=" + alias + ")";
+        try {
+            ServiceReference[] references = context.getServiceReferences(ServiceTracker.class.getName(), filter);
+            if (references != null) {
+                for (ServiceReference reference : references)
+                {
+                    Object service = context.getService(reference);
+                    if (service instanceof HttpServiceTracker)    // Always
+                    {
+                        return (HttpServiceTracker)service;
+                    }
+                }
+            }
+        } catch (InvalidSyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;    // Not found
+    }
+    
 
 }

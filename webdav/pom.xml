@@ -13,7 +13,7 @@
   <artifactId>org.jbundle.util.webapp.webdav</artifactId>
   <version>1.0.2-SNAPSHOT</version>
 
-  <packaging>bundle</packaging>
+  <packaging>war</packaging>
   <name>jbundle-util-webapp-webdav - webdav directory</name>
 
   <description>This project provides a template for a webdav site.
@@ -22,16 +22,67 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-Activator>${project.artifactId}.HttpServiceActivator</Bundle-Activator>
-					</instructions>
-				</configuration>
-			</plugin>
+            <plugin> <!-- Need to use this plugin to build war files -->
+                <artifactId>maven-war-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <configuration>
+                    <archive>
+                        <!-- add bundle plugin generated manifest to the war -->
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF
+                        </manifestFile>
+                        <!--
+                            For some reason, adding Bundle-ClassPath in maven-bundle-plugin
+                            confuses that plugin and it generates wrong Import-Package, etc.
+                            So, we generate it here.
+                        -->
+                        <manifestEntries>
+                            <Bundle-ClassPath>WEB-INF/classes/</Bundle-ClassPath>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <supportedProjectTypes>
+                        <supportedProjectType>jar</supportedProjectType>
+                        <supportedProjectType>bundle</supportedProjectType>
+                        <supportedProjectType>war</supportedProjectType>
+                    </supportedProjectTypes>
+                    <instructions>
+            <Export-Package>
+        ${project.artifactId}.*;version=${project.version},
+        </Export-Package>
+        <!-- Private-Package>
+        org.apache.catalina.*,
+        </Private-Package -->
+                        <!-- Bundle-Activator>${project.artifactId}.HttpServiceActivator</Bundle-Activator -->
+            <Import-Package>
+                *;resolution:=optional,
+            </Import-Package>
+                        <!-- This is the context root of this application -->
+                        <Web-ContextPath>/webdav</Web-ContextPath>
+                        <!--
+                            Bundle-ClassPath without "." confuses bundle plugin. So, leave it
+                            unspecified (i.e., default to ".") and we shall generate it using
+                            war-plugin's manifest customization
+                            <Bundle-ClassPath>WEB-INF/classes/</Bundle-ClassPath>
+                        -->
+                    </instructions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 

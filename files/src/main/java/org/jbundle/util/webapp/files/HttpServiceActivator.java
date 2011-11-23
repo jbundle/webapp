@@ -4,6 +4,8 @@
 package org.jbundle.util.webapp.files;
 
 
+import org.jbundle.util.webapp.osgi.FileHttpContext;
+import org.osgi.framework.BundleContext;
 import org.osgi.service.http.HttpContext;
 
 /**
@@ -12,10 +14,11 @@ import org.osgi.service.http.HttpContext;
  */
 public class HttpServiceActivator extends org.jbundle.util.webapp.osgi.HttpServiceActivator
 {
-    public String getServletClass()
+    public String getServletClass(BundleContext context)
     {
-        return org.apache.catalina.servlets.DefaultServlet.class.getName();    // Override this to enable config admin.
+        return FilesDefaultServlet.class.getName();    // Override this to enable config admin.
     }
+
     /**
      * Get the Servlet context for this servlet.
      * Override if different from default context.

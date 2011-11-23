@@ -59,7 +59,7 @@ public class OSGiFileServlet extends BaseOsgiServlet
 //    	super.service(req, resp);
     }
     /**
-     * Send this is resource to the response stream.
+     * Send this resource to the response stream.
      * @param request
      * @param response
      * @return
