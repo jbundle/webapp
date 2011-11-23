@@ -195,13 +195,13 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     public static final String LINUX = "LINUX";
     public static final String MAC = "MAC";
     
-    public static String[][] OS = {
+    public static final String[][] OS = {
         {WINDOWS, WINDOWS},
         {LINUX, LINUX},
         {MAC, MAC},
     };
 
-    public static String[][] BROWSER = {
+    public static final String[][] BROWSER = {
         {IE, "MSIE"},
         {WEBKIT, "CHROME"},
         {WEBKIT, "SAFARI"},

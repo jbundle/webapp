@@ -154,19 +154,20 @@ public class HttpServiceActivator extends BaseBundleService
      * @param alias
      * @return
      */
-    public HttpServiceTracker getServiceTracker(BundleContext context, String alias)
+    public static HttpServiceTracker getServiceTracker(BundleContext context, String key, String value)
     {
-        String filter = "(" + HttpServiceTracker.WEB_ALIAS + "=" + alias + ")";
+        String filter = "(" + key + "=" + value + ")";
         try {
             ServiceReference[] references = context.getServiceReferences(ServiceTracker.class.getName(), filter);
+            if ((references == null) || (references.length == 0))
+                references = context.getServiceReferences(ServiceTracker.class.getName(), null);   // Being paranoid
             if (references != null) {
                 for (ServiceReference reference : references)
                 {
                     Object service = context.getService(reference);
                     if (service instanceof HttpServiceTracker)    // Always
-                    {
-                        return (HttpServiceTracker)service;
-                    }
+                        if (value.equals(((HttpServiceTracker)service).getProperty(key)))   // Being paranoid
+                            return (HttpServiceTracker)service;
                 }
             }
         } catch (InvalidSyntaxException e) {

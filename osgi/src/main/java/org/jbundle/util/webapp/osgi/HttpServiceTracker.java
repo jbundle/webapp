@@ -31,9 +31,8 @@ public class HttpServiceTracker extends ServiceTracker {
 
     public static final String SERVICE_PID = "service.pid"; // The id of the data in the config registry
     public static final String SERVLET_CLASS = "servletClass"; // Optional class name for single servlets
-    // Set this param to change root URL
-    public static final String DEFAULT_WEB_ALIAS = "/webstart";
     public static final String WEB_ALIAS = BaseOsgiServlet.WEB_ALIAS;
+    public static final String DEFAULT_WEB_ALIAS = "/webstart";
     
     protected Dictionary<String, String> properties = null;
     protected Dictionary<String, String> configProperties = null; // properties saved in the configuration system
@@ -50,7 +49,7 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         super(context, HttpService.class.getName(), null);
         this.httpContext = httpContext;
-        this.properties = HttpServiceTracker.putAll(dictionary, null);
+        this.properties = HttpServiceTracker.putAll(dictionary, null);  // Copy properties
         if (context.getProperty(SERVLET_CLASS) != null)
             this.properties.put(SERVLET_CLASS, context.getProperty(SERVLET_CLASS));
         if (context.getProperty(SERVICE_PID) != null)
@@ -66,9 +65,9 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         HttpService httpService = (HttpService) context.getService(reference);
 
-        String alias = this.getAlias();
         this.properties = this.updateDictionaryConfig(this.properties, true);
         try {
+            String alias = this.getAlias();
             String servicePid = this.properties.get(SERVICE_PID);
             if (servlet == null)
             {
@@ -115,11 +114,8 @@ public class HttpServiceTracker extends ServiceTracker {
         String alias = this.getAlias();
         ((HttpService) service).unregister(alias);
         if (servlet instanceof WebappServlet)
-            if (((WebappServlet)servlet).restartRequired())
-        {
             ((WebappServlet)servlet).free();
-            servlet = null;
-        }
+        servlet = null;
     }
 
     /**
@@ -236,7 +232,7 @@ public class HttpServiceTracker extends ServiceTracker {
      * 
      * @param contextPath
      */
-    public void updateConfigProperties(Dictionary<String, String> properties)
+    public void configPropertiesUpdated(Dictionary<String, String> properties)
     {
         if (HttpServiceTracker.propertiesEqual(properties, configProperties))
             return;

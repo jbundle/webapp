@@ -6,11 +6,8 @@ package org.jbundle.util.webapp.osgi;
 import java.util.Dictionary;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Call me when my configuration data changes.
@@ -41,30 +38,9 @@ public class HttpConfigurator implements ManagedService {
             // or old configuration has been deleted
         } else {
             // apply configuration from config admin
-            String filter = null; //??? "(" + Constants.OBJECTCLASS + "=" + HttpServiceTracker.class.getName() + ")"; 
-            ServiceReference[] references = null;
-            try {
-                references = context.getServiceReferences(ServiceTracker.class.getName(), filter);
-            } catch (InvalidSyntaxException e) {
-                e.printStackTrace();
-            }
-            HttpServiceTracker httpService = null;
-            if (references != null)
-            {
-                for (ServiceReference reference : references)
-                {
-                    if (context.getService(reference) instanceof HttpServiceTracker)
-                    {
-                        httpService = (HttpServiceTracker)context.getService(reference);
-                        if (httpService instanceof HttpServiceTracker)
-                            if (pid.equals(httpService.getProperty(HttpServiceTracker.SERVICE_PID)))
-                            {  // This is the one!
-                                httpService.updateConfigProperties(properties);
-                                break;
-                            }
-                    }
-                }
-            }
+            HttpServiceTracker httpService = HttpServiceActivator.getServiceTracker(context, HttpServiceTracker.SERVICE_PID, pid);
+            if (httpService != null)
+                httpService.configPropertiesUpdated(properties);
         }
     }
 }

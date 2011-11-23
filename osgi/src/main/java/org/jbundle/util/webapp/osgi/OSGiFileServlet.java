@@ -25,9 +25,8 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
 public class OSGiFileServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
-	public static final String BASE_URL = "baseURL";
-	public static final String BASE_PATH = "basePath"; // Prepend this to the resource path
-	protected URL baseURL = null;
+	public static final String BASE_PATH = "basePath"; // Prepend URL or path to the resource path
+	protected URL baseURL = null;  // Base URL for resources
 
     /**
      * Constructor.
@@ -36,11 +35,11 @@ public class OSGiFileServlet extends BaseOsgiServlet
     public void init(Object context, String servicePid, Dictionary<String, String> dictionary) {
     	super.init(context, servicePid, dictionary);
     	if (dictionary != null)
-    		if (dictionary.get(BASE_URL) != null) {
+    		if (dictionary.get(BASE_PATH) != null) {
 				try {
-					baseURL = new URL(dictionary.get(BASE_URL));
+					baseURL = new URL(dictionary.get(BASE_PATH));
 				} catch (MalformedURLException e) {
-					e.printStackTrace();
+					// Ignore errors. Probably a relative path to be added on send
 				}
     		}
     }
@@ -72,9 +71,10 @@ public class OSGiFileServlet extends BaseOsgiServlet
             return false;
         if (path.startsWith("/"))
         	path = path.substring(1);	// Resources already start from root/baseURL
-        if (properties != null)
-            if (properties.get(BASE_PATH) != null)
-                path = properties.get(BASE_PATH) + path;
+        if (baseURL == null)
+            if (properties != null)
+                if (properties.get(BASE_PATH) != null)
+                    path = properties.get(BASE_PATH) + path;
             
         URL url = null;
         try {
