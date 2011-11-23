@@ -60,18 +60,19 @@ public class RegexRedirectServlet extends RedirectServlet
     public void service(HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException
     {
-        String regex = this.getInitParameter(REGEX);
+        String regex = this.getProperty(REGEX);
         String server = req.getServerName();
         if (regex != null)
         	if (server != null)
         {
         	if (server.matches(regex))
             	{
-            		String target = this.getInitParameter(REGEX_TARGET);
+            		String target = this.getProperty(REGEX_TARGET);
             		if (target != null)
             		{
             	        if (logger != null)
             	        	logger.info("Redirect " + server + " to " + target);
+            	        String match = this.getProperty(MATCH_PARAM);
             	        if ((match == null) || target.matches(match))
             	        	res.sendRedirect(target);
             			return;

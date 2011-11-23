@@ -35,7 +35,6 @@ public class RedirectServlet extends BaseServlet
     public static final String DEFAULT_TARGET_URL = "http://www.jbundle.org";
 
 	protected Logger logger = null;
-	protected String match = null;
 
 	/**
      * returns the servlet info
@@ -53,7 +52,6 @@ public class RedirectServlet extends BaseServlet
         super.init(config);
     	if (Boolean.TRUE.toString().equalsIgnoreCase(this.getInitParameter(LOG_PARAM)))
     		logger = Logger.getLogger("org.jbundle.util.webapp.redirect");
-    	match = this.getInitParameter(MATCH_PARAM);
     }
     /**
      * Destroy this Servlet and any active applications.
@@ -76,9 +74,9 @@ public class RedirectServlet extends BaseServlet
         String path = req.getPathInfo();
         if (path == null)
         	path = "";
-        String target = this.getInitParameter(browser);
+        String target = this.getProperty(browser);
         if (target == null)
-            target = this.getInitParameter(TARGET);
+            target = this.getProperty(TARGET);
         if (target == null)
             target = req.getParameter(TARGET);
         if ((target == null) || (target.length() == 0))
@@ -93,6 +91,7 @@ public class RedirectServlet extends BaseServlet
 
         if (logger != null)
         	logger.info("Redirect to " + target);
+        String match = this.getProperty(MATCH_PARAM);
         if ((match == null) || path.matches(match))
         	res.sendRedirect(target);
         else

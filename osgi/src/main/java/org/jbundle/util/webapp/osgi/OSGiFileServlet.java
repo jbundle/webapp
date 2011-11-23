@@ -34,14 +34,6 @@ public class OSGiFileServlet extends BaseOsgiServlet
      */
     public void init(Object context, String servicePid, Dictionary<String, String> dictionary) {
     	super.init(context, servicePid, dictionary);
-    	if (dictionary != null)
-    		if (dictionary.get(BASE_PATH) != null) {
-				try {
-					baseURL = new URL(dictionary.get(BASE_PATH));
-				} catch (MalformedURLException e) {
-					// Ignore errors. Probably a relative path to be added on send
-				}
-    		}
     }
 
     /**
@@ -97,4 +89,19 @@ public class OSGiFileServlet extends BaseOsgiServlet
         writer.close();
         return true;
     }
-};
+    /**
+     * Set the properties. Override this to set any configuration up.
+     */
+    public boolean setProperties(Dictionary<String, String> properties)
+    {
+        boolean success = super.setProperties(properties);
+        if (this.getProperty(BASE_PATH) != null) {
+            try {
+                baseURL = new URL(this.getProperty(BASE_PATH));
+            } catch (MalformedURLException e) {
+                // Ignore errors. Probably a relative path to be added on send
+            }
+        }
+        return success;
+    }
+}

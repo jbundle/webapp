@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -59,15 +61,23 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     public void init(Object bundleContext, String servicePid, Dictionary<String, String> dictionary) {
     	this.bundleContext = bundleContext;
     	this.servicePid = servicePid;
-    	this.properties = dictionary;
+    	this.setProperties(dictionary);
     }
     /**
      * web servlet init method.
      * @exception ServletException From inherited class.
      */
+    @SuppressWarnings("unchecked")
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
+        // Move init params to my properties
+        Enumeration<String> paramNames = this.getInitParameterNames();
+        while (paramNames.hasMoreElements())
+        {
+            String paramName = paramNames.nextElement();
+            this.setProperty(paramName, this.getInitParameter(paramName));
+        }
     }
     /**
      * Destroy this Servlet and any active applications.
@@ -212,14 +222,43 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
         {OTHER, ""}
     };
 
+    /**
+     * Set the properties. Override this to set any configuration up.
+     */
     public boolean setProperties(Dictionary<String, String> properties)
     {
         this.properties = properties;
         return true;
     }
+    /**
+     * 
+     */
     public Dictionary<String, String> getProperties()
     {
         return this.properties;
+    }
+    /**
+     * Set this property.
+     * @param key
+     * @param value
+     * @return
+     */
+    public String setProperty(String key, String value)
+    {
+        if (properties == null)
+            properties = new Hashtable<String,String>();
+        return properties.put(key, value);
+    }
+    /**
+     * Get this property.
+     * @param key
+     * @return
+     */
+    public String getProperty(String key)
+    {
+        if (properties == null)
+            return null;
+        return properties.get(key);
     }
     /**
      * Do I have to restart the servlet after I change properties?

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.util.Dictionary;
 import java.util.Enumeration;
 
 import javax.servlet.ServletConfig;
@@ -29,7 +30,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.jbundle.util.webapp.redirect.*;
+import org.jbundle.util.webapp.redirect.RegexRedirectServlet;
 
 public class ProxyServlet extends RegexRedirectServlet {
 	private static final long serialVersionUID = 1L;
@@ -59,10 +60,6 @@ public class ProxyServlet extends RegexRedirectServlet {
      */
     public void init(ServletConfig config) throws ServletException
     {
-    	proxyURLPrefix = config.getInitParameter(PROXY_URL_PREFIX);
-    	if (proxyURLPrefix != null)
-    		if (proxyURLPrefix.endsWith("/"))
-    			proxyURLPrefix = proxyURLPrefix.substring(0, proxyURLPrefix.length() - 1);
         super.init(config);
     }
     /**
@@ -242,5 +239,17 @@ public class ProxyServlet extends RegexRedirectServlet {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+    /**
+     * Set the properties. Override this to set any configuration up.
+     */
+    public boolean setProperties(Dictionary<String, String> properties)
+    {
+        boolean success = super.setProperties(properties);
+        proxyURLPrefix = this.getProperty(PROXY_URL_PREFIX);
+        if (proxyURLPrefix != null)
+            if (proxyURLPrefix.endsWith("/"))
+                proxyURLPrefix = proxyURLPrefix.substring(0, proxyURLPrefix.length() - 1);
+        return success;
     }
 }
