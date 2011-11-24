@@ -7,7 +7,7 @@
   </properties>
 
   <body>
-    <section name="Welcome to the Simple Servlet Collection!">
+    <section name="Welcome to the Simple Web Servlet Collection!">
       <p>
         ${project.description}
       </p>
@@ -26,39 +26,25 @@
       </p>
       <p>
   <ul>
-    <li><a href="#WebStart_Applet_or_Application">Web Start Applet or Application</a></li>
     <li><a href="#OSGi_to_Web_Start_Servlet">OSGi to Web Start Servlet</a></li>
     <li><a href="#Basic_Web_Site_Servlet">Basic Web Site</a></li>
     <li><a href="#File_Download_Servlet">File Download Servlet</a></li>
     <li><a href="#WebDav_Servlet">WebDav Servlet</a></li>
     <li><a href="#File_Upload_Servlet">File Upload Servlet</a></li>
+    <li><a href="#XSL_Servlet">XSL Servlet</a></li>
     <li><a href="#Redirect_Servlet">Redirect Servlet</a></li>
     <li><a href="#Proxy_Servlet">Proxy Servlet</a></li>
     <li><a href="#CGI_Servlet">CGI Servlet</a></li>
-    <li><a href="#XSL_Servlet">XSL Servlet</a></li>
+    <li><a href="#WebStart_Applet_or_Application">Web Start Applet or Application</a></li>
   </ul>
       </p>
       <p>
-        To create a new servlet, just type:<br/>
+        To use one of these servlets, just install the servlet, then set the configuration:<br/>
         <code>
-        mvn  archetype:generate -DarchetypeCatalog=http://www.jbundle.org/simpleservlets
+        deploy ''
         </code>
         <br/>and follow the prompts.
       </p>
-      <p>
-        If you would rather use the command line tool, just type this long command line:<br/>
-        <code>
-        mvn archetype:generate -DarchetypeGroupId=org.jbundle.util.webapp -DarchetypeArtifactId=jbundle-util-webapp-webstart-archetype -DarchetypeVersion=${project.version} -DgroupId=org.jbundle.thin.base.screen -DartifactId=jbundle-calendarpanel-site -Dversion=1.0.0-SNAPSHOT  -Dpackage=org.jbundle.thin.base.screen.calendar.site
-        </code>
-        <br/>of course you will supply your own group, artifact, version, and package.
-      </p>
-      
-      <subsection name="WebStart Applet or Application">
-      <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-webstart-jnlp">Applet or Application servlet</a>.
-        This project packages and runs a WebStart application. This example shows both Web Start applets and an application.
-      </p>
-      </subsection>
       
       <subsection name="OSGi to Web Start Servlet">
       <p>
@@ -97,6 +83,14 @@
       </p>
       </subsection>
       
+      <subsection name="XSL Servlet">
+      <p>
+        This project provides a template for an XSL servlet.
+        Just supply the <i>source</i> file path and the xslt <i>stylesheet</i> file path and this
+        servlet will run an xslt transformation and output the result.
+      </p>
+      </subsection>
+
       <subsection name="Redirect Servlet">
       <p>
         This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-redirect">redirect servlet</a>.
@@ -122,11 +116,10 @@
       </p>
       </subsection>
       
-      <subsection name="XSL Servlet">
+      <subsection name="WebStart Applet or Application">
       <p>
-        This project provides a template for an XSL servlet.
-        Just supply the <i>source</i> file path and the xslt <i>stylesheet</i> file path and this
-        servlet will run an xslt transformation and output the result.
+        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-webstart-jnlp">Applet or Application servlet</a>.
+        This project packages and runs a WebStart application. This example shows both Web Start applets and an application.
       </p>
       </subsection>
       

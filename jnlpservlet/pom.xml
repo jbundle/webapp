@@ -27,7 +27,7 @@
 			<configuration>
 				<instructions>
 					<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-					<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+					<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 					<Export-Package>${project.artifactId}.*;version=${project.version},
 					jnlp.sample.*</Export-Package>	<!-- TODO Change to private -->
 					<Import-Package>

@@ -9,12 +9,10 @@
   </parent>
 
   <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
-  <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>jbundle-util-webapp-site</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
 
   <name>Simple Servlet Collection</name>
-  <description>This project contains some frequently used java servlets.</description>
+  <description>Simple OSGi Java Servlets.</description>
 
   <build>
     <plugins>
