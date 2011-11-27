@@ -64,7 +64,7 @@ public class HttpServiceActivator extends BaseBundleService
         Dictionary<String, String> dictionary = new Hashtable<String, String>();
         dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));
         dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass(context));
-        dictionary.put(HttpServiceTracker.WEB_ALIAS, getWebAlias(context)); 
+        dictionary.put(BaseOsgiServlet.ALIAS, getWebAlias(context)); 
         httpServiceTracker = this.createServiceTracker(context, getHttpContext(), dictionary);
         httpServiceTracker.open();
         context.registerService(ServiceTracker.class.getName(), httpServiceTracker, dictionary);    // Why isn't this done automatically?
@@ -129,7 +129,9 @@ public class HttpServiceActivator extends BaseBundleService
      */
     public String getWebAlias(BundleContext context)
     {
-        String contextPath = context.getProperty(BaseOsgiServlet.WEB_ALIAS);
+        String contextPath = context.getProperty(BaseOsgiServlet.ALIAS);
+        if (contextPath == null)
+            contextPath = context.getProperty(BaseOsgiServlet.ALIAS.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
         if (contextPath == null)
         {
             contextPath = this.getServicePid(context);

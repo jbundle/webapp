@@ -65,8 +65,8 @@ public class OSGiFileServlet extends BaseOsgiServlet
         	path = path.substring(1);	// Resources already start from root/baseURL
         if (baseURL == null)
             if (properties != null)
-                if (properties.get(BASE_PATH) != null)
-                    path = properties.get(BASE_PATH) + path;
+                if (this.getProperty(BASE_PATH) != null)
+                    path = this.getProperty(BASE_PATH) + path;
             
         URL url = null;
         try {

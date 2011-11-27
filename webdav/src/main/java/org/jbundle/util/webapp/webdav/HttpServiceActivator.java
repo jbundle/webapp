@@ -13,6 +13,16 @@ public class HttpServiceActivator extends org.jbundle.util.webapp.osgi.HttpServi
 {
     public String getServletClass(BundleContext context)
     {
-        return org.apache.catalina.servlets.WebdavServlet.class.getName();    // Override this to enable config admin.
+        return WebdavServlet.class.getName();    // Override this to enable config admin.
     }
+
+    /**
+     * Get the Servlet context for this servlet.
+     * Override if different from default context.
+     * @return The httpcontext.
+     */
+//+    public HttpContext getHttpContext()
+  //  {
+    //    return new FileHttpContext(context.getBundle());    // Override this
+    //}
 }

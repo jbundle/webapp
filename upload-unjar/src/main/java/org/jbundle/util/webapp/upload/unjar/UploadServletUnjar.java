@@ -60,8 +60,8 @@ public class UploadServletUnjar extends UploadServlet
 		properties.setProperty(SOURCE_PARAM, "Zip");
 		properties.setProperty(ZIPIN_FILENAME_PARAM, strPath);	// Source jar/zip
 
-		properties.setProperty(DESTINATION_PARAM, "Filesystem");
-		String strDest = properties.getProperty(DESTINATION_PARAM, "C:\\TEMP\\");
+		properties.setProperty(DESTINATION, "Filesystem");
+		String strDest = properties.getProperty(DESTINATION, "C:\\TEMP\\");
 		properties.setProperty(DEST_ROOT_PATHNAME_PARAM, strDest);	// Destination jar/zip
 			// Queue up the task to move them!
 		org.jbundle.jbackup.Scanner scanner = new org.jbundle.jbackup.Scanner(properties);
@@ -77,14 +77,14 @@ public class UploadServletUnjar extends UploadServlet
 	public void sendForm(HttpServletRequest req, HttpServletResponse res, String strReceiveMessage, Properties properties)
 		throws ServletException, IOException
 	{
-		if (properties.getProperty(DESTINATION_PARAM) == null)
+		if (properties.getProperty(DESTINATION) == null)
 		{		// Check to see if a param was set in get (ie., ?dest=xyz)
-			String[] strParamDest = req.getParameterValues(DESTINATION_PARAM);
+			String[] strParamDest = req.getParameterValues(DESTINATION);
 			if ((strParamDest != null)
 				&& (strParamDest.length > 0)
 					&& (strParamDest[0] != null)
 						&& (strParamDest[0].length() > 0))
-							properties.setProperty(DESTINATION_PARAM, strParamDest[0]);
+							properties.setProperty(DESTINATION, strParamDest[0]);
 		}
 		super.sendForm(req, res, strReceiveMessage, properties);
 	}
@@ -93,7 +93,7 @@ public class UploadServletUnjar extends UploadServlet
 	 */
 	public void writeAfterHTML(PrintWriter out, HttpServletRequest req, Properties properties)
 	{
-		String strDefault = properties.getProperty(DESTINATION_PARAM, "");
-		out.write("<input type=\"hidden\" value=\"" + strDefault + "\" name=\"" + DESTINATION_PARAM + "\" />" + RETURN);
+		String strDefault = properties.getProperty(DESTINATION, "");
+		out.write("<input type=\"hidden\" value=\"" + strDefault + "\" name=\"" + DESTINATION + "\" />" + RETURN);
 	}
 }

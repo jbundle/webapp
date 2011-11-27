@@ -42,9 +42,9 @@ public class UploadServlet extends HttpServlet
 
 	public static final String TITLE = "Upload files";
 
-	public static final String PARAM_FILE = "filename";
+	public static final String FILENAME = "filename";
 
-	public static final String DESTINATION_PARAM = "destination";
+	public static final String DESTINATION = "destination";
 
 	public static final int MAX_SIZE = 100 * 1024 * 1024;  // 100 Meg
 
@@ -233,7 +233,7 @@ public class UploadServlet extends HttpServlet
 	 */
 	public String getDestDirectory()
 	{
-		String strTargetDirectory = this.getInitParameter(DESTINATION_PARAM);		// Passed with WAR file
+		String strTargetDirectory = this.getInitParameter(DESTINATION);		// Passed with WAR file
 		if ((strTargetDirectory == null) || (strTargetDirectory.length() == 0))
 			strTargetDirectory = System.getProperty("java.io.tmpdir");		// Temporary directory
 		if ((strTargetDirectory == null) || (strTargetDirectory.length() == 0))

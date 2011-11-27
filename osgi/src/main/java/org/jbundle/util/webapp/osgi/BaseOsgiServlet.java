@@ -38,7 +38,7 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     protected Logger logger = null;
 
     public static final String PROPERTY_PREFIX = "org.jbundle.util.webapp.";  // In Config Service
-    public static final String WEB_ALIAS = PROPERTY_PREFIX + "webalias";  // In Config Service
+    public static final String ALIAS = PROPERTY_PREFIX + "alias";  // In Config Service
     public static final String LOG_PARAM = PROPERTY_PREFIX + "log";
 
     /**
@@ -264,7 +264,15 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     {
         if (properties == null)
             return null;
-        return properties.get(key);
+        String value = properties.get(key);
+        if (value == null)
+        {
+            if (key.startsWith(PROPERTY_PREFIX))
+                value = properties.get(key.substring(PROPERTY_PREFIX.length()));
+            else
+                value = properties.get(PROPERTY_PREFIX + key);
+        }
+        return value;
     }
     /**
      * Do I have to restart the servlet after I change properties?

@@ -11,7 +11,6 @@ package org.jbundle.util.webapp.redirect;
  */
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,7 +28,7 @@ public class RedirectServlet extends BaseServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	public static final String MATCH_PARAM = PROPERTY_PREFIX + "allow";
+	public static final String MATCH = PROPERTY_PREFIX + "match";
 	public static final String TARGET = PROPERTY_PREFIX + "target";
 
 	/**
@@ -83,7 +82,7 @@ public class RedirectServlet extends BaseServlet
 
         if (logger != null)
         	logger.info("Redirect to " + target);
-        String match = this.getProperty(MATCH_PARAM);
+        String match = this.getProperty(MATCH);
         if ((target != null) && ((match == null) || path.matches(match)))
         	res.sendRedirect(target);
         else

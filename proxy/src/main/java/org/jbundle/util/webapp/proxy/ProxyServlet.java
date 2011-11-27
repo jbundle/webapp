@@ -43,7 +43,7 @@ public class ProxyServlet extends RegexRedirectServlet {
 	public static final String OPTIONS = "OTPIONS";
 	public static final String TRACE = "TRACE";
 	
-    public static final String PROXY_URL_PREFIX = PROPERTY_PREFIX + "urlprefix";
+    public static final String PROXY = PROPERTY_PREFIX + "proxy";
     
     private String proxyURLPrefix = null;
 
@@ -246,7 +246,7 @@ public class ProxyServlet extends RegexRedirectServlet {
     public boolean setProperties(Dictionary<String, String> properties)
     {
         boolean success = super.setProperties(properties);
-        proxyURLPrefix = this.getProperty(PROXY_URL_PREFIX);
+        proxyURLPrefix = this.getProperty(PROXY);
         if (proxyURLPrefix != null)
             if (proxyURLPrefix.endsWith("/"))
                 proxyURLPrefix = proxyURLPrefix.substring(0, proxyURLPrefix.length() - 1);
