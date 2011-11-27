@@ -26,6 +26,11 @@ public class FilesDefaultServlet extends DefaultServlet
     
     Dictionary<String, String> properties = null;
 
+    /**
+     * The local file system document base. Note: getPath (incorrectly) adds the total path,
+     * so you will need to put your files in the correct subdirectory. If if docbase is /space/files 
+     * xyz.com/files/index.html -> /space/files/files/index.html.
+     */
     public static final String BASE_PATH = "docBase";
     
     public FilesDefaultServlet()

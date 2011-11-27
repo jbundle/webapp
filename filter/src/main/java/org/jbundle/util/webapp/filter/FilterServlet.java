@@ -4,7 +4,7 @@
 package org.jbundle.util.webapp.filter;
 
 /**
- * @(#)DBServlet.java 0.00 12-Feb-97 Don Corley
+ * @(#)FilterServlet.java 0.00 12-Feb-97 Don Corley
  *
  * Copyright (c) 2009 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com

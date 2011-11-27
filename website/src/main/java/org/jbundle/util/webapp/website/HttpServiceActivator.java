@@ -13,6 +13,6 @@ public class HttpServiceActivator extends org.jbundle.util.webapp.osgi.HttpServi
 {
     public String getServletClass(BundleContext context)
     {
-        return org.apache.catalina.servlets.DefaultServlet.class.getName();    // Override this to enable config admin.
+        return org.jbundle.util.webapp.redirect.RegexRedirectServlet.class.getName();    // Override this to enable config admin.
     }
 }

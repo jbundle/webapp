@@ -12,19 +12,6 @@
         ${project.description}
       </p>
       <p>
-        Your can quickly create a skeleton maven servlet project. For example, you
-        want to quickly deploy your java application as a web start application on your
-        server... just build the web start skeleton, drop in your code, make a few changes
-        to the maven configuration and you're ready to go!
-      </p>
-      <p>          
-        You can use these servlets as-is
-        or use the code generator to create a custom servlet that you can modify to your needs.
-      </p>
-      <p>
-        With this project, you can quickly build a skeleton servlet to do a variety of tasks:
-      </p>
-      <p>
   <ul>
     <li><a href="#OSGi_to_Web_Start_Servlet">OSGi to Web Start Servlet</a></li>
     <li><a href="#Basic_Web_Site_Servlet">Basic Web Site</a></li>
@@ -38,14 +25,22 @@
     <li><a href="#WebStart_Applet_or_Application">Web Start Applet or Application</a></li>
   </ul>
       </p>
-      <p>
-        To use one of these servlets, just install the servlet, then set the configuration:<br/>
-        <code>
-        deploy ''
-        </code>
-        <br/>and follow the prompts.
-      </p>
       
+      <p>
+        Starting a web servlet is as easy as starting any other OSGi bundle.
+        Just start the bundle for the servlet that you want and tweek the configuration.
+        For example if you are running under the felix OSGi container, just type this:
+      </p>
+<style type="text/css">
+span.response {color:blue}
+span.comment {color:blue; font-style:italic}
+</style>
+<source>
+<span class="response">g!</span> deploy -s 'Apache Felix Http Jetty'<span class="comment">(Start a web server)</span><br/>
+<span class="response">g!</span> repos add ${project.organization.url}/repository.xml<!-- ${OBRRepositoryIndex} --> <span class="comment">(Adding the jbundle obr index simplifies installing bundles)</span><br/>
+<span class="response">g!</span> deploy -s '${project.groupId}.<strong><i>servletname</i></strong>' <span class="comment">(Install and start your OSGi servlet)</span><br/>
+</source>
+
       <subsection name="OSGi to Web Start Servlet">
       <p>
         This project allows OSGi bundles to run as Web Start applets and an application.
@@ -55,21 +50,23 @@
       
       <subsection name="Basic Web Site Servlet">
       <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-website">simple web site</a>.
-        Just drop your html files into the root directory and <i>voilà</i>, you have a web site.
+        This project provides a template for a <a href="website">simple web site</a>.
+        Your files can be served from local storage or from an OSGi resource by setting the 'basePath' parameter.
+        <br/><code>basePath = file:/space/web</code> will serve files from local storage since this is a valid URL.
+        <br/><code>basePath = org/jbundle/res/docs</code> will serve files from the OSGi location starting with this path.
       </p>
       </subsection>
       
       <subsection name="File Download Servlet">
       <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-files">simple file download site</a>.
+        This project provides a template for a <a href="files">simple file download site</a>.
         Just drop your files into the root directory and your users will be able to view and download your files.
       </p>
       </subsection>
       
       <subsection name="WebDav Servlet">
       <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-webdav">webdav site</a>.
+        This project provides a template for a <a href="webdav">webdav site</a>.
         You can read and write files to this site using most applications (such as MS Word, OpenOffice, etc).
         Of course you would want to add some security to your site.
       </p>
@@ -77,7 +74,7 @@
       
       <subsection name="File Upload Servlet">
       <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-upload">file upload site</a>.
+        This project provides a template for a <a href="upload">file upload site</a>.
         Select a file in your web browser, and it will be uploaded to your web server. Try uploading a
         small file to this sample site.
       </p>
@@ -93,7 +90,7 @@
 
       <subsection name="Redirect Servlet">
       <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-redirect">redirect servlet</a>.
+        This project provides a template for a <a href="redirect">redirect servlet</a>.
         This servlet will automatically redirect matching urls to another site.
         This example redirects you to the root page for this site. It could redirect you anywhere.
       </p>
@@ -101,7 +98,7 @@
       
       <subsection name="Proxy Servlet">
       <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-proxy">proxy servlet</a>.
+        This project provides a template for a <a href="proxy">proxy servlet</a>.
         This servlet will forward requests to another site and return the result as if it existed on your server.
         This example delivers the information from the root page for this site. It could forward data from anywhere.
       </p>
@@ -118,7 +115,7 @@
       
       <subsection name="WebStart Applet or Application">
       <p>
-        This project provides a template for a <a href="/util/webapp/jbundle-util-webapp-webstart-jnlp">Applet or Application servlet</a>.
+        This project provides a template for a <a href="webstart">Applet or Application servlet</a>.
         This project packages and runs a WebStart application. This example shows both Web Start applets and an application.
       </p>
       </subsection>
