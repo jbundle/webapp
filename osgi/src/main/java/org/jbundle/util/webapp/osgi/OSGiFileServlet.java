@@ -95,11 +95,15 @@ public class OSGiFileServlet extends BaseOsgiServlet
     public boolean setProperties(Dictionary<String, String> properties)
     {
         boolean success = super.setProperties(properties);
-        if (this.getProperty(BASE_PATH) != null) {
-            try {
-                baseURL = new URL(this.getProperty(BASE_PATH));
-            } catch (MalformedURLException e) {
-                // Ignore errors. Probably a relative path to be added on send
+        if (success)
+        {
+            baseURL = null;
+            if (this.getProperty(BASE_PATH) != null) {
+                try {
+                    baseURL = new URL(this.getProperty(BASE_PATH));
+                } catch (MalformedURLException e) {
+                    // Ignore errors. Probably a relative path to be added on send
+                }
             }
         }
         return success;

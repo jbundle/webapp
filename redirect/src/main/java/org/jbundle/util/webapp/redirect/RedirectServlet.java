@@ -29,19 +29,15 @@ public class RedirectServlet extends BaseServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	public static final String LOG_PARAM = PROPERTY_PREFIX + "log";
 	public static final String MATCH_PARAM = PROPERTY_PREFIX + "allow";
 	public static final String TARGET = PROPERTY_PREFIX + "target";
-    public static final String DEFAULT_TARGET_URL = "http://www.jbundle.org";
-
-	protected Logger logger = null;
 
 	/**
      * returns the servlet info
      */ 
     public String getServletInfo()
     {
-        return "This the redirect servlet";
+        return "This the base servlet";
     }
     /**
      * init method.
@@ -50,8 +46,6 @@ public class RedirectServlet extends BaseServlet
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
-    	if (Boolean.TRUE.toString().equalsIgnoreCase(this.getInitParameter(LOG_PARAM)))
-    		logger = Logger.getLogger("org.jbundle.util.webapp.redirect");
     }
     /**
      * Destroy this Servlet and any active applications.
@@ -79,8 +73,6 @@ public class RedirectServlet extends BaseServlet
             target = this.getProperty(TARGET);
         if (target == null)
             target = req.getParameter(TARGET);
-        if ((target == null) || (target.length() == 0))
-            target = DEFAULT_TARGET_URL;
         if (queryString != null)
         {
             char delimiter = '?';
@@ -92,7 +84,7 @@ public class RedirectServlet extends BaseServlet
         if (logger != null)
         	logger.info("Redirect to " + target);
         String match = this.getProperty(MATCH_PARAM);
-        if ((match == null) || path.matches(match))
+        if ((target != null) && ((match == null) || path.matches(match)))
         	res.sendRedirect(target);
         else
         	super.service(req, res);

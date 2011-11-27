@@ -52,8 +52,8 @@ span.comment {color:blue; font-style:italic}
       <p>
         This project provides a template for a <a href="website">simple web site</a>.
         Your files can be served from local storage or from an OSGi resource by setting the 'basePath' parameter.
-        <br/><code>basePath = file:/space/web</code> will serve files from local storage since this is a valid URL.
-        <br/><code>basePath = org/jbundle/res/docs</code> will serve files from the OSGi location starting with this path.
+        <br/><code>basePath = file:/space/web/</code> will serve files from local storage since this is a valid URL.
+        <br/><code>basePath = org/jbundle/res/docs/</code> will serve files from the OSGi location starting with this path.
       </p>
       </subsection>
       

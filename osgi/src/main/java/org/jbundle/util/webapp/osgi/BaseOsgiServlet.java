@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -34,8 +35,11 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     String servicePid = null;
     Dictionary<String, String> properties = null;
     
+    protected Logger logger = null;
+
     public static final String PROPERTY_PREFIX = "org.jbundle.util.webapp.";  // In Config Service
     public static final String WEB_ALIAS = PROPERTY_PREFIX + "webalias";  // In Config Service
+    public static final String LOG_PARAM = PROPERTY_PREFIX + "log";
 
     /**
      * Constructor.
@@ -78,6 +82,8 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
             String paramName = paramNames.nextElement();
             this.setProperty(paramName, this.getInitParameter(paramName));
         }
+        if (Boolean.TRUE.toString().equalsIgnoreCase(this.getInitParameter(LOG_PARAM)))
+            logger = Logger.getLogger(PROPERTY_PREFIX);
     }
     /**
      * Destroy this Servlet and any active applications.
