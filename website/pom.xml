@@ -8,10 +8,7 @@
     <version>1.0.2-SNAPSHOT</version>
   </parent>
 
-  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
-  <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>org.jbundle.util.webapp.website</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
   
   <packaging>bundle</packaging>
   <name>jbundle-util-webapp-website - simple website</name>

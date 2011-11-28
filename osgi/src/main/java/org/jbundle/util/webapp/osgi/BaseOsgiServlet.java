@@ -37,10 +37,6 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     
     protected Logger logger = null;
 
-    public static final String PROPERTY_PREFIX = "org.jbundle.util.webapp.";  // In Config Service
-    public static final String ALIAS = PROPERTY_PREFIX + "alias";  // In Config Service
-    public static final String LOG_PARAM = PROPERTY_PREFIX + "log";
-
     /**
      * Constructor.
      * @param bundleContext

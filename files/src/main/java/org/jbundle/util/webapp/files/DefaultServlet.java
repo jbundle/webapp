@@ -7,7 +7,6 @@ import java.util.Hashtable;
 import javax.servlet.ServletException;
 
 import org.apache.catalina.Globals;
-import org.apache.catalina.servlets.DefaultServlet;
 import org.apache.naming.resources.FileDirContext;
 import org.apache.naming.resources.ProxyDirContext;
 import org.jbundle.util.webapp.osgi.WebappServlet;
@@ -17,7 +16,7 @@ import org.jbundle.util.webapp.osgi.WebappServlet;
  * @author don
  *
  */
-public class FilesDefaultServlet extends DefaultServlet
+public class DefaultServlet extends org.apache.catalina.servlets.DefaultServlet
     implements WebappServlet
 {
     private static final long serialVersionUID = 1L;
@@ -31,9 +30,8 @@ public class FilesDefaultServlet extends DefaultServlet
      * so you will need to put your files in the correct subdirectory. If if docbase is /space/files 
      * xyz.com/files/index.html -> /space/files/files/index.html.
      */
-    public static final String BASE_PATH = "docBase";
     
-    public FilesDefaultServlet()
+    public DefaultServlet()
     {
         super();
     }
@@ -44,13 +42,59 @@ public class FilesDefaultServlet extends DefaultServlet
     @Override
     public void free() {
     }
+    /**
+     * Set servlet the properties.
+     */
     @Override
     public boolean setProperties(Dictionary<String, String> properties) {
         this.properties = properties;
         if (this.properties != null)
+        {
+            if (properties.get("debug") != null)
+                debug = Integer.parseInt(properties.get("debug"));
+
+            if (properties.get("input") != null)
+                input = Integer.parseInt(properties.get("input"));
+
+            if (properties.get("output") != null)
+                output = Integer.parseInt(properties.get("output"));
+
+            listings = Boolean.parseBoolean(properties.get("listings"));
+
+            if (properties.get("readonly") != null)
+                readOnly = Boolean.parseBoolean(properties.get("readonly"));
+
+            if (properties.get("sendfileSize") != null)
+                sendfileSize = 
+                    Integer.parseInt(properties.get("sendfileSize")) * 1024;
+
+            fileEncoding = properties.get("fileEncoding");
+
+            globalXsltFile = properties.get("globalXsltFile");
+            contextXsltFile = properties.get("contextXsltFile");
+            localXsltFile = properties.get("localXsltFile");
+            readmeFile = properties.get("readmeFile");
+
+            if (properties.get("useAcceptRanges") != null)
+                useAcceptRanges = Boolean.parseBoolean(properties.get("useAcceptRanges"));
+
+            // Sanity check on the specified buffer sizes
+            if (input < 256)
+                input = 256;
+            if (output < 256)
+                output = 256;
+
+            if (debug > 0) {
+                log("DefaultServlet.init:  input buffer size=" + input +
+                    ", output buffer size=" + output);
+            }
+
             return this.setDocBase(this.properties.get(BASE_PATH));
+        }
         else
+        {
             return this.setDocBase(null);
+        }
     }
     @Override
     public Dictionary<String, String> getProperties() {
@@ -72,7 +116,7 @@ public class FilesDefaultServlet extends DefaultServlet
     }
     
     /**
-     * 
+     * Set the local file path to serve files from.
      * @param basePath
      * @return
      */

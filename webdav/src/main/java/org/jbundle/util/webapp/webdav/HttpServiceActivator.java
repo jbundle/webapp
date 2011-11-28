@@ -11,11 +11,16 @@ import org.osgi.framework.BundleContext;
  */
 public class HttpServiceActivator extends org.jbundle.util.webapp.osgi.HttpServiceActivator
 {
+    /**
+     * Get the servlet class to activate.
+     * @param context 
+     * @return
+     */
+    @Override
     public String getServletClass(BundleContext context)
     {
         return WebdavServlet.class.getName();    // Override this to enable config admin.
     }
-
     /**
      * Get the Servlet context for this servlet.
      * Override if different from default context.

@@ -8,10 +8,7 @@
     <version>1.0.2-SNAPSHOT</version>
   </parent>
 
-  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
-  <groupId>org.jbundle.util.webapp</groupId>
   <artifactId>org.jbundle.util.webapp.cgi</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
 
   <packaging>bundle</packaging>
   <name>jbundle-util-webapp-cgi - cgi directory</name>
@@ -25,6 +22,7 @@
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
+				<inherited>true</inherited>
 				<configuration>
 					<instructions>
 						<Bundle-Activator>${project.artifactId}.HttpServiceActivator</Bundle-Activator>

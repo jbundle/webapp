@@ -16,7 +16,7 @@ public class HttpServiceActivator extends org.jbundle.util.webapp.osgi.HttpServi
 {
     public String getServletClass(BundleContext context)
     {
-        return FilesDefaultServlet.class.getName();    // Override this to enable config admin.
+        return DefaultServlet.class.getName();    // Override this to enable config admin.
     }
 
     /**

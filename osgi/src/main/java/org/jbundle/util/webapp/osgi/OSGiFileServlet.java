@@ -25,7 +25,6 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
 public class OSGiFileServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
-	public static final String BASE_PATH = "basePath"; // Prepend URL or path to the resource path
 	protected URL baseURL = null;  // Base URL for resources
 
     /**

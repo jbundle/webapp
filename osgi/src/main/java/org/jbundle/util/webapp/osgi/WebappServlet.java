@@ -13,6 +13,11 @@ import java.util.Dictionary;
  */
 public interface WebappServlet
 {
+    public static final String PROPERTY_PREFIX = "org.jbundle.util.webapp.";  // In Config Service
+    public static final String ALIAS = PROPERTY_PREFIX + "alias";  // In Config Service
+    public static final String LOG_PARAM = PROPERTY_PREFIX + "log";
+    public static final String BASE_PATH = "basePath"; // Prepend URL or path to the resource path
+
     /**
      * Constructor.
      * @param context

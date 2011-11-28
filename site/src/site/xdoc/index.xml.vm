@@ -18,11 +18,11 @@
     <li><a href="#Redirect_Servlet">Redirect Servlet</a></li>
     <li><a href="#Proxy_Servlet">Proxy Servlet</a></li>
     <!-- li><a href="#XSL_Servlet">XSL Servlet</a></li -->
-    <!-- li><a href="#File_Upload_Servlet">File Upload Servlet</a></li -->
     <li><a href="#WebDav_Servlet">WebDav Servlet</a></li>
+    <li><a href="#File_Download_Servlet">File Download Servlet</a></li>
+    <li><a href="#File_Upload_Servlet">File Upload Servlet</a></li>
     <li><a href="#CGI_Servlet">CGI Servlet</a></li>
     <li><a href="#WebStart_Applet_or_Application">Web Start Applet or Application</a></li>
-    <!-- li><a href="#File_Download_Servlet">File Download Servlet</a></li -->
   </ul>
       </p>
       
@@ -84,21 +84,38 @@ span.comment {color:blue; font-style:italic}
       </p>
       </subsection>
       
-      <!-- subsection name="File Upload Servlet">
+      <subsection name="WebDav Servlet">
+      <p>
+        This project provides a template for a <a href="webdav">webdav site</a>.
+        You can read and write files to this site using most applications (such as MS Word, OpenOffice, etc).
+        Of course you would want to add some security to your site.
+        This servlet uses the tomcat webdav servlet, so al you have to do is set the wevdav params:
+        <br/><code>basePath =  /space/web/jbundle/</code> will set the local web file storage location.
+        <br/><code>readonly =  false</code> will allow uploads.
+        <br/><code>listings =  true</code> will display directory listings.
+      </p>
+      </subsection>
+      
+      <subsection name="File Download Servlet">
+      <p>
+        This project provides a template for a <a href="files">simple file download site</a>.
+        Just drop your files into the root directory and your users will be able to view and download your files.
+        This servlet uses the tomcat default servlet, so al you have to do is set the default params:
+        <br/><code>basePath =  /space/web/jbundle/</code> will set the local web file storage location.
+        <br/><code>listings =  true</code> will display directory listings.
+        <br/>Note: This is only included for legacy compatibility, you should use the <a href="#Basic_Web_Site_Servlet">Basic Web Site</a>
+        for most applications.
+      </p>
+      </subsection>
+      
+      <subsection name="File Upload Servlet">
       <p>
         This project provides a template for a <a href="upload">file upload site</a>.
         Select a file in your web browser, and it will be uploaded to your web server. Try uploading a
         small file to this sample site.
         Note: This package uses the free, but copyrighted packages of servlets.com. Any commercial use
         can only be done with the permission of the author at <a href="http://www.servlets.com">www.servlets.com</a>.
-      </p>
-      </subsection -->
-      
-      <subsection name="WebDav Servlet">
-      <p>
-        This project provides a template for a <a href="webdav">webdav site</a>.
-        You can read and write files to this site using most applications (such as MS Word, OpenOffice, etc).
-        Of course you would want to add some security to your site.
+        Because of this issue, you will need to deploy the servlets.com packages yourself.
       </p>
       </subsection>
       
@@ -126,13 +143,6 @@ span.comment {color:blue; font-style:italic}
       </p>
       </subsection -->
 
-      <!-- subsection name="File Download Servlet">
-      <p>
-        This project provides a template for a <a href="files">simple file download site</a>.
-        Just drop your files into the root directory and your users will be able to view and download your files.
-      </p>
-      </subsection -->
-      
     </section>
     
     <section name="Project Information">
