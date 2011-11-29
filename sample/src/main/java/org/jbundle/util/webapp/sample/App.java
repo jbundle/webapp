@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.util.webapp.webstart.code;
+package org.jbundle.util.webapp.sample;
 
 import java.applet.Applet;
 import java.awt.BorderLayout;

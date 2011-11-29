@@ -131,7 +131,9 @@ span.comment {color:blue; font-style:italic}
       <subsection name="WebStart Applet or Application">
       <p>
         This project provides a template for a <a href="webstart">Applet or Application servlet</a>.
-        This project packages and runs a WebStart application. This example shows both Web Start applets and an application.
+        For most applets, you should use the <a href="../osgi-webstart">OSGi to Web Start Servlet</a>.
+        This project models how you can create a bundle that packages the jnlpdownloadservlet code
+        and a (jared and gzipped) java application.
       </p>
       </subsection>
       
