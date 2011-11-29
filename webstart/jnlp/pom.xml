@@ -13,21 +13,74 @@
   <packaging>war</packaging>
   <name>jbundle-util-webapp-webstart-jnlp - jnlp servlet</name>
   
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <webResources>
-            <resource>
-              <!-- this is relative to the pom.xml directory -->
-              <directory>src/main/webapp</directory>
-              <filtering>true</filtering>
-            </resource>
-          </webResources>
-        </configuration>
-      </plugin>
+    <build>
+        <plugins>
+            <plugin> <!-- Need to use this plugin to build war files -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <!-- add bundle plugin generated manifest to the war -->
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF
+                        </manifestFile>
+                        <!--
+                            For some reason, adding Bundle-ClassPath in maven-bundle-plugin
+                            confuses that plugin and it generates wrong Import-Package, etc.
+                            So, we generate it here.
+                        -->
+                        <manifestEntries>
+                            <Bundle-ClassPath>WEB-INF/classes/</Bundle-ClassPath>
+                        </manifestEntries>
+                    </archive>
+		          <webResources>
+		            <resource>
+		              <!-- this is relative to the pom.xml directory -->
+		              <directory>src/main/webapp</directory>
+		              <filtering>true</filtering>
+		            </resource>
+		          </webResources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <supportedProjectTypes>
+                        <supportedProjectType>jar</supportedProjectType>
+                        <supportedProjectType>bundle</supportedProjectType>
+                        <supportedProjectType>war</supportedProjectType>
+                    </supportedProjectTypes>
+                    <instructions>
+                        <Export-Package></Export-Package>
+            <Import-Package>
+                jnlp.sample.util;resolution:=optional;version=${jnlp-servlet.version},
+                jnlp.sample.servlet;resolution:=optional;version=${jnlp-servlet.version},
+                jnlp.sample.servlet.resources;resolution:=optional;version=${jnlp-servlet.version},
+                jnlp.sample.jardiff;resolution:=optional;version=${jnlp-servlet.version},
+                jnlp.sample.jardiff.resources;resolution:=optional;version=${jnlp-servlet.version},
+                org.osgi.framework;resolution:=optional, <!-- I Don't explicitly reference this, but I need to check to see if this exists to enable OSGi -->
+            </Import-Package>
+                        <!-- This is the context root of this application -->
+                        <Web-ContextPath>/${project.artifactId}</Web-ContextPath>
+                        <!--
+                            Bundle-ClassPath without "." confuses bundle plugin. So, leave it
+                            unspecified (i.e., default to ".") and we shall generate it using
+                            war-plugin's manifest customization
+                            <Bundle-ClassPath>WEB-INF/classes/</Bundle-ClassPath>
+                        -->
+                    </instructions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
       <plugin>
         <groupId>org.codehaus.mojo.webstart</groupId>
