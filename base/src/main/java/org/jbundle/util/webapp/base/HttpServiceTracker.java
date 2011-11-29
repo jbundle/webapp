@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.util.webapp.osgi;
+package org.jbundle.util.webapp.base;
 
 import java.io.IOException;
 import java.util.Dictionary;
@@ -53,8 +53,8 @@ public class HttpServiceTracker extends ServiceTracker {
             this.properties.put(SERVLET_CLASS, context.getProperty(SERVLET_CLASS));
         if (context.getProperty(SERVICE_PID) != null)
             this.properties.put(SERVICE_PID, context.getProperty(SERVICE_PID));
-        if (context.getProperty(BaseOsgiServlet.ALIAS) != null)
-            this.properties.put(BaseOsgiServlet.ALIAS, context.getProperty(BaseOsgiServlet.ALIAS));
+        if (context.getProperty(BaseWebappServlet.ALIAS) != null)
+            this.properties.put(BaseWebappServlet.ALIAS, context.getProperty(BaseWebappServlet.ALIAS));
     }
 
     /**
@@ -143,7 +143,7 @@ public class HttpServiceTracker extends ServiceTracker {
                         configProperties = new Hashtable<String, String>();
                     // First, move all settings to dictionary
                     dictionary = HttpServiceTracker.putAll(configProperties, dictionary);
-                    dictionary.put(BaseOsgiServlet.ALIAS, this.calculateWebAlias(dictionary));
+                    dictionary.put(BaseWebappServlet.ALIAS, this.calculateWebAlias(dictionary));
                     // Next, move all saveable settings to the config dictionary (and save them)
                     Enumeration<String> keys = dictionary.keys();
                     while (keys.hasMoreElements())
@@ -156,8 +156,8 @@ public class HttpServiceTracker extends ServiceTracker {
                     config.update(configProperties);
                 }
             }
-            if (dictionary.get(BaseOsgiServlet.ALIAS) == null)
-                dictionary.put(BaseOsgiServlet.ALIAS, this.calculateWebAlias(dictionary));
+            if (dictionary.get(BaseWebappServlet.ALIAS) == null)
+                dictionary.put(BaseWebappServlet.ALIAS, this.calculateWebAlias(dictionary));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -170,9 +170,9 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public String getAlias()
     {
-        String alias = this.properties.get(BaseOsgiServlet.ALIAS);
+        String alias = this.properties.get(BaseWebappServlet.ALIAS);
         if (alias == null)
-            alias = this.properties.get(BaseOsgiServlet.ALIAS.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
+            alias = this.properties.get(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         return HttpServiceTracker.addURLPath(null, alias);
     }
 
@@ -183,15 +183,15 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public String calculateWebAlias(Dictionary<String, String> dictionary)
     {
-        String alias = dictionary.get(BaseOsgiServlet.ALIAS);
+        String alias = dictionary.get(BaseWebappServlet.ALIAS);
         if (alias == null)
-            alias = dictionary.get(BaseOsgiServlet.ALIAS.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
+            alias = dictionary.get(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (alias == null)
             alias = this.getAlias();
         if (alias == null)
-            alias = context.getProperty(BaseOsgiServlet.ALIAS);
+            alias = context.getProperty(BaseWebappServlet.ALIAS);
         if (alias == null)
-            alias = context.getProperty(BaseOsgiServlet.ALIAS.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
+            alias = context.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (alias == null)
             alias = DEFAULT_WEB_ALIAS;
         return alias;
@@ -228,7 +228,7 @@ public class HttpServiceTracker extends ServiceTracker {
         String value = this.properties.get(key);
         if (value == null)
             if (isPersistentProperty(key))
-                value = this.properties.get(key.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
+                value = this.properties.get(key.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         return value;
     }
     /**
@@ -249,7 +249,7 @@ public class HttpServiceTracker extends ServiceTracker {
 
         String oldAlias = this.getAlias();
         this.changeServletProperties(servlet, properties);
-        String alias = properties.get(BaseOsgiServlet.ALIAS);
+        String alias = properties.get(BaseWebappServlet.ALIAS);
         boolean restartRequired = false;
         if (!oldAlias.equals(alias))
             restartRequired = true;
@@ -262,7 +262,7 @@ public class HttpServiceTracker extends ServiceTracker {
         } catch (Exception e) {
             e.printStackTrace();    // Should not happen
         }
-        this.properties.put(BaseOsgiServlet.ALIAS, alias);
+        this.properties.put(BaseWebappServlet.ALIAS, alias);
         
         if (servlet instanceof WebappServlet)
             if (((WebappServlet)servlet).restartRequired())
@@ -359,7 +359,7 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public static boolean isPersistentProperty(String key)
     {
-        return key.startsWith(BaseOsgiServlet.PROPERTY_PREFIX);
+        return key.startsWith(BaseWebappServlet.PROPERTY_PREFIX);
     }
     
     public void setServlet(Servlet servlet)

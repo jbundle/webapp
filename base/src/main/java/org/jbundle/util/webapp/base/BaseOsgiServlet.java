@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.util.webapp.osgi;
+package org.jbundle.util.webapp.base;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * @author don
  *
  */
-public class OSGiFileServlet extends BaseOsgiServlet
+public class BaseOsgiServlet extends BaseWebappServlet
 {
 	private static final long serialVersionUID = 1L;
 	protected URL baseURL = null;  // Base URL for resources

@@ -4,7 +4,7 @@
 package org.jbundle.util.webapp.files;
 
 
-import org.jbundle.util.webapp.osgi.FileHttpContext;
+import org.jbundle.util.webapp.base.FileHttpContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.http.HttpContext;
 
@@ -12,7 +12,7 @@ import org.osgi.service.http.HttpContext;
  * Start up the web service listener.
  * @author don
  */
-public class HttpServiceActivator extends org.jbundle.util.webapp.osgi.HttpServiceActivator
+public class HttpServiceActivator extends org.jbundle.util.webapp.base.HttpServiceActivator
 {
     public String getServletClass(BundleContext context)
     {

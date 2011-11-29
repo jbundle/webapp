@@ -26,7 +26,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.jbundle.util.webapp.base.BaseServlet;
+import org.jbundle.util.webapp.base.BaseOsgiServlet;
 
 
 /**
@@ -37,7 +37,7 @@ import org.jbundle.util.webapp.base.BaseServlet;
  * 
  * This is the xsl servlet.
  */
-public class XSLServlet extends BaseServlet
+public class XSLServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
 

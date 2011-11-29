@@ -17,14 +17,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.util.webapp.base.BaseServlet;
+import org.jbundle.util.webapp.base.BaseOsgiServlet;
 
 /**
  * RedirectServlet
  * 
  * This is the filter servlet.
  */
-public class FilterServlet extends BaseServlet
+public class FilterServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
 

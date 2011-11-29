@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.util.webapp.osgi;
+package org.jbundle.util.webapp.base;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,14 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Base OSGi Servlet.
- * Note: Even though this is called OsgiServlet, is must be able to run in a non-osgi environment,
+ * Note: Even though this is an OsgiServlet, is must be able to run in a non-osgi environment,
  * so don't do any osgi imports.
  * Note: This is designed to override the JnlpDownloadServlet. I'm a little 
- * apprehensive about the licensing so for now I wont wrap the (sun) code in an OSGi wrapper. 
+ * apprehensive about the licensing, so for now I wont wrap the (sun) code in an OSGi wrapper. 
  * @author don
  *
  */
-public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*/
+public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServlet*/
     implements WebappServlet
 {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
      * Constructor.
      * @param bundleContext
      */
-    public BaseOsgiServlet() {
+    public BaseWebappServlet() {
     	super();
     }
     
@@ -49,7 +49,7 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
      * Constructor.
      * @param context
      */
-    public BaseOsgiServlet(Object bundleContext, String servicePid, Dictionary<String, String> dictionary) {
+    public BaseWebappServlet(Object bundleContext, String servicePid, Dictionary<String, String> dictionary) {
     	this();
     	init(bundleContext, servicePid, dictionary);
     }
@@ -201,6 +201,7 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
     public static final String FIREFOX = "firefox";
     public static final String WEBKIT = "webkit";
     public static final String JAVA = "java";
+    public static final String MOBILE = "mobile";
     public static final String OTHER = "other";
     
     public static final String WINDOWS = "WINDOWS";
@@ -221,6 +222,13 @@ public abstract class BaseOsgiServlet extends HttpServlet /*JnlpDownloadServlet*
         {JAVA, "JAVA"},
         {FIREFOX, "MOZILLA/5"},
         {WEBKIT, "webkit"},
+        {MOBILE, "Windows CE"},
+        {MOBILE, "AvantGo"},
+        {MOBILE, "Mazingo"},
+        {MOBILE, "Mobile"},
+        {MOBILE, "T68"},
+        {MOBILE, "Syncalot"},
+        {MOBILE, "Blazer"},
         {OTHER, ""}
     };
 

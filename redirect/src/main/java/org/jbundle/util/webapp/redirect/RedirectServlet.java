@@ -17,14 +17,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jbundle.util.webapp.base.BaseServlet;
+import org.jbundle.util.webapp.base.BaseOsgiServlet;
 
 /**
  * RedirectServlet
  * 
  * This servlet is the redirect servlet.
  */
-public class RedirectServlet extends BaseServlet
+public class RedirectServlet extends BaseOsgiServlet
 {
 	private static final long serialVersionUID = 1L;
 

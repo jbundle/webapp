@@ -62,25 +62,25 @@ span.comment {color:blue; font-style:italic}
         This project provides a template for a <a href="redirect">redirect servlet</a>.
         This servlet will automatically redirect matching urls to another site.
         This example redirects you to the root page for this site. It could redirect you anywhere.
-        You can redirect any request buy setting the target property:
+        You can redirect any request by setting the target property:
         <br/><code>target = http://www.jbundle.org</code> will redirect all requests to this URL.
         <br/>If you just want to redirect a specific url, add the match parameter:
-        <br/><code>match = /pathtomatch</code> will redirect all requests to this URL.
+        <br/><code>match = /pathtomatch</code> will redirect all requests that match this path to this URL.
         <br/>You can also user regular expressions with the RegexRedirect servlet. Just use these parameters:
-        <br/><code>regex = www.+.tourgeek.com</code> will redirect all requests to this URL.
+        <br/><code>regex = www.+.tourgeek.com</code> will redirect all requests that match this regular expression.
         <br/><code>regextarget = demo/index.html</code> will redirect all requests to this URL.
-        <br/>You can redirect based on the user's web user by setting the web redirect (ie, firefox, chrome, safari, webkit)
+        <br/>You can also redirect based on the user's web browser by setting the web redirect (ie, firefox, chrome, safari, webkit, mobile)
         <br/><code>ie = index-ie.html</code> will redirect all requests from internet explorer to this URL.
       </p>
       </subsection>
       
       <subsection name="Proxy Servlet">
       <p>
-        This project provides a template for a <a href="proxy">proxy servlet</a>.
+        This project provides a template for a <a href="proxy/index.html">proxy servlet</a>.
         This servlet will forward requests to another site and return the result as if it existed on your server.
         This example delivers the information from the root page for this site. It could forward data from anywhere.
         <br/>You can tunnel web requests to a proxy by setting the urlprefix param:
-        <br/><code>proxy =  http://www.jbundle.org:8181/jbundle/simpleservlets/index.html</code> will display content from the proxy url.
+        <br/><code>proxy =  http://www.jbundle.org:8181/jbundle/simpleservlets/</code> will display content from the proxy url.
       </p>
       </subsection>
       

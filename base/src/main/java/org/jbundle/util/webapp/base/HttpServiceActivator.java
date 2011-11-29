@@ -1,7 +1,7 @@
 /*
  * Copyright © 2011 jbundle.org. All rights reserved.
  */
-package org.jbundle.util.webapp.osgi;
+package org.jbundle.util.webapp.base;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -64,7 +64,7 @@ public class HttpServiceActivator extends BaseBundleService
         Dictionary<String, String> dictionary = new Hashtable<String, String>();
         dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));
         dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass(context));
-        dictionary.put(BaseOsgiServlet.ALIAS, getWebAlias(context)); 
+        dictionary.put(BaseWebappServlet.ALIAS, getWebAlias(context)); 
         httpServiceTracker = this.createServiceTracker(context, getHttpContext(), dictionary);
         httpServiceTracker.open();
         context.registerService(ServiceTracker.class.getName(), httpServiceTracker, dictionary);    // Why isn't this done automatically?
@@ -129,9 +129,9 @@ public class HttpServiceActivator extends BaseBundleService
      */
     public String getWebAlias(BundleContext context)
     {
-        String contextPath = context.getProperty(BaseOsgiServlet.ALIAS);
+        String contextPath = context.getProperty(BaseWebappServlet.ALIAS);
         if (contextPath == null)
-            contextPath = context.getProperty(BaseOsgiServlet.ALIAS.substring(BaseOsgiServlet.PROPERTY_PREFIX.length()));
+            contextPath = context.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (contextPath == null)
         {
             contextPath = this.getServicePid(context);

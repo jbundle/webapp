@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import org.apache.catalina.Globals;
 import org.apache.naming.resources.FileDirContext;
 import org.apache.naming.resources.ProxyDirContext;
-import org.jbundle.util.webapp.osgi.WebappServlet;
+import org.jbundle.util.webapp.base.WebappServlet;
 
 /**
  * Make the DefaultServlet work with OSGi.
