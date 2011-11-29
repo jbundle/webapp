@@ -10,7 +10,7 @@
 
   <artifactId>org.jbundle.util.webapp.cgi</artifactId>
 
-  <packaging>bundle</packaging>
+  <packaging>war</packaging>
   <name>jbundle-util-webapp-cgi - cgi directory</name>
 
   <description>This servlet will run a non-java web application as a servlet.
@@ -19,14 +19,16 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<inherited>true</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<instructions>
-						<Bundle-Activator>${project.artifactId}.HttpServiceActivator</Bundle-Activator>
-					</instructions>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>src/main/webapp</directory>
+							<filtering>true</filtering>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -34,15 +36,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jbundle.util.webapp</groupId>
-      <artifactId>org.jbundle.util.webapp.base</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-catalina</artifactId>
-      <scope>provided</scope>	<!-- This is usually included in distributions. If you do include this, the servlet is tiny, the jar is huge -->
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
