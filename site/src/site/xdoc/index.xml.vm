@@ -110,19 +110,18 @@ span.comment {color:blue; font-style:italic}
       
       <subsection name="File Upload Servlet">
       <p>
-        This project provides a template for a <a href="upload">file upload site</a>.
-        Select a file in your web browser, and it will be uploaded to your web server. Try uploading a
-        small file to this sample site.
+        This project provides a template for a file upload site.
+        Select a file in your web browser, and it will be uploaded to your web server.
         Note: This package uses the free, but copyrighted packages of servlets.com. Any commercial use
         can only be done with the permission of the author at <a href="http://www.servlets.com">www.servlets.com</a>.
-        Because of this issue, you will need to deploy the servlets.com packages yourself.
+        Due to this issue, you will need to deploy the servlets.com packages yourself.
       </p>
       </subsection>
       
       <subsection name="CGI Servlet">
       <p>
-        This project provides a template for a <a href="http://www.tourgeek.com/awstats/awstats.pl?config=tourgeek.com">cgi servlet</a>.
-        This servlet will run a non-java web application as a servlet. This example shows one of my favorite
+        This project provides a template for a <!-- a href="http://www.tourgeek.com/awstats/awstats.pl?config=tourgeek.com" -->cgi servlet.
+        This servlet will run a non-java web application as a servlet. This blog post shows ow to install one of my favorite
         non-java apps, <a href="http://doncorley.blogspot.com/2008/09/using-awstats-with-glassfish.html">awstats</a>.
         This <a href="http://doncorley.blogspot.com/2011/01/installing-git-web-on-java-web-server.html">blog post</a> shows you how to install git-web in a java web server.
       </p>
@@ -130,7 +129,7 @@ span.comment {color:blue; font-style:italic}
       
       <subsection name="WebStart Applet or Application">
       <p>
-        This project provides a template for a <a href="webstart">Applet or Application servlet</a>.
+        This project provides a template for a <a href="/${project.groupId}.webstart">Applet or Application servlet</a>.
         For most applets, you should use the <a href="../osgi-webstart">OSGi to Web Start Servlet</a>.
         This project models how you can create a bundle that packages the jnlpdownloadservlet code
         and a (jared and gzipped) java application.

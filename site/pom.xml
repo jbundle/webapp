@@ -21,23 +21,8 @@
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-   <executions>
-     <execution>
-     <phase>site</phase>
-       <goals>
-         <goal>resources</goal>
-       </goals>
-     </execution>
-   </executions>
       </plugin>
     </plugins>
-    <resources>
-      <resource>
-        <directory>src/site/resources</directory>
-        <filtering>true</filtering>
-        <targetPath>${basedir}/target/site</targetPath>
-      </resource>
-    </resources>
   </build>
 
   <distributionManagement>
