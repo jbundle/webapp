@@ -121,7 +121,7 @@ span.comment {color:blue; font-style:italic}
       <subsection name="CGI Servlet">
       <p>
         This project provides a template for a <!-- a href="http://www.tourgeek.com/awstats/awstats.pl?config=tourgeek.com" -->cgi servlet.
-        This servlet will run a non-java web application as a servlet. This blog post shows ow to install one of my favorite
+        This servlet will run a non-java web application as a servlet. This blog post shows how to install one of my favorite
         non-java apps, <a href="http://doncorley.blogspot.com/2008/09/using-awstats-with-glassfish.html">awstats</a>.
         This <a href="http://doncorley.blogspot.com/2011/01/installing-git-web-on-java-web-server.html">blog post</a> shows you how to install git-web in a java web server.
       </p>
