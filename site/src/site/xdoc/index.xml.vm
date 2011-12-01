@@ -98,7 +98,7 @@ span.comment {color:blue; font-style:italic}
       
       <subsection name="File Download Servlet">
       <p>
-        This project provides a template for a <a href="files">simple file download site</a>.
+        This project provides a template for a <a href="files/index.html">simple file download site</a>.
         Just drop your files into the root directory and your users will be able to view and download your files.
         This servlet uses the tomcat default servlet, so al you have to do is set the default params:
         <br/><code>basePath =  /space/web/jbundle/</code> will set the local web file storage location.
