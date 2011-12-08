@@ -14,7 +14,7 @@ import org.osgi.util.tracker.ServiceTracker;
  * Start up and shutdown multiple web services.
  * @author don
  */
-public class MultipleHttpServiceActivator extends org.jbundle.util.webapp.base.HttpServiceActivator
+public class MultipleHttpServiceActivator extends HttpServiceActivator
 {
     
     /**
