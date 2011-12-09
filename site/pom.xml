@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jbundle.util.webapp</groupId>
     <artifactId>jbundle-util-webapp-reactor</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
