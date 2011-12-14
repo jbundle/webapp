@@ -215,13 +215,13 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
     };
 
     public static final String[][] BROWSER = {
-        {MOBILE, "Windows CE"},
-        {MOBILE, "AvantGo"},
-        {MOBILE, "Mazingo"},
-        {MOBILE, "Mobile"},
+        {MOBILE, "WINDOWS CE"},
+        {MOBILE, "AVANTGO"},
+        {MOBILE, "MAZINGO"},
+        {MOBILE, "MOBILE"},
         {MOBILE, "T68"},
-        {MOBILE, "Syncalot"},
-        {MOBILE, "Blazer"},
+        {MOBILE, "SYNCALOT"},
+        {MOBILE, "BLAZER"},
         {IE, "MSIE"},
         {WEBKIT, "CHROME"},
         {WEBKIT, "SAFARI"},
