@@ -31,7 +31,7 @@ public class MultipleHttpServiceActivator extends HttpServiceActivator
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleService bundleService, BundleContext context)
+    public boolean startupThisService(BundleContext bundleContext)
     {
         // Good, Environment activator is up. Time to start up http services trackers
         

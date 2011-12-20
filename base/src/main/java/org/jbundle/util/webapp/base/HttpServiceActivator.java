@@ -43,7 +43,7 @@ public class HttpServiceActivator extends BaseBundleService
             ClassServiceUtility.log(context, LogService.LOG_INFO, "Starting the osgi Http Service tracker");
             
             if (httpServiceTracker == null)
-    		    this.startupThisService(null, context);
+    		    this.startupThisService(context);
         }
         if (event.getType() == ServiceEvent.UNREGISTERING)
         {
@@ -59,7 +59,7 @@ public class HttpServiceActivator extends BaseBundleService
      * @return true if successful.
      */
     @Override
-    public boolean startupThisService(BundleService bundleService, BundleContext context)
+    public boolean startupThisService(BundleContext bundleContext)
     {
         Dictionary<String, String> dictionary = new Hashtable<String, String>();
         dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));
