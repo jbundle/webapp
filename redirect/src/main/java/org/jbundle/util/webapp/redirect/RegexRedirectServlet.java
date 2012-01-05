@@ -65,19 +65,31 @@ public class RegexRedirectServlet extends RedirectServlet
         if (regex != null)
         	if (server != null)
         {
+        	String match = null;
+        	if (regex.indexOf('/') != -1)
+        	{
+        	    match = regex.substring(regex.indexOf('/'));
+        	    regex = regex.substring(0, regex.indexOf('/'));
+        	}
         	if (server.matches(regex))
-            	{
-            		String target = this.getProperty(REGEX_TARGET);
-            		if (target != null)
-            		{
-            	        if (logger != null)
-            	        	logger.info("Redirect " + server + " to " + target);
-            	        String match = this.getProperty(MATCH);
-            	        if ((match == null) || target.matches(match))
-            	        	res.sendRedirect(target);
-            			return;
-            		}
-            	}
+	        {
+        		String target = this.getProperty(REGEX_TARGET);
+        		if (target != null)
+        		{
+        	        if (logger != null)
+        	        	logger.info("Redirect " + server + " to " + target);
+                    String requestPath = req.getServletPath();
+        	        if ((match == null) || (requestPath.matches(match)))
+        	        	res.sendRedirect(target);
+        	        else
+        	        {
+        	            boolean fileFound = sendResourceFile(req, res);
+        	            if (!fileFound)
+        	                res.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found");
+        	        }
+                    return;
+        		}
+	        }
         }
     	super.service(req, res);
     }
