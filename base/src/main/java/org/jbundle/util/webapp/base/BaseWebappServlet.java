@@ -32,8 +32,8 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
 	private static final long serialVersionUID = 1L;
     
     private Object bundleContext = null;
-    String servicePid = null;
-    Dictionary<String, String> properties = null;
+    protected String servicePid = null;
+    protected Dictionary<String, String> properties = null;
     
     protected Logger logger = null;
 

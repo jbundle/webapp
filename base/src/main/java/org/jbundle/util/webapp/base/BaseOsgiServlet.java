@@ -60,12 +60,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
         String path = request.getPathInfo();
         if (path == null)
             return false;
-        if (path.startsWith("/"))
-        	path = path.substring(1);	// Resources already start from root/baseURL
-        if (baseURL == null)
-            if (properties != null)
-                if (this.getProperty(BASE_PATH) != null)
-                    path = this.getProperty(BASE_PATH) + path;
+        path = this.fixPathInfo(path);
             
         URL url = null;
         try {
@@ -87,6 +82,23 @@ public class BaseOsgiServlet extends BaseWebappServlet
         copyStream(inStream, writer, true); // Ignore errors, as browsers do weird things
         writer.close();
         return true;
+    }
+    /**
+     * Get the file path from the request.
+     * @param request
+     * @return
+     */
+    public String fixPathInfo(String path)
+    {
+        if (path == null)
+            return null;
+        if (path.startsWith("/"))
+            path = path.substring(1);   // Resources already start from root/baseURL
+        if (baseURL == null)
+            if (properties != null)
+                if (this.getProperty(BASE_PATH) != null)
+                    path = this.getProperty(BASE_PATH) + path;
+        return path;
     }
     /**
      * Set the properties. Override this to set any configuration up.
