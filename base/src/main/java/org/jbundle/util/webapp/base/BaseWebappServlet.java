@@ -6,6 +6,8 @@ package org.jbundle.util.webapp.base;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -134,25 +136,45 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
     }
 
 	static final int BUFFER = 2048;
-	/**
-	 * 
-	 * @param inStream
-	 * @param outStream
-	 * @param ignoreErrors
-	 */
+    /**
+     * Copy the input stream to the output stream
+     * @param inStream
+     * @param outStream
+     * @param ignoreErrors
+     */
     public static void copyStream(InputStream inStream, OutputStream outStream, boolean ignoreErrors)
     {
-    	byte[] data = new byte[BUFFER];
+        byte[] data = new byte[BUFFER];
         int count;
         try {
-			while((count = inStream.read(data, 0, BUFFER)) != -1)
-			{
-				outStream.write(data, 0, count);
-			}
-		} catch (IOException e) {
-		    if (!ignoreErrors)
-		        e.printStackTrace();
-		}
+            while((count = inStream.read(data, 0, BUFFER)) != -1)
+            {
+                outStream.write(data, 0, count);
+            }
+        } catch (IOException e) {
+            if (!ignoreErrors)
+                e.printStackTrace();
+        }
+    }
+    /**
+     * Copy the input stream to the output stream
+     * @param inStream
+     * @param outStream
+     * @param ignoreErrors
+     */
+    public static void copyStream(Reader inStream, Writer outStream, boolean ignoreErrors)
+    {
+        char[] data = new char[BUFFER];
+        int count;
+        try {
+            while((count = inStream.read(data, 0, BUFFER)) != -1)
+            {
+                outStream.write(data, 0, count);
+            }
+        } catch (IOException e) {
+            if (!ignoreErrors)
+                e.printStackTrace();
+        }
     }
     /**
      * Get the browser type.
