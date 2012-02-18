@@ -366,4 +366,8 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         this.servlet = servlet;
     }
+    public Servlet getServlet()
+    {
+        return servlet;
+    }
 }

@@ -24,7 +24,7 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class HttpServiceActivator extends BaseBundleService
 {
-    protected ServiceTracker httpServiceTracker;
+    protected HttpServiceTracker httpServiceTracker = null;
 
     /**
      * Called when the http service tracker come up or is shut down.
@@ -152,7 +152,15 @@ public class HttpServiceActivator extends BaseBundleService
         return null;    // Override this if you don't want to use the default http context
     }
     /**
-     * 
+     * Get my service tracker
+     * @return
+     */
+    public HttpServiceTracker getServiceTracker()
+    {
+        return httpServiceTracker;
+    }
+    /**
+     * Get this service tracker.
      * @param alias
      * @return
      */
@@ -177,6 +185,4 @@ public class HttpServiceActivator extends BaseBundleService
         }
         return null;    // Not found
     }
-    
-
 }

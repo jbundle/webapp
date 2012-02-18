@@ -61,7 +61,19 @@ public class BaseOsgiServlet extends BaseWebappServlet
         if (path == null)
             return false;
         path = this.fixPathInfo(path);
+        
+        return this.sendResourceFile(path, response);
+    }
             
+    /**
+     * Send this resource to the response stream.
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    public boolean sendResourceFile(String path, HttpServletResponse response) throws IOException
+    {
         URL url = null;
         try {
             url = ClassServiceUtility.getClassService().getResourceURL(path, baseURL, null, this.getClass().getClassLoader());
