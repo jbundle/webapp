@@ -33,7 +33,7 @@
   </distributionManagement>
 
   <properties>
-    <jbundleScmPath>util/webapp</jbundleScmPath>
+    <projectName>webapp</projectName>
   </properties>
 
   <dependencies>

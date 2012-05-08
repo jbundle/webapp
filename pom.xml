@@ -17,6 +17,10 @@
   <packaging>pom</packaging>
   <name>jbundle-util-webapp-root - simple webapp wars</name>
 
+  <properties>
+    <projectName>jbundle-util-webapp</projectName>
+  </properties>
+
   <scm>
     <url>https://github.com/jbundle/jbundle-webapp</url>
     <connection>scm:git:git://github.com/jbundle/jbundle-webapp.git</connection>
@@ -41,7 +45,7 @@
   </modules>
 
   <properties>
-    <jbundleScmPath>util/webapp</jbundleScmPath>
+    <projectName>webapp</projectName>
   </properties>
  
   <dependencies>
