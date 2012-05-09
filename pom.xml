@@ -44,10 +44,6 @@
     <module>xsl</module>
   </modules>
 
-  <properties>
-    <projectName>webapp</projectName>
-  </properties>
- 
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
