@@ -10,7 +10,7 @@ import java.util.Hashtable;
 
 import javax.servlet.Servlet;
 
-import org.jbundle.util.osgi.BundleActivatorModel;
+import org.jbundle.util.osgi.BundleConstants;
 import org.jbundle.util.osgi.bundle.BaseBundleActivator;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
@@ -49,10 +49,10 @@ public class HttpServiceTracker extends ServiceTracker {
         super(context, HttpService.class.getName(), null);
         this.httpContext = httpContext;
         this.properties = BaseBundleActivator.putAll(dictionary, null);  // Copy properties
-        if (context.getProperty(BundleActivatorModel.SERVICE_CLASS) != null)
-            this.properties.put(BundleActivatorModel.SERVICE_CLASS, context.getProperty(BundleActivatorModel.SERVICE_CLASS));
-        if (context.getProperty(HttpServiceActivator.SERVICE_PID) != null)
-            this.properties.put(HttpServiceActivator.SERVICE_PID, context.getProperty(HttpServiceActivator.SERVICE_PID));
+        if (context.getProperty(BundleConstants.SERVICE_CLASS) != null)
+            this.properties.put(BundleConstants.SERVICE_CLASS, context.getProperty(BundleConstants.SERVICE_CLASS));
+        if (context.getProperty(BundleConstants.SERVICE_PID) != null)
+            this.properties.put(BundleConstants.SERVICE_PID, context.getProperty(BundleConstants.SERVICE_PID));
         if (context.getProperty(BaseWebappServlet.ALIAS) != null)
             this.properties.put(BaseWebappServlet.ALIAS, context.getProperty(BaseWebappServlet.ALIAS));
     }
@@ -67,7 +67,7 @@ public class HttpServiceTracker extends ServiceTracker {
         this.properties = this.updateDictionaryConfig(this.properties, true);
         try {
             String alias = this.getAlias();
-            String servicePid = this.properties.get(HttpServiceActivator.SERVICE_PID);
+            String servicePid = this.properties.get(BundleConstants.SERVICE_PID);
             if (servlet == null)
             {
                 servlet = this.makeServlet(alias, this.properties);
@@ -97,7 +97,7 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public Servlet makeServlet(String alias, Dictionary<String, String> dictionary)
     {
-        String servletClass = dictionary.get(BundleActivatorModel.SERVICE_CLASS);
+        String servletClass = dictionary.get(BundleConstants.SERVICE_CLASS);
         return (Servlet)ClassServiceUtility.getClassService().makeObjectFromClassName(servletClass);        
     }
 
@@ -129,7 +129,7 @@ public class HttpServiceTracker extends ServiceTracker {
         if (dictionary == null)
             dictionary = new Hashtable<String, String>();
         try {
-            String servicePid = dictionary.get(HttpServiceActivator.SERVICE_PID);
+            String servicePid = dictionary.get(BundleConstants.SERVICE_PID);
             if (servicePid != null)
             {
                 ServiceReference caRef = context.getServiceReference(ConfigurationAdmin.class.getName());

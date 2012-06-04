@@ -5,6 +5,7 @@ package org.jbundle.util.webapp.base;
 
 import java.util.Dictionary;
 
+import org.jbundle.util.osgi.BundleConstants;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
@@ -38,7 +39,7 @@ public class HttpConfigurator implements ManagedService {
             // or old configuration has been deleted
         } else {
             // apply configuration from config admin
-            HttpServiceTracker httpService = HttpServiceActivator.getServiceTracker(context, HttpServiceActivator.SERVICE_PID, pid);
+            HttpServiceTracker httpService = HttpServiceActivator.getServiceTracker(context, BundleConstants.SERVICE_PID, pid);
             if (httpService != null)
                 httpService.configPropertiesUpdated(properties);
         }
