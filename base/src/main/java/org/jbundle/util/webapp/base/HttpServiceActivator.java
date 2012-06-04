@@ -4,84 +4,62 @@
 package org.jbundle.util.webapp.base;
 
 import java.util.Dictionary;
-import java.util.Hashtable;
 
-import org.jbundle.util.osgi.BundleService;
-import org.jbundle.util.osgi.bundle.BaseBundleService;
-import org.jbundle.util.osgi.finder.ClassFinderActivator;
-import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.util.osgi.bundle.BaseBundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpContext;
-import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Start up the web service listener.
  * @author don
  */
-public class HttpServiceActivator extends BaseBundleService
+public class HttpServiceActivator extends BaseBundleActivator
 {
-    protected HttpServiceTracker httpServiceTracker = null;
-
-    /**
-     * Called when the http service tracker come up or is shut down.
-     * Start or stop the bundle on start/stop.
-     * @param event The service event.
-     */
-    @Override
-    public void serviceChanged(ServiceEvent event) {
-        BundleContext context = null;
-        if (event != null)
-            if (event.getServiceReference() != null)
-                if (event.getServiceReference().getBundle() != null)
-                    context = event.getServiceReference().getBundle().getBundleContext();
-        if (event.getType() == ServiceEvent.REGISTERED)
-        { // Osgi http Service is up, Okay to start the server
-            ClassServiceUtility.log(context, LogService.LOG_INFO, "Starting the osgi Http Service tracker");
-            
-            if (httpServiceTracker == null)
-    		    this.startupThisService(context);
-        }
-        if (event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            ClassServiceUtility.log(context, LogService.LOG_INFO, "Stopping the WebStart http service tracker");
-            
-            if (this.shutdownThisService(null, context))
-                httpServiceTracker = null;        
-        }        
-    }
+	/**
+	 * Setup the application properties.
+	 * Override this to set the properties.
+	 * @param bundleContext BundleContext
+	 */
+	public void init()
+	{
+		super.init();
+        this.setProperty(BaseWebappServlet.ALIAS, getWebAlias()); 		
+	}
     /**
      * Start this service.
      * Override this to do all the startup.
      * @return true if successful.
      */
     @Override
-    public boolean startupThisService(BundleContext bundleContext)
+    public Object startupService(BundleContext bundleContext)
     {
-        Dictionary<String, String> dictionary = new Hashtable<String, String>();
-        dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));
-        dictionary.put(HttpServiceTracker.SERVLET_CLASS, getServletClass(context));
-        dictionary.put(BaseWebappServlet.ALIAS, getWebAlias(context)); 
-        httpServiceTracker = this.createServiceTracker(context, getHttpContext(), dictionary);
-        httpServiceTracker.open();
-        context.registerService(ServiceTracker.class.getName(), httpServiceTracker, dictionary);    // Why isn't this done automatically?
+        service = this.createServiceTracker(context, getHttpContext(), this.getProperties());
+        ((HttpServiceTracker)service).open();
 
-        return true;
+        return service;
+    }
+    /**
+     * Get the interface/service class name.
+     * @return
+     */
+    public Class<?> getInterfaceClass()
+    {
+		return ServiceTracker.class;
     }
     
     /**
-     * Start this service.
+     * Shutdown this service.
      * Override this to do all the startup.
      * @return true if successful.
      */
     @Override
-    public boolean shutdownThisService(BundleService bundleService, BundleContext context)
+    public boolean shutdownService(Object service, BundleContext context)
     {
-        if (httpServiceTracker != null)
-            httpServiceTracker.close();
+        if (this.service != null)
+            ((HttpServiceTracker)this.service).close();
         return true;
     }
     
@@ -96,45 +74,19 @@ public class HttpServiceActivator extends BaseBundleService
     {
         return new HttpServiceTracker(context, getHttpContext(), dictionary);
     }
-    
-    /**
-     * The service key in the config admin system.
-     * @param context
-     * @return By default the package name, else override this.
-     */
-    public String getServicePid(BundleContext context)
-    {
-        String servicePid = context.getProperty(HttpServiceTracker.SERVICE_PID);
-        if (servicePid != null)
-            return servicePid;
-        servicePid = this.getServletClass(context);
-        if ((servicePid == null)
-                || (!servicePid.startsWith(HttpServiceActivator.PACKAGE_NAME)))
-            servicePid = this.getClass().getName();
-        return ClassFinderActivator.getPackageName(servicePid, false);
-    }
-    /**
-     * Get the servlet class to activate.
-     * @param context 
-     * @return
-     */
-    public String getServletClass(BundleContext context)
-    {
-        return context.getProperty(HttpServiceTracker.SERVLET_CLASS);    // Override this to enable config admin.
-    }
     /**
      * Get the web alias for this servlet.
      * @param context
      * @return
      */
-    public String getWebAlias(BundleContext context)
+    public String getWebAlias()
     {
         String contextPath = context.getProperty(BaseWebappServlet.ALIAS);
         if (contextPath == null)
             contextPath = context.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (contextPath == null)
         {
-            contextPath = this.getServicePid(context);
+            contextPath = this.getServicePid();
             if (contextPath.lastIndexOf('.') != -1)
                 contextPath = contextPath.substring(contextPath.lastIndexOf('.') + 1);
         }
@@ -157,7 +109,7 @@ public class HttpServiceActivator extends BaseBundleService
      */
     public HttpServiceTracker getServiceTracker()
     {
-        return httpServiceTracker;
+        return (HttpServiceTracker)service;
     }
     /**
      * Get this service tracker.

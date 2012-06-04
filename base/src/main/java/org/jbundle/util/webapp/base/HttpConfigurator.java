@@ -38,7 +38,7 @@ public class HttpConfigurator implements ManagedService {
             // or old configuration has been deleted
         } else {
             // apply configuration from config admin
-            HttpServiceTracker httpService = HttpServiceActivator.getServiceTracker(context, HttpServiceTracker.SERVICE_PID, pid);
+            HttpServiceTracker httpService = HttpServiceActivator.getServiceTracker(context, HttpServiceActivator.SERVICE_PID, pid);
             if (httpService != null)
                 httpService.configPropertiesUpdated(properties);
         }

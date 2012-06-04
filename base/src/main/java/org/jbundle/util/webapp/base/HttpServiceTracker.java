@@ -10,6 +10,8 @@ import java.util.Hashtable;
 
 import javax.servlet.Servlet;
 
+import org.jbundle.util.osgi.BundleActivatorModel;
+import org.jbundle.util.osgi.bundle.BaseBundleActivator;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -29,8 +31,6 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class HttpServiceTracker extends ServiceTracker {
 
-    public static final String SERVICE_PID = "service.pid"; // The id of the data in the config registry
-    public static final String SERVLET_CLASS = "servletClass"; // Optional class name for single servlets
     public static final String DEFAULT_WEB_ALIAS = "/webstart";
     
     protected Dictionary<String, String> properties = null;
@@ -48,11 +48,11 @@ public class HttpServiceTracker extends ServiceTracker {
     {
         super(context, HttpService.class.getName(), null);
         this.httpContext = httpContext;
-        this.properties = HttpServiceTracker.putAll(dictionary, null);  // Copy properties
-        if (context.getProperty(SERVLET_CLASS) != null)
-            this.properties.put(SERVLET_CLASS, context.getProperty(SERVLET_CLASS));
-        if (context.getProperty(SERVICE_PID) != null)
-            this.properties.put(SERVICE_PID, context.getProperty(SERVICE_PID));
+        this.properties = BaseBundleActivator.putAll(dictionary, null);  // Copy properties
+        if (context.getProperty(BundleActivatorModel.SERVICE_CLASS) != null)
+            this.properties.put(BundleActivatorModel.SERVICE_CLASS, context.getProperty(BundleActivatorModel.SERVICE_CLASS));
+        if (context.getProperty(HttpServiceActivator.SERVICE_PID) != null)
+            this.properties.put(HttpServiceActivator.SERVICE_PID, context.getProperty(HttpServiceActivator.SERVICE_PID));
         if (context.getProperty(BaseWebappServlet.ALIAS) != null)
             this.properties.put(BaseWebappServlet.ALIAS, context.getProperty(BaseWebappServlet.ALIAS));
     }
@@ -67,7 +67,7 @@ public class HttpServiceTracker extends ServiceTracker {
         this.properties = this.updateDictionaryConfig(this.properties, true);
         try {
             String alias = this.getAlias();
-            String servicePid = this.properties.get(SERVICE_PID);
+            String servicePid = this.properties.get(HttpServiceActivator.SERVICE_PID);
             if (servlet == null)
             {
                 servlet = this.makeServlet(alias, this.properties);
@@ -97,7 +97,7 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public Servlet makeServlet(String alias, Dictionary<String, String> dictionary)
     {
-        String servletClass = dictionary.get(SERVLET_CLASS);
+        String servletClass = dictionary.get(BundleActivatorModel.SERVICE_CLASS);
         return (Servlet)ClassServiceUtility.getClassService().makeObjectFromClassName(servletClass);        
     }
 
@@ -125,11 +125,11 @@ public class HttpServiceTracker extends ServiceTracker {
     public Dictionary<String, String> updateDictionaryConfig(Dictionary<String, String> dictionary, boolean returnCopy)
     {
         if (returnCopy)
-            dictionary = HttpServiceTracker.putAll(dictionary, null);
+            dictionary = BaseBundleActivator.putAll(dictionary, null);
         if (dictionary == null)
             dictionary = new Hashtable<String, String>();
         try {
-            String servicePid = dictionary.get(SERVICE_PID);
+            String servicePid = dictionary.get(HttpServiceActivator.SERVICE_PID);
             if (servicePid != null)
             {
                 ServiceReference caRef = context.getServiceReference(ConfigurationAdmin.class.getName());
@@ -142,7 +142,7 @@ public class HttpServiceTracker extends ServiceTracker {
                     if (configProperties == null)
                         configProperties = new Hashtable<String, String>();
                     // First, move all settings to dictionary
-                    dictionary = HttpServiceTracker.putAll(configProperties, dictionary);
+                    dictionary = BaseBundleActivator.putAll(configProperties, dictionary);
                     dictionary.put(BaseWebappServlet.ALIAS, this.calculateWebAlias(dictionary));
                     // Next, move all saveable settings to the config dictionary (and save them)
                     Enumeration<String> keys = dictionary.keys();
@@ -285,7 +285,7 @@ public class HttpServiceTracker extends ServiceTracker {
         if (servlet instanceof WebappServlet)
         {
             Dictionary<String, String> dictionary = ((WebappServlet)servlet).getProperties();
-            properties = putAll(properties, dictionary);
+            properties = BaseBundleActivator.putAll(properties, dictionary);
         }
         return this.setServletProperties(servlet, properties);
     }
@@ -329,28 +329,6 @@ public class HttpServiceTracker extends ServiceTracker {
         return true;
     }
 
-    /**
-     * Copy all the values from one dictionary to another.
-     * @param sourceDictionary
-     * @param destDictionary
-     * @return
-     */
-    public static Dictionary<String, String> putAll(Dictionary<String, String> sourceDictionary, Dictionary<String, String> destDictionary)
-    {
-        if (destDictionary == null)
-            destDictionary = new Hashtable<String, String>();
-        if (sourceDictionary != null)
-        {
-            Enumeration<String> keys = sourceDictionary.keys();
-            while (keys.hasMoreElements())
-            {
-                String key = keys.nextElement();
-                destDictionary.put(key, sourceDictionary.get(key));
-            }
-        }
-        return destDictionary;
-    }
-    
     /**
      * Is this a persistent property?
      * Override this to add more.

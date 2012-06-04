@@ -6,7 +6,6 @@ package org.jbundle.util.webapp.base;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import org.jbundle.util.osgi.BundleService;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -31,7 +30,7 @@ public class MultipleHttpServiceActivator extends HttpServiceActivator
      * Override this to do all the startup.
      * @return true if successful.
      */
-    public boolean startupThisService(BundleContext bundleContext)
+    public Object startupService(BundleContext bundleContext)
     {
         // Good, Environment activator is up. Time to start up http services trackers
         
@@ -39,11 +38,11 @@ public class MultipleHttpServiceActivator extends HttpServiceActivator
         {
             Dictionary<String, String> properties = new Hashtable<String, String>();
             ServiceTracker serviceTracker = this.makeServletTracker(alias, properties);
-            serviceTracker.open();
+            ((ServiceTracker)serviceTracker).open();
             context.registerService(ServiceTracker.class.getName(), serviceTracker, properties);    // Why isn't this done automatically?
         }
 
-        return true;
+        return null;
     }
     
     /**
@@ -52,7 +51,7 @@ public class MultipleHttpServiceActivator extends HttpServiceActivator
      * @return true if successful.
      */
     @Override
-    public boolean shutdownThisService(BundleService bundleService, BundleContext context)
+    public boolean shutdownService(Object service, BundleContext context)
     {
         for (String alias : getAliases())
         {

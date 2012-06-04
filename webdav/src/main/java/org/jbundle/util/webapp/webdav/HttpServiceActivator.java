@@ -17,7 +17,7 @@ public class HttpServiceActivator extends org.jbundle.util.webapp.base.HttpServi
      * @return
      */
     @Override
-    public String getServletClass(BundleContext context)
+    public String getServiceClassName()
     {
         return WebdavServlet.class.getName();    // Override this to enable config admin.
     }

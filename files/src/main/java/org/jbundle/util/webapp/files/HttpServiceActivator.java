@@ -14,7 +14,7 @@ import org.osgi.service.http.HttpContext;
  */
 public class HttpServiceActivator extends org.jbundle.util.webapp.base.HttpServiceActivator
 {
-    public String getServletClass(BundleContext context)
+    public String getServiceClassName()
     {
         return DefaultServlet.class.getName();    // Override this to enable config admin.
     }
