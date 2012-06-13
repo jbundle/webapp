@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jbundle.util.webapp</groupId>
     <artifactId>jbundle-util-webapp-reactor</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.util.webapp.upload.unjar</artifactId>
@@ -38,7 +38,7 @@
     <dependency>
   	  <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.upload</artifactId>
-  	  <version>1.2.3</version>
+  	  <version>1.2.4-SNAPSHOT</version>
     </dependency>
     <dependency>
   	  <groupId>org.jbundle.util</groupId>
