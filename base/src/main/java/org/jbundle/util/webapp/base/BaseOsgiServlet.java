@@ -68,6 +68,8 @@ public class BaseOsgiServlet extends BaseWebappServlet
     {
         String path = request.getPathInfo();
         if (path == null)
+            path = request.getRequestURI();
+        if (path == null)
             return false;
         path = this.fixPathInfo(path);
         
