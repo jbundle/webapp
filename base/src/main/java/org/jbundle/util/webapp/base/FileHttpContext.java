@@ -55,6 +55,8 @@ public class FileHttpContext implements HttpContext {
 			{
 				if ("jpg".equalsIgnoreCase(extension))
 					extension = "jpeg";
+                if ("ico".equalsIgnoreCase(extension))
+                    extension = "vnd.microsoft.icon";
 				mimeType = "image/" + extension.toLowerCase();
 			}
 			else if (isType(extension, TEXT_EXTENSIONS))
@@ -94,7 +96,7 @@ public class FileHttpContext implements HttpContext {
 	}
 	
 	public static final String[] IMAGE_EXTENSIONS = {
-		"gif", "png", "bmp", "jpg", "jpeg", "tiff"
+		"gif", "png", "bmp", "jpg", "jpeg", "tiff", "ico"
 		};
 	public static final String[] TEXT_EXTENSIONS = {
 		"css", "html", "htm", "txt"
