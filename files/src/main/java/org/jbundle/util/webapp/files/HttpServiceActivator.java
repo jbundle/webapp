@@ -26,7 +26,7 @@ public class HttpServiceActivator extends org.jbundle.util.webapp.base.HttpServi
      */
     public HttpContext getHttpContext()
     {
-        return new FileHttpContext(context.getBundle());
+        return new FileHttpContext(null, context.getBundle());
     }
     
 }

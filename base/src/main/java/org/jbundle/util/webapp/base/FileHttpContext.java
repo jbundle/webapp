@@ -6,6 +6,7 @@ package org.jbundle.util.webapp.base;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,9 +22,11 @@ public class FileHttpContext implements HttpContext {
 
     protected Bundle bundle;
 
-    public FileHttpContext(Bundle bundle)
+    public FileHttpContext(Servlet servlet, Bundle bundle)
     {
         this.bundle = bundle;
+        if (servlet instanceof BaseOsgiServlet)
+            ((BaseOsgiServlet)servlet).setHttpContext(this);
     }
 
 	@Override

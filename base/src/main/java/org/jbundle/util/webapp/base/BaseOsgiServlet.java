@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.osgi.service.http.HttpContext;
 
 /**
  * A very simple servlet that just serves up resources from the OSGi bundle classpaths.
@@ -26,6 +27,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
 {
 	private static final long serialVersionUID = 1L;
 	protected URL baseURL = null;  // Base URL for resources
+	protected HttpContext httpContext = null;
 
     /**
      * Constructor.
@@ -34,7 +36,14 @@ public class BaseOsgiServlet extends BaseWebappServlet
     public void init(Object context, String servicePid, Dictionary<String, String> dictionary) {
     	super.init(context, servicePid, dictionary);
     }
-
+    /**
+     * Free my resources.
+     */
+    public void free()
+    {
+        super.free();
+        httpContext = null;
+    }
     /**
      *  process an HTML get or post.
      * @exception ServletException From inherited class.
@@ -91,9 +100,16 @@ public class BaseOsgiServlet extends BaseWebappServlet
 
         // Todo may want to add cache info (using bundle lastModified).
         OutputStream writer = response.getOutputStream();
+        if (response.getContentType() == null)
+            if (httpContext != null)
+                response.setContentType(httpContext.getMimeType(path));
         copyStream(inStream, writer, true); // Ignore errors, as browsers do weird things
         writer.close();
         return true;
+    }
+    public void setHttpContext(HttpContext httpContext)
+    {
+        this.httpContext = httpContext;
     }
     /**
      * Get the file path from the request.

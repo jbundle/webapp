@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.Servlet;
+
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.osgi.framework.Bundle;
 
@@ -20,9 +22,9 @@ public class OsgiHttpContext extends FileHttpContext {
 
     private URL urlCodeBase = null;
 
-    public OsgiHttpContext(Bundle bundle, String urlCodeBase)
+    public OsgiHttpContext(Servlet servlet, Bundle bundle, String urlCodeBase)
     {
-    	super(bundle);
+    	super(servlet, bundle);
         try {
         	if (urlCodeBase != null)
         		this.urlCodeBase = new URL(urlCodeBase);

@@ -72,7 +72,9 @@ public class HttpServiceActivator extends BaseBundleActivator
      */
     public HttpServiceTracker createServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, String> dictionary)
     {
-        return new HttpServiceTracker(context, getHttpContext(), dictionary);
+        if (httpContext == null)
+            httpContext = getHttpContext();
+        return new HttpServiceTracker(context, httpContext, dictionary);
     }
     /**
      * Get the web alias for this servlet.
