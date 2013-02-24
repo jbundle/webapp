@@ -99,16 +99,16 @@ public class FileHttpContext implements HttpContext {
 		"gif", "png", "bmp", "jpg", "jpeg", "tiff", "ico"
 		};
 	public static final String[] TEXT_EXTENSIONS = {
-		"css", "html", "htm", "txt"
+		"css", "html", "htm", "txt", "xml", "xsl", "xslt", "csv"
 		};
 	public static final String[] APPLICATION_EXTENSIONS = {
-		"json", "js", "pdf", "zip", "jnlp", "swf", "cab", "jar"
+		"json", "js", "pdf", "zip", "jnlp", "swf", "cab", "jar", "ogg", "gzip"
 		};
 	public static final String[] AUDIO_EXTENSIONS = {
 		"mp3", "wav"
 		};
 	public static final String[] VIDEO_EXTENSIONS = {
-		"mpeg", "mov"
+		"mpeg", "mov", "mp4"
 		};
 	
 	private boolean isType(String extension, String[] types)
