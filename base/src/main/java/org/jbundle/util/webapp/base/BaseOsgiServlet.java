@@ -20,6 +20,8 @@ import org.osgi.service.http.HttpContext;
 /**
  * A very simple servlet that just serves up resources from the OSGi bundle classpaths.
  * This servlet uses the OSGi utilities to find the resource.
+ * NOTE: This module will return a default mime type for standard resources even if there is
+ * no HTTP context.
  * @author don
  *
  */
@@ -103,8 +105,12 @@ public class BaseOsgiServlet extends BaseWebappServlet
         // Todo may want to add cache info (using bundle lastModified).
         OutputStream writer = response.getOutputStream();
         if (response.getContentType() == null)
+        {
             if (httpContext != null)
                 response.setContentType(httpContext.getMimeType(path));
+            else
+            	response.setContentType(FileHttpContext.getDefaultMimeType(path));
+        }
         copyStream(inStream, writer, true); // Ignore errors, as browsers do weird things
         writer.close();
         return true;

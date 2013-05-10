@@ -5,7 +5,6 @@ package org.jbundle.util.webapp.files;
 
 
 import org.jbundle.util.webapp.base.FileHttpContext;
-import org.osgi.framework.BundleContext;
 import org.osgi.service.http.HttpContext;
 
 /**
@@ -28,5 +27,5 @@ public class HttpServiceActivator extends org.jbundle.util.webapp.base.HttpServi
     {
         return new FileHttpContext(null, context.getBundle());
     }
-    
+
 }

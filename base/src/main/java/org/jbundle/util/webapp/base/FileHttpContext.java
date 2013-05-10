@@ -46,6 +46,9 @@ public class FileHttpContext implements HttpContext {
 
 	@Override
 	public String getMimeType(String name) {
+		return FileHttpContext.getDefaultMimeType(name);
+	}
+	public static String getDefaultMimeType(String name) {
 	    String mimeType = "text/html";
 		if (name != null)
 			if (name.lastIndexOf('.') != -1)
@@ -111,7 +114,7 @@ public class FileHttpContext implements HttpContext {
 		"mpeg", "mov", "mp4"
 		};
 	
-	private boolean isType(String extension, String[] types)
+	private static boolean isType(String extension, String[] types)
 	{
 		for (String imageExtension : types)
 		{
