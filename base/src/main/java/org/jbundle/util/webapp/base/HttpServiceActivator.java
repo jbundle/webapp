@@ -87,6 +87,10 @@ public class HttpServiceActivator extends BaseBundleActivator
         if (contextPath == null)
             contextPath = context.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (contextPath == null)
+            contextPath = this.getProperty(BaseWebappServlet.ALIAS);
+        if (contextPath == null)
+            contextPath = this.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
+        if (contextPath == null)
         {
             contextPath = this.getServicePid();
             if (contextPath.lastIndexOf('.') != -1)
