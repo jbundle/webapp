@@ -113,6 +113,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
         }
         copyStream(inStream, writer, true); // Ignore errors, as browsers do weird things
         writer.close();
+        inStream.close();
         return true;
     }
     public void setHttpContext(HttpContext httpContext)
