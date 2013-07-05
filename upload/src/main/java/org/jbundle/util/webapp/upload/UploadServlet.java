@@ -6,7 +6,7 @@ package org.jbundle.util.webapp.upload;
 /**
  * @(#)DBServlet.java	0.00 12-Feb-97 Don Corley
  *
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *		don@tourgeek.com
  */
 
@@ -185,7 +185,7 @@ public class UploadServlet extends HttpServlet
 		}
 		if (strServletPath == null)
 			strServletPath = "servlet/" + UploadServlet.class.getName();	// Never
-//strServletPath = "http://localhost/jbackup/servlet/com.tourapp.jbackup.Servlet";
+//strServletPath = "http://localhost/jbackup/servlet/com.tourgeek.jbackup.Servlet";
 
 		out.write(strReceiveMessage);		// Status of previous upload
 		out.write("<p /><form action=\"" + strServletPath + "\"");
