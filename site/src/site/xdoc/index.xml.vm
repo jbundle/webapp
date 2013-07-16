@@ -62,7 +62,7 @@ span.comment {color:blue; font-style:italic}
       <p>
         This project provides a template for a <a href="website">simple web site</a>.
         Your files can be served from local storage or from an OSGi resource by setting the 'basePath' parameter.
-        <br/><code>basePath = file:/space/web/</code> will serve files from local storage since this is a valid URL.
+        <br/><code>basePath = file:/web/</code> will serve files from local storage since this is a valid URL.
         <br/><code>basePath = org/jbundle/res/docs/</code> will serve files from the OSGi location starting with this path.
       </p>
       </subsection>
@@ -100,7 +100,7 @@ span.comment {color:blue; font-style:italic}
         You can read and write files to this site using most applications (such as MS Word, OpenOffice, etc).
         Of course you would want to add some security to your site.
         This servlet uses the tomcat webdav servlet, so al you have to do is set the wevdav params:
-        <br/><code>basePath =  /space/web/jbundle/</code> will set the local web file storage location.
+        <br/><code>basePath =  /web/jbundle/</code> will set the local web file storage location.
         <br/><code>readonly =  false</code> will allow uploads.
         <br/><code>listings =  true</code> will display directory listings.
       </p>
@@ -111,7 +111,7 @@ span.comment {color:blue; font-style:italic}
         This project provides a template for a <a href="files/index.html">simple file download site</a>.
         Just drop your files into the root directory and your users will be able to view and download your files.
         This servlet uses the tomcat default servlet, so al you have to do is set the default params:
-        <br/><code>basePath =  /space/web/jbundle/</code> will set the local web file storage location.
+        <br/><code>basePath =  /web/jbundle/</code> will set the local web file storage location.
         <br/><code>listings =  true</code> will display directory listings.
         <br/>Note: This is only included for legacy compatibility, you should use the <a href="#Basic_Web_Site_Servlet">Basic Web Site</a>
         for most applications.
