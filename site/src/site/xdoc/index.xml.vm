@@ -36,8 +36,8 @@ span.response {color:blue}
 span.comment {color:blue; font-style:italic}
 </style>
 <source>
-<span class="response">karaf@root></span> features:install obr war<span class="comment">(Start a web server and add obr deploy support)</span><br/>
-<span class="response">karaf@root></span> obr:addurl ${project.organization.url}/repository/repository.xml<!-- ${OBRRepositoryIndex} --> <span class="comment">(Adding the jbundle obr index simplifies installing bundles)</span><br/>
+<span class="response">karaf@root></span> feature:install obr war<span class="comment">(Start a web server and add obr deploy support)</span><br/>
+<span class="response">karaf@root></span> obr:url-add ${project.organization.url}/repository/repository.xml<!-- ${OBRRepositoryIndex} --> <span class="comment">(Adding the jbundle obr index simplifies installing bundles)</span><br/>
 <span class="response">karaf@root></span> obr:start '${project.groupId}.<strong><i>servletname</i></strong>' <span class="comment">(Install and start your OSGi servlet)</span><br/>
 </source>
       <p>
@@ -46,8 +46,8 @@ span.comment {color:blue; font-style:italic}
       </p>
 <source>
 <span class="response">karaf@root></span> config:edit org.jbundle.util.webapp.<strong><i>servletname</i></strong><span class="comment">(Start a web server and add obr deploy support)</span><br/>
-<span class="response">karaf@root></span> config:propset basePath file:/space/web/jbundle/webapp/ <span class="comment">(Adding the jbundle obr index simplifies installing bundles)</span><br/>
-<span class="response">karaf@root></span> config:propset alias /path <span class="comment">(Supply the web server url path prefix)</span><br/>
+<span class="response">karaf@root></span> config:property-set basePath file:/space/web/jbundle/webapp/ <span class="comment">(Adding the jbundle obr index simplifies installing bundles)</span><br/>
+<span class="response">karaf@root></span> config:property-set alias /path <span class="comment">(Supply the web server url path prefix)</span><br/>
 <span class="response">karaf@root></span> config:update<span class="comment">(Install and start your OSGi servlet)</span><br/>
 </source>
 
