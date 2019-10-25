@@ -55,16 +55,16 @@
   <build>
     <plugins>
        <plugin>
-           <groupId>org.mortbay.jetty</groupId>
+           <groupId>org.eclipse.jetty</groupId>
            <artifactId>jetty-maven-plugin</artifactId>
            <configuration>
-               <scanIntervalSeconds>10</scanIntervalSeconds>
-               <webAppConfig>
-                   <contextPath>/</contextPath>
-		            <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-		                <resourcesAsCSV>target/${project.artifactId}-${project.version},src/main/webapp</resourcesAsCSV>
-		            </baseResource>
-               </webAppConfig>
+             <webApp>
+               <contextPath>/</contextPath>
+               <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
+                 <resourcesAsCSV>target/${project.artifactId}-${project.version},src/main/webapp</resourcesAsCSV>
+               </baseResource>
+             </webApp>
+             <scanIntervalSeconds>10</scanIntervalSeconds>
            </configuration>
        </plugin>
     </plugins>
