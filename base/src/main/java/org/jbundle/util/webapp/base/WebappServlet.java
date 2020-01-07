@@ -22,7 +22,7 @@ public interface WebappServlet
      * Constructor.
      * @param context
      */
-    public void init(Object bundleContext, String servicePid, Dictionary<String, String> dictionary);
+    public void init(Object bundleContext, String servicePid, Dictionary<String, Object> dictionary);
     /**
      * Free my resources.
      */
@@ -32,12 +32,12 @@ public interface WebappServlet
      * @param dictionary
      * @return TODO
      */
-    public boolean setProperties(Dictionary<String, String> properties);
+    public boolean setProperties(Dictionary<String, Object> properties);
     /**
      * Get the properties.
      * @return
      */
-    public Dictionary<String, String> getProperties();
+    public Dictionary<String, Object> getProperties();
     /**
      * Do I have to restart the servlet after I change properties?
      * @return

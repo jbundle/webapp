@@ -21,7 +21,7 @@ public class ResourceHttpServiceTracker extends HttpServiceTracker {
 
     public static final String RESOURCE_NAME = "name";
     
-    public ResourceHttpServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, String> dictionary) {
+    public ResourceHttpServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, Object> dictionary) {
         super(context, httpContext, dictionary);
     }
 
@@ -33,7 +33,7 @@ public class ResourceHttpServiceTracker extends HttpServiceTracker {
         HttpService httpService = (HttpService) context.getService(reference);
 
         String alias = this.getAlias();
-        String name = this.getProperty(RESOURCE_NAME);
+        String name = (String)this.getProperty(RESOURCE_NAME);
         if (name == null)
             name = alias;
         try {

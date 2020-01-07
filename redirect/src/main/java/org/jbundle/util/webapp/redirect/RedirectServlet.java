@@ -67,9 +67,9 @@ public class RedirectServlet extends BaseOsgiServlet
         String path = req.getPathInfo();
         if (path == null)
         	path = "";
-        String target = this.getProperty(browser);
+        String target = (String)this.getProperty(browser);
         if (target == null)
-            target = this.getProperty(TARGET);
+            target = (String)this.getProperty(TARGET);
         if (target == null)
             target = req.getParameter(TARGET);
         if (queryString != null)
@@ -82,7 +82,7 @@ public class RedirectServlet extends BaseOsgiServlet
 
         if (logger != null)
         	logger.info("Redirect to " + target);
-        String match = this.getProperty(MATCH);
+        String match = (String)this.getProperty(MATCH);
         if ((target != null) && ((match == null) || path.matches(match)))
         	res.sendRedirect(target);
         else

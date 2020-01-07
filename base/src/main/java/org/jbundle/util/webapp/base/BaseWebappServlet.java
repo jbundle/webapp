@@ -35,13 +35,12 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
     
     private Object bundleContext = null;
     protected String servicePid = null;
-    protected Dictionary<String, String> properties = null;
+    protected Dictionary<String, Object> properties = null;
     
     protected Logger logger = null;
 
     /**
      * Constructor.
-     * @param bundleContext
      */
     public BaseWebappServlet() {
     	super();
@@ -49,18 +48,18 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
     
     /**
      * Constructor.
-     * @param context
+     * @param bundleContext
      */
-    public BaseWebappServlet(Object bundleContext, String servicePid, Dictionary<String, String> dictionary) {
+    public BaseWebappServlet(Object bundleContext, String servicePid, Dictionary<String, Object> dictionary) {
     	this();
     	init(bundleContext, servicePid, dictionary);
     }
     
     /**
      * Constructor.
-     * @param context
+     * @param bundleContext
      */
-    public void init(Object bundleContext, String servicePid, Dictionary<String, String> dictionary) {
+    public void init(Object bundleContext, String servicePid, Dictionary<String, Object> dictionary) {
     	this.bundleContext = bundleContext;
     	this.servicePid = servicePid;
     	this.setProperties(dictionary);
@@ -125,11 +124,11 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
     {
         String value = request.getParameter(servicePid + '.' + param);
         if ((value == null) && (properties != null))
-            value = properties.get(servicePid + '.' + param);
+            value = (String)properties.get(servicePid + '.' + param);
         if (value == null)
             value = request.getParameter(param);
         if ((value == null) && (properties != null))
-            value = properties.get(param);
+            value = (String)properties.get(param);
         if (value == null)
                 value = defaultValue;
         return value;
@@ -257,7 +256,7 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
     /**
      * Set the properties. Override this to set any configuration up.
      */
-    public boolean setProperties(Dictionary<String, String> properties)
+    public boolean setProperties(Dictionary<String, Object> properties)
     {
         this.properties = properties;
         return true;
@@ -265,7 +264,7 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
     /**
      * 
      */
-    public Dictionary<String, String> getProperties()
+    public Dictionary<String, Object> getProperties()
     {
         return this.properties;
     }
@@ -275,10 +274,10 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
      * @param value
      * @return
      */
-    public String setProperty(String key, String value)
+    public Object setProperty(String key, Object value)
     {
         if (properties == null)
-            properties = new Hashtable<String,String>();
+            properties = new Hashtable<String, Object>();
         return properties.put(key, value);
     }
     /**
@@ -286,11 +285,11 @@ public abstract class BaseWebappServlet extends HttpServlet /*JnlpDownloadServle
      * @param key
      * @return
      */
-    public String getProperty(String key)
+    public Object getProperty(String key)
     {
         if (properties == null)
             return null;
-        String value = properties.get(key);
+        Object value = properties.get(key);
         if (value == null)
         {
             if (key.startsWith(PROPERTY_PREFIX))

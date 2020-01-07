@@ -35,7 +35,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
      * Constructor.
      * @param context
      */
-    public void init(Object context, String servicePid, Dictionary<String, String> dictionary) {
+    public void init(Object context, String servicePid, Dictionary<String, Object> dictionary) {
     	super.init(context, servicePid, dictionary);
     }
     /**
@@ -80,7 +80,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
             
     /**
      * Send this resource to the response stream.
-     * @param request
+     * @param path
      * @param response
      * @return
      * @throws IOException
@@ -122,7 +122,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
     }
     /**
      * Get the file path from the request.
-     * @param request
+     * @param path
      * @return
      */
     public String fixPathInfo(String path)
@@ -140,7 +140,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
     /**
      * Set the properties. Override this to set any configuration up.
      */
-    public boolean setProperties(Dictionary<String, String> properties)
+    public boolean setProperties(Dictionary<String, Object> properties)
     {
         boolean success = super.setProperties(properties);
         if (success)
@@ -148,7 +148,7 @@ public class BaseOsgiServlet extends BaseWebappServlet
             baseURL = null;
             if (this.getProperty(BASE_PATH) != null) {
                 try {
-                    baseURL = new URL(this.getProperty(BASE_PATH));
+                    baseURL = new URL(this.getProperty(BASE_PATH).toString());
                 } catch (MalformedURLException e) {
                     // Ignore errors. Probably a relative path to be added on send
                 }

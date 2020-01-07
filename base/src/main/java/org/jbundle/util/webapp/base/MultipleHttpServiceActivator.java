@@ -36,7 +36,7 @@ public class MultipleHttpServiceActivator extends HttpServiceActivator
         
         for (String alias : getAliases())
         {
-            Dictionary<String, String> properties = new Hashtable<String, String>();
+            Dictionary<String, Object> properties = new Hashtable<String, Object>();
             ServiceTracker serviceTracker = this.makeServletTracker(alias, properties);
             ((ServiceTracker)serviceTracker).open();
             context.registerService(ServiceTracker.class.getName(), serviceTracker, properties);    // Why isn't this done automatically?
@@ -65,7 +65,7 @@ public class MultipleHttpServiceActivator extends HttpServiceActivator
     /**
      * Make a servlet tracker for the servlet at this alias.
      */
-    public ServiceTracker makeServletTracker(String alias, Dictionary<String, String> properties)
+    public ServiceTracker makeServletTracker(String alias, Dictionary<String, Object> properties)
     {
         return null;    // Override this
     }

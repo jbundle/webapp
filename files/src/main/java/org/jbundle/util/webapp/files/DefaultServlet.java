@@ -23,7 +23,7 @@ public class DefaultServlet extends org.apache.catalina.servlets.DefaultServlet
     
     protected ProxyDirContext proxyDirContext = null;
     
-    Dictionary<String, String> properties = null;
+    Dictionary<String, Object> properties = null;
 
     /**
      * The local file system document base. Note: getPath (incorrectly) adds the total path,
@@ -36,7 +36,7 @@ public class DefaultServlet extends org.apache.catalina.servlets.DefaultServlet
         super();
     }
     @Override
-    public void init(Object bundleContext, String servicePid, Dictionary<String, String> properties) {
+    public void init(Object bundleContext, String servicePid, Dictionary<String, Object> properties) {
         this.setProperties(properties);
     }
     @Override
@@ -46,37 +46,37 @@ public class DefaultServlet extends org.apache.catalina.servlets.DefaultServlet
      * Set servlet the properties.
      */
     @Override
-    public boolean setProperties(Dictionary<String, String> properties) {
+    public boolean setProperties(Dictionary<String, Object> properties) {
         this.properties = properties;
         if (this.properties != null)
         {
             if (properties.get("debug") != null)
-                debug = Integer.parseInt(properties.get("debug"));
+                debug = Integer.parseInt(properties.get("debug").toString());
 
             if (properties.get("input") != null)
-                input = Integer.parseInt(properties.get("input"));
+                input = Integer.parseInt(properties.get("input").toString());
 
             if (properties.get("output") != null)
-                output = Integer.parseInt(properties.get("output"));
+                output = Integer.parseInt(properties.get("output").toString());
 
-            listings = Boolean.parseBoolean(properties.get("listings"));
+            listings = Boolean.parseBoolean((String)properties.get("listings"));
 
             if (properties.get("readonly") != null)
-                readOnly = Boolean.parseBoolean(properties.get("readonly"));
+                readOnly = Boolean.parseBoolean(properties.get("readonly").toString());
 
             if (properties.get("sendfileSize") != null)
                 sendfileSize = 
-                    Integer.parseInt(properties.get("sendfileSize")) * 1024;
+                    Integer.parseInt(properties.get("sendfileSize").toString()) * 1024;
 
-            fileEncoding = properties.get("fileEncoding");
+            fileEncoding = (String)properties.get("fileEncoding");
 
-            globalXsltFile = properties.get("globalXsltFile");
-            contextXsltFile = properties.get("contextXsltFile");
-            localXsltFile = properties.get("localXsltFile");
-            readmeFile = properties.get("readmeFile");
+            globalXsltFile = (String)properties.get("globalXsltFile");
+            contextXsltFile = (String)properties.get("contextXsltFile");
+            localXsltFile = (String)properties.get("localXsltFile");
+            readmeFile = (String)properties.get("readmeFile");
 
             if (properties.get("useAcceptRanges") != null)
-                useAcceptRanges = Boolean.parseBoolean(properties.get("useAcceptRanges"));
+                useAcceptRanges = Boolean.parseBoolean((String)properties.get("useAcceptRanges"));
 
             // Sanity check on the specified buffer sizes
             if (input < 256)
@@ -89,7 +89,7 @@ public class DefaultServlet extends org.apache.catalina.servlets.DefaultServlet
                     ", output buffer size=" + output);
             }
 
-            return this.setDocBase(this.properties.get(BASE_PATH));
+            return this.setDocBase((String)this.properties.get(BASE_PATH));
         }
         else
         {
@@ -97,7 +97,7 @@ public class DefaultServlet extends org.apache.catalina.servlets.DefaultServlet
         }
     }
     @Override
-    public Dictionary<String, String> getProperties() {
+    public Dictionary<String, Object> getProperties() {
         return this.properties;
     }
     @Override

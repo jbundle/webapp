@@ -216,10 +216,7 @@ public class ProxyServlet extends RegexRedirectServlet {
     }
     /**
      * Transfer the data stream from this URL to another stream.
-     * @param strURL The URL to read.
-     * @param strFilename If non-null, create this file and send the URL data here.
-     * @param strFilename If null, return the stream as a string.
-     * @param in If this is non-null, read from this input source.
+     * @param streamIn If this is non-null, read from this input source.
      * @return The stream as a string if filename is null.
      */
     public static void transferURLStream(InputStream streamIn, OutputStream streamOut)
@@ -243,10 +240,10 @@ public class ProxyServlet extends RegexRedirectServlet {
     /**
      * Set the properties. Override this to set any configuration up.
      */
-    public boolean setProperties(Dictionary<String, String> properties)
+    public boolean setProperties(Dictionary<String, Object> properties)
     {
         boolean success = super.setProperties(properties);
-        proxyURLPrefix = this.getProperty(PROXY);
+        proxyURLPrefix = (String)this.getProperty(PROXY);
         if (proxyURLPrefix != null)
             if (proxyURLPrefix.endsWith("/"))
                 proxyURLPrefix = proxyURLPrefix.substring(0, proxyURLPrefix.length() - 1);

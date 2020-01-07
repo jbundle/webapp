@@ -21,7 +21,6 @@ public class HttpServiceActivator extends BaseBundleActivator
 	/**
 	 * Setup the application properties.
 	 * Override this to set the properties.
-	 * @param bundleContext BundleContext
 	 */
 	public void init()
 	{
@@ -70,7 +69,7 @@ public class HttpServiceActivator extends BaseBundleActivator
      * @param dictionary
      * @return
      */
-    public HttpServiceTracker createServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, String> dictionary)
+    public HttpServiceTracker createServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, Object> dictionary)
     {
         if (httpContext == null)
             httpContext = getHttpContext();
@@ -78,7 +77,6 @@ public class HttpServiceActivator extends BaseBundleActivator
     }
     /**
      * Get the web alias for this servlet.
-     * @param context
      * @return
      */
     public String getWebAlias()
@@ -87,9 +85,9 @@ public class HttpServiceActivator extends BaseBundleActivator
         if (contextPath == null)
             contextPath = context.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (contextPath == null)
-            contextPath = this.getProperty(BaseWebappServlet.ALIAS);
+            contextPath = (String)this.getProperty(BaseWebappServlet.ALIAS);
         if (contextPath == null)
-            contextPath = this.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
+            contextPath = (String)this.getProperty(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (contextPath == null)
         {
             contextPath = this.getServicePid();
@@ -119,7 +117,7 @@ public class HttpServiceActivator extends BaseBundleActivator
     }
     /**
      * Get this service tracker.
-     * @param alias
+     * @param context
      * @return
      */
     public static HttpServiceTracker getServiceTracker(BundleContext context, String key, String value)

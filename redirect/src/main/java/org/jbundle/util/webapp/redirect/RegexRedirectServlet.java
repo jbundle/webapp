@@ -60,7 +60,7 @@ public class RegexRedirectServlet extends RedirectServlet
     public void service(HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException
     {
-        String regex = this.getProperty(REGEX);
+        String regex = (String)this.getProperty(REGEX);
         String server = req.getServerName();
         if (regex != null)
         	if (server != null)
@@ -73,7 +73,7 @@ public class RegexRedirectServlet extends RedirectServlet
         	}
         	if (server.matches(regex))
 	        {
-        		String target = this.getProperty(REGEX_TARGET);
+        		String target = (String)this.getProperty(REGEX_TARGET);
         		if (target != null)
         		{
         	        if (logger != null)

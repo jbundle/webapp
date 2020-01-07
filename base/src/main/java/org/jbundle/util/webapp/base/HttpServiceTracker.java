@@ -33,8 +33,8 @@ public class HttpServiceTracker extends ServiceTracker {
 
     public static final String DEFAULT_WEB_ALIAS = "/webstart";
     
-    protected Dictionary<String, String> properties = null;
-    protected Dictionary<String, String> configProperties = null; // properties saved in the configuration system
+    protected Dictionary<String, Object> properties = null;
+    protected Dictionary<String, Object> configProperties = null; // properties saved in the configuration system
     protected HttpContext httpContext = null;
     protected Servlet servlet = null;    // The servlet that I am responsible for
     private ServiceRegistration serviceRegistration = null; // The configuration tracker
@@ -44,7 +44,7 @@ public class HttpServiceTracker extends ServiceTracker {
      * 
      * @param context
      */
-    public HttpServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, String> dictionary) 
+    public HttpServiceTracker(BundleContext context, HttpContext httpContext, Dictionary<String, Object> dictionary)
     {
         super(context, HttpService.class.getName(), null);
         this.httpContext = httpContext;
@@ -67,7 +67,7 @@ public class HttpServiceTracker extends ServiceTracker {
         this.properties = this.updateDictionaryConfig(this.properties, true);
         try {
             String alias = this.getAlias();
-            String servicePid = this.properties.get(BundleConstants.SERVICE_PID);
+            String servicePid = (String)this.properties.get(BundleConstants.SERVICE_PID);
             if (servlet == null)
             {
                 servlet = this.makeServlet(alias, this.properties);
@@ -95,9 +95,9 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param dictionary
      * @return
      */
-    public Servlet makeServlet(String alias, Dictionary<String, String> dictionary)
+    public Servlet makeServlet(String alias, Dictionary<String, Object> dictionary)
     {
-        String servletClass = dictionary.get(BundleConstants.SERVICE_CLASS);
+        String servletClass = (String)dictionary.get(BundleConstants.SERVICE_CLASS);
         return (Servlet)ClassServiceUtility.getClassService().makeObjectFromClassName(servletClass);        
     }
 
@@ -122,14 +122,14 @@ public class HttpServiceTracker extends ServiceTracker {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Dictionary<String, String> updateDictionaryConfig(Dictionary<String, String> dictionary, boolean returnCopy)
+    public Dictionary<String, Object> updateDictionaryConfig(Dictionary<String, Object> dictionary, boolean returnCopy)
     {
         if (returnCopy)
             dictionary = BaseBundleActivator.putAll(dictionary, null);
         if (dictionary == null)
-            dictionary = new Hashtable<String, String>();
+            dictionary = new Hashtable<String, Object>();
         try {
-            String servicePid = dictionary.get(BundleConstants.SERVICE_PID);
+            String servicePid = (String)dictionary.get(BundleConstants.SERVICE_PID);
             if (servicePid != null)
             {
                 ServiceReference caRef = context.getServiceReference(ConfigurationAdmin.class.getName());
@@ -140,7 +140,7 @@ public class HttpServiceTracker extends ServiceTracker {
 
                     configProperties = config.getProperties();
                     if (configProperties == null)
-                        configProperties = new Hashtable<String, String>();
+                        configProperties = new Hashtable<String, Object>();
                     // First, move all settings to dictionary
                     dictionary = BaseBundleActivator.putAll(configProperties, dictionary);
                     dictionary.put(BaseWebappServlet.ALIAS, this.calculateWebAlias(dictionary));
@@ -170,9 +170,9 @@ public class HttpServiceTracker extends ServiceTracker {
      */
     public String getAlias()
     {
-        String alias = this.properties.get(BaseWebappServlet.ALIAS);
+        String alias = (String)this.properties.get(BaseWebappServlet.ALIAS);
         if (alias == null)
-            alias = this.properties.get(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
+            alias = (String)this.properties.get(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         return HttpServiceTracker.addURLPath(null, alias);
     }
 
@@ -181,11 +181,11 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param dictionary
      * @return
      */
-    public String calculateWebAlias(Dictionary<String, String> dictionary)
+    public String calculateWebAlias(Dictionary<String, Object> dictionary)
     {
-        String alias = dictionary.get(BaseWebappServlet.ALIAS);
+        String alias = (String)dictionary.get(BaseWebappServlet.ALIAS);
         if (alias == null)
-            alias = dictionary.get(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
+            alias = (String)dictionary.get(BaseWebappServlet.ALIAS.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
         if (alias == null)
             alias = this.getAlias();
         if (alias == null)
@@ -223,9 +223,9 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param key
      * @return
      */
-    public String getProperty(String key)
+    public Object getProperty(String key)
     {
-        String value = this.properties.get(key);
+        Object value = this.properties.get(key);
         if (value == null)
             if (isPersistentProperty(key))
                 value = this.properties.get(key.substring(BaseWebappServlet.PROPERTY_PREFIX.length()));
@@ -235,9 +235,9 @@ public class HttpServiceTracker extends ServiceTracker {
      * Update the servlet's properties.
      * Called when the configuration changes.
      * 
-     * @param contextPath
+     * @param properties
      */
-    public void configPropertiesUpdated(Dictionary<String, String> properties)
+    public void configPropertiesUpdated(Dictionary<String, Object> properties)
     {
         if (HttpServiceTracker.propertiesEqual(properties, configProperties))
             return;
@@ -249,7 +249,7 @@ public class HttpServiceTracker extends ServiceTracker {
 
         String oldAlias = this.getAlias();
         this.changeServletProperties(servlet, properties);
-        String alias = properties.get(BaseWebappServlet.ALIAS);
+        String alias = (String)properties.get(BaseWebappServlet.ALIAS);
         boolean restartRequired = false;
         if (!oldAlias.equals(alias))
             restartRequired = true;
@@ -280,11 +280,11 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param properties
      * @return
      */
-    public boolean changeServletProperties(Servlet servlet, Dictionary<String, String> properties)
+    public boolean changeServletProperties(Servlet servlet, Dictionary<String, Object> properties)
     {
         if (servlet instanceof WebappServlet)
         {
-            Dictionary<String, String> dictionary = ((WebappServlet)servlet).getProperties();
+            Dictionary<String, Object> dictionary = ((WebappServlet)servlet).getProperties();
             properties = BaseBundleActivator.putAll(properties, dictionary);
         }
         return this.setServletProperties(servlet, properties);
@@ -296,7 +296,7 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param properties
      * @return
      */
-    public boolean setServletProperties(Servlet servlet, Dictionary<String, String> properties)
+    public boolean setServletProperties(Servlet servlet, Dictionary<String, Object> properties)
     {
         this.properties = properties;
         if (servlet instanceof WebappServlet)
@@ -310,7 +310,7 @@ public class HttpServiceTracker extends ServiceTracker {
      * @param dictionary
      * @return
      */
-    public static boolean propertiesEqual(Dictionary<String, String> properties, Dictionary<String, String> dictionary)
+    public static boolean propertiesEqual(Dictionary<String, Object> properties, Dictionary<String, Object> dictionary)
     {
         Enumeration<String> props = properties.keys();
         while (props.hasMoreElements())
