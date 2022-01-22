@@ -41,7 +41,7 @@
     <module>upload</module>
     <module>upload-unjar</module>
     <module>sample</module>
-    <module>webstart</module>
+    <!--module>webstart</module-->
     <module>xsl</module>
   </modules>
 
