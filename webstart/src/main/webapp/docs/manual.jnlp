@@ -13,7 +13,7 @@
   <resources>
     <jar href="../docs/${project.groupId}.sample-${project.version}.jar" part="${project.artifactId}" download="eager" main="true"/>
     <package name="${package}.*" part="${project.artifactId}" recursive="false"/>
-    <java version="1.6+" initial-heap-size="64m" max-heap-size="128m"/>
+    <java version="1.8+" initial-heap-size="64m" max-heap-size="128m"/>
     <property name="jnlp.packEnabled" value="true"/>
   </resources>
   <applet-desc name="${project.name}" main-class="${package}.App" width="300" height="250">
